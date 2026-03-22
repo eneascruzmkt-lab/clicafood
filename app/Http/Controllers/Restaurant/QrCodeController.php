@@ -91,28 +91,26 @@ class QrCodeController extends Controller
         $colorRgb = sscanf($color, "#%02x%02x%02x");
         $bgRgb = sscanf($bg, "#%02x%02x%02x");
 
-        if ($format === 'svg') {
-            $qr = QrCodeGenerator::format('svg')
-                ->size(400)
-                ->color($colorRgb[0], $colorRgb[1], $colorRgb[2])
-                ->backgroundColor($bgRgb[0], $bgRgb[1], $bgRgb[2])
-                ->generate($qrCode->url);
+        // Always generate as SVG (no imagick dependency)
+        $qr = QrCodeGenerator::format('svg')
+            ->size(400)
+            ->color($colorRgb[0], $colorRgb[1], $colorRgb[2])
+            ->backgroundColor($bgRgb[0], $bgRgb[1], $bgRgb[2])
+            ->margin(1)
+            ->generate($qrCode->url);
 
+        if ($format === 'png') {
+            // Return SVG with .png hint — client can convert or use SVG directly
+            // For true PNG, imagick or GD would be needed on the server
             return response($qr, 200, [
                 'Content-Type' => 'image/svg+xml',
                 'Content-Disposition' => 'attachment; filename="qrcode-' . $qrCode->label . '.svg"',
             ]);
         }
 
-        $qr = QrCodeGenerator::format('png')
-            ->size(400)
-            ->color($colorRgb[0], $colorRgb[1], $colorRgb[2])
-            ->backgroundColor($bgRgb[0], $bgRgb[1], $bgRgb[2])
-            ->generate($qrCode->url);
-
         return response($qr, 200, [
-            'Content-Type' => 'image/png',
-            'Content-Disposition' => 'attachment; filename="qrcode-' . $qrCode->label . '.png"',
+            'Content-Type' => 'image/svg+xml',
+            'Content-Disposition' => 'attachment; filename="qrcode-' . $qrCode->label . '.svg"',
         ]);
     }
 

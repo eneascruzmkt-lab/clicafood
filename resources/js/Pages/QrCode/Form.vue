@@ -1,6 +1,8 @@
 <script setup>
+import { ref, watch, onMounted, nextTick } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import QRCodeLib from 'qrcode';
 
 const props = defineProps({
     qrCode: { type: Object, default: null },
@@ -16,6 +18,28 @@ const form = useForm({
         background: props.qrCode?.style_config?.background || '#FFFFFF',
     },
 });
+
+const renderPreview = async () => {
+    await nextTick();
+    const canvas = document.getElementById('qr-preview');
+    if (!canvas) return;
+
+    try {
+        await QRCodeLib.toCanvas(canvas, props.menuUrl || 'https://clicafood.com', {
+            width: 200,
+            margin: 1,
+            color: {
+                dark: form.style_config.color,
+                light: form.style_config.background,
+            },
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+watch(() => [form.style_config.color, form.style_config.background], renderPreview, { deep: true });
+onMounted(renderPreview);
 
 const submit = () => {
     if (isEditing) {
@@ -43,18 +67,35 @@ const submit = () => {
                     <label class="block text-sm font-medium text-dark-300 mb-1">Nome/Rótulo</label>
                     <input v-model="form.label" type="text" class="input-field"
                            placeholder="Ex: Mesa 1, Balcão, Delivery..." required />
+                    <p v-if="form.errors.label" class="mt-1 text-sm text-red-400">{{ form.errors.label }}</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-dark-300 mb-1">Cor do QR</label>
-                        <input v-model="form.style_config.color" type="color"
-                               class="w-full h-10 rounded-lg border border-dark-600 cursor-pointer" />
+                        <div class="flex items-center gap-2">
+                            <input v-model="form.style_config.color" type="color"
+                                   class="w-10 h-10 rounded border border-dark-600 cursor-pointer bg-transparent" />
+                            <input v-model="form.style_config.color" type="text"
+                                   class="input-field flex-1 text-xs font-mono" />
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-dark-300 mb-1">Fundo</label>
-                        <input v-model="form.style_config.background" type="color"
-                               class="w-full h-10 rounded-lg border border-dark-600 cursor-pointer" />
+                        <div class="flex items-center gap-2">
+                            <input v-model="form.style_config.background" type="color"
+                                   class="w-10 h-10 rounded border border-dark-600 cursor-pointer bg-transparent" />
+                            <input v-model="form.style_config.background" type="text"
+                                   class="input-field flex-1 text-xs font-mono" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Preview -->
+                <div class="text-center">
+                    <p class="text-sm font-medium text-dark-300 mb-3">Preview</p>
+                    <div class="inline-block bg-white rounded-xl p-3 shadow-lg">
+                        <canvas id="qr-preview"></canvas>
                     </div>
                 </div>
 

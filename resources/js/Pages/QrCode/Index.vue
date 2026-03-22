@@ -1,17 +1,86 @@
 <script setup>
+import { ref, onMounted, nextTick } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import QRCodeLib from 'qrcode';
 
 const props = defineProps({
     qrCodes: Array,
     menuUrl: String,
 });
 
+const qrCanvases = ref({});
+
 const deleteQr = (id) => {
     if (confirm('Excluir este QR Code?')) {
         router.delete(`/qr-codes/${id}`);
     }
 };
+
+const generateQrPreview = async (qr) => {
+    await nextTick();
+    const canvas = document.getElementById(`qr-canvas-${qr.id}`);
+    if (!canvas) return;
+
+    const color = qr.style_config?.color || '#E63B2E';
+    const bg = qr.style_config?.background || '#FFFFFF';
+
+    try {
+        await QRCodeLib.toCanvas(canvas, qr.url, {
+            width: 160,
+            margin: 1,
+            color: {
+                dark: color,
+                light: bg,
+            },
+        });
+    } catch (err) {
+        console.error('QR generation error:', err);
+    }
+};
+
+const downloadQr = async (qr, format) => {
+    const color = qr.style_config?.color || '#E63B2E';
+    const bg = qr.style_config?.background || '#FFFFFF';
+
+    if (format === 'svg') {
+        try {
+            const svgString = await QRCodeLib.toString(qr.url, {
+                type: 'svg',
+                width: 400,
+                margin: 1,
+                color: { dark: color, light: bg },
+            });
+            const blob = new Blob([svgString], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `qrcode-${qr.label}.svg`;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error(err);
+        }
+    } else {
+        try {
+            const dataUrl = await QRCodeLib.toDataURL(qr.url, {
+                width: 800,
+                margin: 1,
+                color: { dark: color, light: bg },
+            });
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = `qrcode-${qr.label}.png`;
+            a.click();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+};
+
+onMounted(() => {
+    props.qrCodes.forEach((qr) => generateQrPreview(qr));
+});
 </script>
 
 <template>
@@ -43,26 +112,29 @@ const deleteQr = (id) => {
             <div v-for="qr in qrCodes" :key="qr.id" class="card text-center">
                 <h3 class="font-semibold text-white mb-3">{{ qr.label }}</h3>
 
-                <!-- QR Preview placeholder -->
-                <div class="w-40 h-40 mx-auto bg-white rounded-lg flex items-center justify-center mb-4 p-2">
-                    <div class="text-dark-900 text-xs font-mono text-center">
-                        <p class="text-4xl mb-1">📱</p>
-                        <p>QR Code</p>
-                    </div>
+                <!-- QR Code real preview -->
+                <div class="w-44 h-44 mx-auto bg-white rounded-lg flex items-center justify-center mb-4 p-2">
+                    <canvas :id="`qr-canvas-${qr.id}`"></canvas>
                 </div>
+
+                <p class="text-xs text-dark-500 mb-3 font-mono truncate px-2">{{ qr.url }}</p>
 
                 <div class="flex gap-2 justify-center mb-3">
-                    <a :href="`/qr-codes/${qr.id}/download/png`"
-                       class="btn-secondary text-xs px-3 py-1.5">PNG</a>
-                    <a :href="`/qr-codes/${qr.id}/download/svg`"
-                       class="btn-secondary text-xs px-3 py-1.5">SVG</a>
+                    <button @click="downloadQr(qr, 'png')"
+                            class="btn-secondary text-xs px-3 py-1.5">
+                        Download PNG
+                    </button>
+                    <button @click="downloadQr(qr, 'svg')"
+                            class="btn-secondary text-xs px-3 py-1.5">
+                        Download SVG
+                    </button>
                 </div>
 
-                <div class="flex gap-2 justify-center">
+                <div class="flex gap-3 justify-center pt-2 border-t border-dark-700">
                     <Link :href="`/qr-codes/${qr.id}/edit`"
-                          class="text-dark-400 hover:text-white text-sm">Editar</Link>
+                          class="text-dark-400 hover:text-white text-sm transition-colors">Editar</Link>
                     <button @click="deleteQr(qr.id)"
-                            class="text-dark-400 hover:text-red-400 text-sm">Excluir</button>
+                            class="text-dark-400 hover:text-red-400 text-sm transition-colors">Excluir</button>
                 </div>
             </div>
         </div>
