@@ -135,8 +135,19 @@ const getImageUrl = (path) => {
 const primaryColor = computed(() => props.restaurant.primary_color || '#E63B2E');
 const secondaryColor = computed(() => props.restaurant.secondary_color || '#0d0d0d');
 
+// Scroll-based header
+const headerCompact = ref(false);
+const handleScroll = () => {
+    headerCompact.value = window.scrollY > 120;
+};
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+});
+
 onUnmounted(() => {
     clearInterval(storyTimer);
+    window.removeEventListener('scroll', handleScroll);
 });
 </script>
 
@@ -144,40 +155,71 @@ onUnmounted(() => {
     <div class="min-h-screen" :style="{ backgroundColor: secondaryColor }">
         <Head :title="restaurant.name + ' - Cardapio Digital'" />
 
-        <!-- Header -->
-        <header class="sticky top-0 z-20 backdrop-blur-lg border-b"
-                :style="{ backgroundColor: secondaryColor + 'ee', borderColor: '#333' }">
-            <div class="max-w-lg mx-auto px-4 py-3 flex items-center gap-3">
-                <div v-if="restaurant.logo" class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-2"
-                     :style="{ ringColor: primaryColor + '40' }">
+        <!-- Sticky Header (compact, appears on scroll) -->
+        <header class="sticky top-0 z-20 transition-all duration-300"
+                :class="headerCompact ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'"
+                :style="{ backgroundColor: secondaryColor + 'f2', borderBottom: '1px solid rgba(255,255,255,0.06)' }">
+            <div class="max-w-lg mx-auto px-4 py-2.5 flex items-center gap-2.5 backdrop-blur-xl">
+                <div v-if="restaurant.logo" class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0"
+                     :style="{ boxShadow: `0 0 0 1.5px ${primaryColor}30` }">
                     <img :src="getImageUrl(restaurant.logo)" :alt="restaurant.name" class="w-full h-full object-cover" />
                 </div>
-                <div v-else class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                     :style="{ backgroundColor: primaryColor + '20' }">
-                    <Icon name="restaurant" class="w-5 h-5" :style="{ color: primaryColor }" />
+                <div v-else class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                     :style="{ backgroundColor: primaryColor + '15' }">
+                    <Icon name="restaurant" class="w-4 h-4" :style="{ color: primaryColor }" />
                 </div>
-                <div class="flex-1 min-w-0">
-                    <h1 class="font-display font-bold text-white text-lg leading-tight">{{ restaurant.name }}</h1>
-                    <p v-if="restaurant.description" class="text-xs text-gray-400 truncate">
-                        {{ restaurant.description }}
-                    </p>
+                <h1 class="font-display font-bold text-white text-sm leading-tight flex-1 truncate">{{ restaurant.name }}</h1>
+            </div>
+        </header>
+
+        <!-- Hero Banner (scrolls away) -->
+        <div class="max-w-lg mx-auto px-4">
+            <div class="pt-6 pb-5 text-center">
+                <!-- Logo grande -->
+                <div class="flex justify-center mb-4">
+                    <div v-if="restaurant.logo" class="w-20 h-20 rounded-2xl overflow-hidden"
+                         :style="{ boxShadow: `0 0 0 2px ${primaryColor}25, 0 8px 24px rgba(0,0,0,0.3)` }">
+                        <img :src="getImageUrl(restaurant.logo)" :alt="restaurant.name" class="w-full h-full object-cover" />
+                    </div>
+                    <div v-else class="w-20 h-20 rounded-2xl flex items-center justify-center"
+                         :style="{ backgroundColor: primaryColor + '12', boxShadow: `0 0 0 2px ${primaryColor}20` }">
+                        <Icon name="restaurant" class="w-9 h-9" :style="{ color: primaryColor }" />
+                    </div>
                 </div>
-                <div class="flex gap-2 flex-shrink-0">
+
+                <!-- Nome e descricao -->
+                <h1 class="font-display font-bold text-white text-xl leading-tight">{{ restaurant.name }}</h1>
+                <p v-if="restaurant.description" class="text-sm text-gray-400 mt-1.5 max-w-xs mx-auto leading-relaxed">
+                    {{ restaurant.description }}
+                </p>
+
+                <!-- Redes sociais + endereco -->
+                <div class="flex items-center justify-center gap-3 mt-4">
                     <a v-if="restaurant.whatsapp"
                        :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
-                       class="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
-                       :style="{ backgroundColor: primaryColor + '20', color: primaryColor }">
-                        <Icon name="phone" class="w-4 h-4" />
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+                       :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
+                        <Icon name="phone" class="w-3.5 h-3.5" />
+                        <span>WhatsApp</span>
                     </a>
                     <a v-if="restaurant.instagram"
                        :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
-                       class="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
-                       :style="{ backgroundColor: primaryColor + '20', color: primaryColor }">
-                        <Icon name="instagram" class="w-4 h-4" />
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+                       :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
+                        <Icon name="instagram" class="w-3.5 h-3.5" />
+                        <span>Instagram</span>
                     </a>
                 </div>
+
+                <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-gray-500 text-xs">
+                    <Icon name="map-pin" class="w-3 h-3 flex-shrink-0" />
+                    <span class="truncate max-w-[260px]">{{ restaurant.address }}</span>
+                </div>
             </div>
-        </header>
+
+            <!-- Separador sutil -->
+            <div class="h-px w-12 mx-auto rounded-full" :style="{ backgroundColor: primaryColor + '20' }"></div>
+        </div>
 
         <div class="max-w-lg mx-auto px-4 pb-8">
             <!-- Stories / Featured -->
