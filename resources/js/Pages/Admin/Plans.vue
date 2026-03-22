@@ -32,11 +32,11 @@ const statusLabel = (status) => {
 const statusClasses = (status) => {
     switch (status) {
         case 'active':
-            return 'bg-green-500/10 text-green-400 ring-1 ring-green-500/20';
+            return 'bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20';
         case 'cancelled':
             return 'bg-red-500/10 text-red-400 ring-1 ring-red-500/20';
         case 'expired':
-            return 'bg-yellow-500/10 text-yellow-400 ring-1 ring-yellow-500/20';
+            return 'bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20';
         default:
             return 'bg-dark-700 text-dark-400';
     }
@@ -124,7 +124,7 @@ const statusClasses = (status) => {
                             </button>
                             <button v-else
                                     @click="updateStatus(sub, 'active')"
-                                    class="inline-flex items-center gap-1 text-green-400 hover:text-green-300 text-xs transition-colors">
+                                    class="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-xs transition-colors">
                                 <Icon name="check" class="w-3.5 h-3.5" />
                                 Ativar
                             </button>

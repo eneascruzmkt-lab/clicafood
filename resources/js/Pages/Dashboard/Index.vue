@@ -13,10 +13,10 @@ const props = defineProps({
 });
 
 const statCards = computed(() => [
-    { label: 'Visualizacoes', value: props.stats.totalViews, icon: 'eye', color: 'text-brand-400' },
-    { label: 'Cliques', value: props.stats.totalClicks, icon: 'chart', color: 'text-blue-400' },
-    { label: 'Videos assistidos', value: props.stats.totalVideoPlays, icon: 'play', color: 'text-green-400' },
-    { label: 'Itens no cardapio', value: props.stats.totalItems, icon: 'restaurant', color: 'text-purple-400' },
+    { label: 'Visualizacoes', value: props.stats.totalViews, icon: 'eye', color: 'text-brand-400', bg: 'bg-brand-500/10' },
+    { label: 'Cliques', value: props.stats.totalClicks, icon: 'chart', color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    { label: 'Videos assistidos', value: props.stats.totalVideoPlays, icon: 'play', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    { label: 'Itens no cardapio', value: props.stats.totalItems, icon: 'restaurant', color: 'text-dark-300', bg: 'bg-dark-700/60' },
 ]);
 </script>
 
@@ -36,7 +36,7 @@ const statCards = computed(() => [
                 :class="`animation-delay-${(index + 1) * 100}`"
             >
                 <div class="flex items-center justify-between mb-3">
-                    <div :class="[stat.color, 'bg-dark-800 rounded-lg p-2']">
+                    <div :class="[stat.color, stat.bg, 'rounded-lg p-2']">
                         <Icon :name="stat.icon" class="w-5 h-5" />
                     </div>
                 </div>

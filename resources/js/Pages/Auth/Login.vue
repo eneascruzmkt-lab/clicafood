@@ -24,7 +24,7 @@ const submit = () => {
         <h2 class="text-2xl font-display font-bold text-white mb-1">Entrar</h2>
         <p class="text-dark-400 text-sm mb-6">Acesse seu painel e domine seu cardápio</p>
 
-        <div v-if="status" class="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm">
+        <div v-if="status" class="mb-4 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400 text-sm">
             {{ status }}
         </div>
 

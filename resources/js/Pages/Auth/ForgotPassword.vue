@@ -22,7 +22,7 @@ const submit = () => {
             Informe seu email e enviaremos um link para redefinir sua senha.
         </p>
 
-        <div v-if="status" class="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm">
+        <div v-if="status" class="mb-4 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400 text-sm">
             {{ status }}
         </div>
 

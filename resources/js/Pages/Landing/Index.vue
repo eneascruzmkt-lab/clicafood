@@ -195,11 +195,11 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 </div>
                 <div class="flex items-center justify-center gap-3 text-sm text-dark-400">
                     <div class="flex gap-0.5">
-                        <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                        <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                        <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                        <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                        <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                        <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
                     </div>
                     <span><strong class="text-white">4,8/5</strong> baseado em <strong class="text-white">1.247</strong> avaliacoes</span>
                 </div>
@@ -293,14 +293,14 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                             </li>
                         </ul>
                     </div>
-                    <div class="card border-green-500/20 hover:border-green-500/30 transition-colors duration-300">
-                        <h4 class="font-display font-bold text-green-400 text-lg mb-5 flex items-center gap-2">
-                            <Icon name="check" class="w-5 h-5 text-green-400" />
+                    <div class="card border-emerald-500/20 hover:border-emerald-500/30 transition-colors duration-300">
+                        <h4 class="font-display font-bold text-emerald-400 text-lg mb-5 flex items-center gap-2">
+                            <Icon name="check" class="w-5 h-5 text-emerald-400" />
                             Com ClicaFood
                         </h4>
                         <ul class="space-y-3">
                             <li v-for="item in afterItems" :key="item" class="flex items-start gap-3 text-sm text-dark-300">
-                                <Icon name="check" class="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                                <Icon name="check" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
                                 <span>{{ item }}</span>
                             </li>
                         </ul>
@@ -321,11 +321,11 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 <div class="grid md:grid-cols-3 gap-6">
                     <div v-for="t in testimonials" :key="t.name" class="card hover:border-dark-600 transition-all duration-300">
                         <div class="flex gap-0.5 mb-4">
-                            <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            <Icon name="star" class="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                            <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                            <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                            <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                            <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
+                            <Icon name="star" class="w-4 h-4 text-amber-400 fill-amber-400" />
                         </div>
                         <p class="text-dark-300 text-sm mb-6 leading-relaxed italic font-sans">"{{ t.text }}"</p>
                         <div class="border-t border-dark-700 pt-4">
@@ -360,7 +360,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                         </div>
                         <ul class="text-sm text-dark-300 space-y-3 text-left mb-8 font-sans">
                             <li v-for="feature in pricingFeatures" :key="feature" class="flex items-center gap-3">
-                                <Icon name="check" class="w-4 h-4 text-green-400 shrink-0" />
+                                <Icon name="check" class="w-4 h-4 text-emerald-400 shrink-0" />
                                 <span>{{ feature }}</span>
                             </li>
                         </ul>
@@ -469,7 +469,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
             :href="`https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message)}`"
             target="_blank"
             rel="noopener noreferrer"
-            class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30 hover:bg-green-600 hover:shadow-green-500/50 transition-all duration-300 hover:scale-110"
+            class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-600/30 hover:bg-emerald-700 hover:shadow-emerald-600/50 transition-all duration-300 hover:scale-110"
             aria-label="Contato via WhatsApp"
         >
             <Icon name="phone" class="w-7 h-7 text-white" />

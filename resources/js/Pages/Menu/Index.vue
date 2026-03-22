@@ -87,7 +87,7 @@ const formatPrice = (price) => {
                         <h3 class="font-semibold text-white truncate">{{ item.name }}</h3>
                         <span
                             v-if="item.featured"
-                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-xs rounded-full"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-500/15 text-amber-400 text-xs rounded-full"
                         >
                             <Icon name="star" class="w-3 h-3" />
                             Destaque
@@ -112,7 +112,7 @@ const formatPrice = (price) => {
                 <!-- Status Toggle -->
                 <button
                     @click="toggleAvailable(item)"
-                    :class="item.available ? 'bg-green-500/20 text-green-400' : 'bg-dark-700 text-dark-400'"
+                    :class="item.available ? 'bg-emerald-500/15 text-emerald-400' : 'bg-dark-700 text-dark-400'"
                     class="px-3 py-1 rounded-full text-xs font-medium transition-colors hidden sm:block"
                 >
                     {{ item.available ? 'Disponivel' : 'Indisponivel' }}

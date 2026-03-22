@@ -77,7 +77,7 @@ const toggleActive = (category) => {
                 <!-- Status Toggle -->
                 <button
                     @click="toggleActive(category)"
-                    :class="category.active ? 'bg-green-500/20 text-green-400' : 'bg-dark-700 text-dark-400'"
+                    :class="category.active ? 'bg-emerald-500/15 text-emerald-400' : 'bg-dark-700 text-dark-400'"
                     class="px-3 py-1 rounded-full text-xs font-medium transition-colors"
                 >
                     {{ category.active ? 'Ativo' : 'Inativo' }}

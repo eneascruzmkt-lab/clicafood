@@ -169,7 +169,7 @@ const submit = () => {
                         class="mb-3 p-3 bg-dark-800 rounded-lg flex items-center justify-between"
                     >
                         <span class="text-sm text-dark-300 flex items-center gap-2">
-                            <Icon name="check" class="w-4 h-4 text-green-400" />
+                            <Icon name="check" class="w-4 h-4 text-emerald-400" />
                             Video atual carregado
                         </span>
                         <button type="button" @click="removeVideo" class="text-sm text-red-400 hover:text-red-300">
@@ -232,13 +232,13 @@ const submit = () => {
                     <div class="flex items-center gap-3">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" v-model="form.featured" class="sr-only peer" />
-                            <div class="w-11 h-6 bg-dark-600 rounded-full peer peer-checked:bg-yellow-500
+                            <div class="w-11 h-6 bg-dark-600 rounded-full peer peer-checked:bg-amber-500
                                         peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5
                                         after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5
                                         after:transition-all"></div>
                         </label>
                         <span class="text-sm text-dark-300 flex items-center gap-1.5">
-                            <Icon name="star" class="w-4 h-4 text-yellow-500" />
+                            <Icon name="star" class="w-4 h-4 text-amber-500" />
                             Destaque (aparece nos Stories)
                         </span>
                     </div>
@@ -246,13 +246,13 @@ const submit = () => {
                     <div class="flex items-center gap-3">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" v-model="form.available" class="sr-only peer" />
-                            <div class="w-11 h-6 bg-dark-600 rounded-full peer peer-checked:bg-green-500
+                            <div class="w-11 h-6 bg-dark-600 rounded-full peer peer-checked:bg-emerald-500
                                         peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5
                                         after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5
                                         after:transition-all"></div>
                         </label>
                         <span class="text-sm text-dark-300 flex items-center gap-1.5">
-                            <Icon name="check" class="w-4 h-4 text-green-400" />
+                            <Icon name="check" class="w-4 h-4 text-emerald-400" />
                             Disponivel
                         </span>
                     </div>
