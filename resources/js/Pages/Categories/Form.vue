@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import Icon from '@/Components/Icon.vue';
 
 const props = defineProps({
     category: {
@@ -45,8 +46,9 @@ const submit = () => {
     <AppLayout :title="isEditing ? 'Editar Categoria' : 'Nova Categoria'">
         <div class="max-w-2xl">
             <div class="mb-8">
-                <Link href="/categories" class="text-dark-400 hover:text-white text-sm mb-2 inline-block">
-                    ← Voltar para categorias
+                <Link href="/categories" class="text-dark-400 hover:text-white text-sm mb-2 inline-flex items-center gap-1">
+                    <Icon name="arrow-left" class="w-4 h-4" />
+                    Voltar para categorias
                 </Link>
                 <h1 class="text-2xl font-display font-bold text-white">
                     {{ isEditing ? 'Editar Categoria' : 'Nova Categoria' }}
@@ -57,7 +59,7 @@ const submit = () => {
                 <div>
                     <label class="block text-sm font-medium text-dark-300 mb-1">Nome da categoria</label>
                     <input v-model="form.name" type="text" class="input-field"
-                           placeholder="Ex: Hambúrgueres, Pizzas, Bebidas..." required />
+                           placeholder="Ex: Hamburgueres, Pizzas, Bebidas..." required />
                     <p v-if="form.errors.name" class="mt-1 text-sm text-red-400">{{ form.errors.name }}</p>
                 </div>
 
@@ -67,6 +69,9 @@ const submit = () => {
                         <div v-if="imagePreview"
                              class="w-20 h-20 rounded-lg overflow-hidden">
                             <img :src="imagePreview" class="w-full h-full object-cover" />
+                        </div>
+                        <div v-else class="w-20 h-20 rounded-lg bg-dark-700 flex items-center justify-center">
+                            <Icon name="image" class="w-8 h-8 text-dark-500" />
                         </div>
                         <label class="btn-secondary cursor-pointer text-sm">
                             <span>{{ imagePreview ? 'Trocar imagem' : 'Upload imagem' }}</span>
@@ -89,7 +94,7 @@ const submit = () => {
 
                 <div class="flex gap-3 pt-4 border-t border-dark-700">
                     <button type="submit" :disabled="form.processing" class="btn-primary">
-                        {{ form.processing ? 'Salvando...' : (isEditing ? 'Salvar alterações' : 'Criar categoria') }}
+                        {{ form.processing ? 'Salvando...' : (isEditing ? 'Salvar alteracoes' : 'Criar categoria') }}
                     </button>
                     <Link href="/categories" class="btn-secondary">Cancelar</Link>
                 </div>

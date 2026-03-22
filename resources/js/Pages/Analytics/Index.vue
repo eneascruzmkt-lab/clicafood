@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import Icon from '@/Components/Icon.vue';
 
 const props = defineProps({
     viewsByDay: Array,
@@ -29,10 +30,10 @@ const maxViews = Math.max(...(props.viewsByDay?.map(d => d.count) || [1]), 1);
 </script>
 
 <template>
-    <AppLayout title="Métricas">
+    <AppLayout title="Metricas">
         <div class="mb-8">
-            <h1 class="text-2xl lg:text-3xl font-display font-bold text-white">Métricas</h1>
-            <p class="text-dark-400 mt-1">Acompanhe o desempenho do seu cardápio</p>
+            <h1 class="text-2xl lg:text-3xl font-display font-bold text-white">Metricas</h1>
+            <p class="text-dark-400 mt-1">Acompanhe o desempenho do seu cardapio</p>
         </div>
 
         <!-- Period selector -->
@@ -45,26 +46,35 @@ const maxViews = Math.max(...(props.viewsByDay?.map(d => d.count) || [1]), 1);
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-3 gap-4 mb-8">
-            <div class="card text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <Icon name="eye" class="w-5 h-5 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-white">{{ stats.totalViews.toLocaleString('pt-BR') }}</p>
-                <p class="text-sm text-dark-400">Visualizações</p>
+                <p class="text-sm text-dark-400 mt-1">Visualizacoes</p>
             </div>
-            <div class="card text-center">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <Icon name="chart" class="w-5 h-5 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-white">{{ stats.totalClicks.toLocaleString('pt-BR') }}</p>
-                <p class="text-sm text-dark-400">Cliques</p>
+                <p class="text-sm text-dark-400 mt-1">Cliques</p>
             </div>
-            <div class="card text-center">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <Icon name="play" class="w-5 h-5 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-white">{{ stats.totalVideoPlays.toLocaleString('pt-BR') }}</p>
-                <p class="text-sm text-dark-400">Vídeos assistidos</p>
+                <p class="text-sm text-dark-400 mt-1">Videos assistidos</p>
             </div>
         </div>
 
         <!-- Chart (simple bar chart) -->
         <div class="card mb-8">
-            <h3 class="text-lg font-bold text-white mb-4">Visualizações por dia</h3>
+            <h3 class="text-lg font-bold text-white mb-4">Visualizacoes por dia</h3>
             <div v-if="viewsByDay.length === 0" class="text-dark-400 text-sm py-8 text-center">
-                Nenhum dado neste período
+                Nenhum dado neste periodo
             </div>
             <div v-else class="flex items-end gap-1 h-40">
                 <div v-for="day in viewsByDay" :key="day.date" class="flex-1 flex flex-col items-center gap-1">
@@ -92,7 +102,7 @@ const maxViews = Math.max(...(props.viewsByDay?.map(d => d.count) || [1]), 1);
             </div>
 
             <div class="card">
-                <h3 class="text-lg font-bold text-white mb-4">Vídeos mais assistidos</h3>
+                <h3 class="text-lg font-bold text-white mb-4">Videos mais assistidos</h3>
                 <div v-for="(item, i) in topVideos" :key="item.id"
                      class="flex items-center gap-3 py-2 border-b border-dark-700 last:border-0">
                     <span class="text-sm font-bold text-dark-500 w-6">{{ i + 1 }}</span>

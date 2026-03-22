@@ -10,26 +10,56 @@ defineProps({
     <div class="min-h-screen bg-dark-950 flex items-center justify-center p-4 relative overflow-hidden">
         <Head :title="title" />
 
-        <!-- Background pattern -->
-        <div class="absolute inset-0 opacity-[0.03]"
-             style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'20\' fill=\'%23ffffff\' text-anchor=\'middle\' dominant-baseline=\'middle\' font-family=\'sans-serif\' font-weight=\'bold\'%3ECF%3C/text%3E%3C/svg%3E'); background-repeat: repeat;">
+        <!-- Geometric background pattern (CSS only) -->
+        <div class="absolute inset-0 overflow-hidden">
+            <!-- Subtle grid -->
+            <div class="absolute inset-0 opacity-[0.03]" style="
+                background-image:
+                    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+                background-size: 60px 60px;
+            "></div>
+            <!-- Diagonal accent lines -->
+            <div class="absolute inset-0 opacity-[0.02]" style="
+                background-image:
+                    repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 80px,
+                        rgba(230, 59, 46, 0.3) 80px,
+                        rgba(230, 59, 46, 0.3) 81px
+                    );
+            "></div>
+            <!-- Radial glow from center -->
+            <div class="absolute inset-0" style="
+                background: radial-gradient(ellipse at 50% 40%, rgba(230, 59, 46, 0.06) 0%, transparent 70%);
+            "></div>
         </div>
 
         <div class="w-full max-w-md relative z-10">
             <!-- Logo -->
             <div class="text-center mb-8">
-                <a href="/" class="inline-block">
-                    <h1 class="text-4xl font-display font-black">
-                        <span class="text-brand-500">Clica</span><span class="text-white">Food</span>
+                <a href="/" class="inline-block group">
+                    <h1 class="text-4xl font-display font-black tracking-tight">
+                        <span class="text-brand-500 transition-colors duration-200 group-hover:text-brand-400">Clica</span><span class="text-white">Food</span>
                     </h1>
                 </a>
-                <p class="text-dark-400 mt-2 text-sm">Cardápio digital com vídeo</p>
+                <p class="text-dark-400 mt-2.5 text-sm font-medium tracking-wide">Cardapio digital com video</p>
             </div>
 
             <!-- Card -->
-            <div class="bg-dark-900 border border-dark-700 rounded-2xl p-8 shadow-2xl">
-                <slot />
+            <div class="relative">
+                <!-- Glass border effect -->
+                <div class="absolute -inset-px rounded-2xl bg-gradient-to-b from-dark-600/50 via-dark-700/20 to-dark-700/30"></div>
+                <div class="relative bg-dark-900 rounded-2xl p-8 shadow-2xl shadow-black/40">
+                    <slot />
+                </div>
             </div>
+
+            <!-- Footer text -->
+            <p class="text-center text-dark-500 text-xs mt-8">
+                ClicaFood - Todos os direitos reservados
+            </p>
         </div>
     </div>
 </template>

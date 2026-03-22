@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import Icon from '@/Components/Icon.vue';
 
 const props = defineProps({
     stats: Object,
@@ -11,26 +12,38 @@ const props = defineProps({
     <AppLayout title="Admin - Dashboard">
         <div class="mb-8">
             <h1 class="text-2xl lg:text-3xl font-display font-bold text-white">Admin Panel</h1>
-            <p class="text-dark-400 mt-1">Visão geral da plataforma</p>
+            <p class="text-dark-400 mt-1">Visao geral da plataforma</p>
         </div>
 
         <!-- Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div class="card text-center">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center mb-2">
+                    <Icon name="users" class="w-6 h-6 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-white">{{ stats.totalUsers }}</p>
-                <p class="text-sm text-dark-400">Usuários</p>
+                <p class="text-sm text-dark-400 mt-1">Usuarios</p>
             </div>
-            <div class="card text-center">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center mb-2">
+                    <Icon name="restaurant" class="w-6 h-6 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-white">{{ stats.totalRestaurants }}</p>
-                <p class="text-sm text-dark-400">Restaurantes</p>
+                <p class="text-sm text-dark-400 mt-1">Restaurantes</p>
             </div>
-            <div class="card text-center">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center mb-2">
+                    <Icon name="eye" class="w-6 h-6 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-white">{{ stats.totalViews.toLocaleString('pt-BR') }}</p>
-                <p class="text-sm text-dark-400">Visualizações totais</p>
+                <p class="text-sm text-dark-400 mt-1">Visualizacoes totais</p>
             </div>
-            <div class="card text-center">
+            <div class="stat-card card text-center">
+                <div class="flex items-center justify-center mb-2">
+                    <Icon name="dollar" class="w-6 h-6 text-brand-400" />
+                </div>
                 <p class="text-3xl font-bold text-brand-500">{{ stats.activePlans }}</p>
-                <p class="text-sm text-dark-400">Planos Pro ativos</p>
+                <p class="text-sm text-dark-400 mt-1">Planos Pro ativos</p>
             </div>
         </div>
 
@@ -59,6 +72,9 @@ const props = defineProps({
                         </tr>
                     </tbody>
                 </table>
+                <p v-if="recentRestaurants.length === 0" class="text-dark-400 text-sm text-center py-4">
+                    Nenhum restaurante cadastrado
+                </p>
             </div>
         </div>
     </AppLayout>

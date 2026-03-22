@@ -1,6 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import Icon from '@/Components/Icon.vue';
 
 const props = defineProps({
     user: Object,
@@ -40,7 +41,10 @@ const updatePassword = () => {
 
             <!-- Profile -->
             <form @submit.prevent="updateProfile" class="card space-y-4 mb-6">
-                <h3 class="font-bold text-white">Dados pessoais</h3>
+                <h3 class="font-bold text-white flex items-center gap-2">
+                    <Icon name="user" class="w-5 h-5 text-brand-400" />
+                    Dados pessoais
+                </h3>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -57,11 +61,15 @@ const updatePassword = () => {
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-dark-300 mb-1">CPF/CNPJ</label>
-                        <input v-model="profileForm.cpf_cnpj" type="text" class="input-field" />
+                        <input v-model="profileForm.cpf_cnpj" type="text" class="input-field"
+                               placeholder="000.000.000-00" />
+                        <p v-if="profileForm.errors.cpf_cnpj" class="mt-1 text-sm text-red-400">{{ profileForm.errors.cpf_cnpj }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-dark-300 mb-1">Telefone</label>
-                        <input v-model="profileForm.phone" type="text" class="input-field" />
+                        <input v-model="profileForm.phone" type="text" class="input-field"
+                               placeholder="(11) 99999-9999" />
+                        <p v-if="profileForm.errors.phone" class="mt-1 text-sm text-red-400">{{ profileForm.errors.phone }}</p>
                     </div>
                 </div>
 
@@ -72,7 +80,10 @@ const updatePassword = () => {
 
             <!-- Password -->
             <form @submit.prevent="updatePassword" class="card space-y-4">
-                <h3 class="font-bold text-white">Alterar senha</h3>
+                <h3 class="font-bold text-white flex items-center gap-2">
+                    <Icon name="shield" class="w-5 h-5 text-brand-400" />
+                    Alterar senha
+                </h3>
 
                 <div>
                     <label class="block text-sm font-medium text-dark-300 mb-1">Senha atual</label>
@@ -90,7 +101,7 @@ const updatePassword = () => {
                         </p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-dark-300 mb-1">Confirmar</label>
+                        <label class="block text-sm font-medium text-dark-300 mb-1">Confirmar nova senha</label>
                         <input v-model="passwordForm.password_confirmation" type="password" class="input-field" required />
                     </div>
                 </div>
