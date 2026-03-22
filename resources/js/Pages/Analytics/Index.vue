@@ -10,13 +10,24 @@ const props = defineProps({
     topVideos: Array,
     stats: Object,
     period: String,
+    date: String,
 });
 
-const currentPeriod = ref(props.period);
+const currentPeriod = ref(props.date ? null : props.period);
+const customDate = ref(props.date || '');
 
 const changePeriod = (p) => {
     currentPeriod.value = p;
+    customDate.value = '';
     router.get('/analytics', { period: p }, { preserveState: true });
+};
+
+const changeDate = (event) => {
+    const selectedDate = event.target.value;
+    if (!selectedDate) return;
+    customDate.value = selectedDate;
+    currentPeriod.value = null;
+    router.get('/analytics', { date: selectedDate }, { preserveState: true });
 };
 
 const periods = [
@@ -37,12 +48,23 @@ const maxViews = Math.max(...(props.viewsByDay?.map(d => d.count) || [1]), 1);
         </div>
 
         <!-- Period selector -->
-        <div class="flex gap-2 mb-6">
+        <div class="flex flex-wrap items-center gap-2 mb-6">
             <button v-for="p in periods" :key="p.key" @click="changePeriod(p.key)"
                     :class="currentPeriod === p.key ? 'bg-brand-500 text-white' : 'bg-dark-800 text-dark-300 hover:text-white'"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                 {{ p.label }}
             </button>
+
+            <div class="flex items-center gap-2 ml-2">
+                <Icon name="calendar" class="w-4 h-4 text-dark-400" />
+                <input
+                    type="date"
+                    :value="customDate"
+                    @change="changeDate"
+                    class="input-field"
+                    placeholder="Selecionar data"
+                />
+            </div>
         </div>
 
         <!-- Stats -->

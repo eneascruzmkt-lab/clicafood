@@ -8,7 +8,7 @@ const props = defineProps({
     restaurant: Object,
 });
 
-const logoPreview = ref(props.restaurant?.logo ? '/storage/' + props.restaurant.logo : null);
+const logoPreview = ref(props.restaurant?.logo_url || (props.restaurant?.logo ? '/storage/' + props.restaurant.logo : null));
 
 const form = useForm({
     name: props.restaurant?.name || '',
@@ -33,8 +33,8 @@ const handleLogo = (e) => {
 
 const submit = () => {
     form.post('/settings', {
-        _method: 'PUT',
         forceFormData: true,
+        preserveScroll: true,
     });
 };
 </script>

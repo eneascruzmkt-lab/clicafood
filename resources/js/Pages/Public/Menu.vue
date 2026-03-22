@@ -14,6 +14,7 @@ const props = defineProps({
 const activeCategory = ref(null);
 const showVideoModal = ref(false);
 const currentVideo = ref(null);
+const selectedItem = ref(null);
 const showStory = ref(false);
 const currentStoryIndex = ref(0);
 const storyProgress = ref(0);
@@ -48,6 +49,16 @@ const openVideo = (item) => {
 const closeVideo = () => {
     showVideoModal.value = false;
     currentVideo.value = null;
+};
+
+// Item detail modal
+const openItemDetail = (item) => {
+    selectedItem.value = item;
+    trackEvent('click', item.id);
+};
+
+const closeItemDetail = () => {
+    selectedItem.value = null;
 };
 
 // Stories
@@ -212,7 +223,7 @@ onUnmounted(() => {
             <!-- Menu Items -->
             <div class="space-y-3 mt-4">
                 <div v-for="item in filteredItems" :key="item.id"
-                     @click="trackEvent('click', item.id)"
+                     @click="openItemDetail(item)"
                      class="flex gap-3 p-3 rounded-xl transition-colors hover:bg-white/5 cursor-pointer"
                      :style="{ backgroundColor: '#1a1a1a' }">
                     <!-- Image with video indicator -->
@@ -259,6 +270,63 @@ onUnmounted(() => {
                 </p>
             </div>
         </div>
+
+        <!-- Item Detail Modal -->
+        <teleport to="body">
+            <Transition
+                enter-active-class="transition-opacity duration-200 ease-out"
+                enter-from-class="opacity-0"
+                enter-to-class="opacity-100"
+                leave-active-class="transition-opacity duration-150 ease-in"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0"
+            >
+                <div v-if="selectedItem"
+                     class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center"
+                     @click.self="closeItemDetail">
+                    <div class="relative w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+                         :style="{ backgroundColor: '#1a1a1a' }">
+                        <!-- Close button -->
+                        <button @click="closeItemDetail"
+                                class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+                            <Icon name="close" class="w-5 h-5" />
+                        </button>
+
+                        <!-- Item image -->
+                        <div class="relative w-full aspect-[4/3]">
+                            <img v-if="selectedItem.image"
+                                 :src="getImageUrl(selectedItem.image)"
+                                 :alt="selectedItem.name"
+                                 class="w-full h-full object-cover" />
+                            <div v-else class="w-full h-full bg-dark-700 flex items-center justify-center"
+                                 :style="{ backgroundColor: '#222' }">
+                                <Icon name="image" class="w-16 h-16 text-gray-600" />
+                            </div>
+                            <!-- Play button overlay for video -->
+                            <button v-if="selectedItem.video_url"
+                                    @click="openVideo(selectedItem)"
+                                    class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/20 transition-colors">
+                                <div class="w-14 h-14 rounded-full flex items-center justify-center"
+                                     :style="{ backgroundColor: primaryColor }">
+                                    <Icon name="play" class="w-7 h-7 text-white ml-0.5" />
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Item info -->
+                        <div class="p-5">
+                            <h2 class="font-bold text-white text-xl">{{ selectedItem.name }}</h2>
+                            <p v-if="selectedItem.description" class="text-sm text-gray-400 mt-2 leading-relaxed">
+                                {{ selectedItem.description }}
+                            </p>
+                            <p class="font-bold text-lg mt-3" :style="{ color: primaryColor }">
+                                {{ formatPrice(selectedItem.price) }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Transition>
+        </teleport>
 
         <!-- Video Modal -->
         <teleport to="body">

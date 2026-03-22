@@ -12,14 +12,35 @@ class AnalyticsController extends Controller
     {
         $restaurant = $request->user()->restaurant;
         $period = $request->get('period', 'month');
+        $date = $request->get('date');
 
-        $viewsByDay = $restaurant->analytics()
-            ->views()
-            ->period($period)
-            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+        if ($date) {
+            $parsedDate = \Carbon\Carbon::parse($date)->format('Y-m-d');
+
+            $viewsByDay = $restaurant->analytics()
+                ->views()
+                ->whereDate('created_at', $parsedDate)
+                ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get();
+
+            $totalViews = $restaurant->analytics()->views()->whereDate('created_at', $parsedDate)->count();
+            $totalClicks = $restaurant->analytics()->clicks()->whereDate('created_at', $parsedDate)->count();
+            $totalVideoPlays = $restaurant->analytics()->videoPlays()->whereDate('created_at', $parsedDate)->count();
+        } else {
+            $viewsByDay = $restaurant->analytics()
+                ->views()
+                ->period($period)
+                ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                ->groupBy('date')
+                ->orderBy('date')
+                ->get();
+
+            $totalViews = $restaurant->analytics()->views()->period($period)->count();
+            $totalClicks = $restaurant->analytics()->clicks()->period($period)->count();
+            $totalVideoPlays = $restaurant->analytics()->videoPlays()->period($period)->count();
+        }
 
         $topItems = $restaurant->menuItems()
             ->orderByDesc('views_count')
@@ -32,10 +53,6 @@ class AnalyticsController extends Controller
             ->limit(10)
             ->get(['id', 'name', 'video_plays_count']);
 
-        $totalViews = $restaurant->analytics()->views()->period($period)->count();
-        $totalClicks = $restaurant->analytics()->clicks()->period($period)->count();
-        $totalVideoPlays = $restaurant->analytics()->videoPlays()->period($period)->count();
-
         return Inertia::render('Analytics/Index', [
             'viewsByDay' => $viewsByDay,
             'topItems' => $topItems,
@@ -46,6 +63,7 @@ class AnalyticsController extends Controller
                 'totalVideoPlays' => $totalVideoPlays,
             ],
             'period' => $period,
+            'date' => $date,
         ]);
     }
 }

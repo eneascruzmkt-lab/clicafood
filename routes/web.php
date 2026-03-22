@@ -66,7 +66,7 @@ Route::middleware(['auth', 'restaurant'])->group(function () {
 
     // Settings
     Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
-    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::match(['put', 'post'], '/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 // Admin Routes

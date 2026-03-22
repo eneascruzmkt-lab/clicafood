@@ -11,8 +11,12 @@ class SettingsController extends Controller
 {
     public function edit(Request $request)
     {
+        $restaurant = $request->user()->restaurant;
+
         return Inertia::render('Settings/Edit', [
-            'restaurant' => $request->user()->restaurant,
+            'restaurant' => array_merge($restaurant->toArray(), [
+                'logo_url' => $restaurant->logo ? asset('storage/' . $restaurant->logo) : null,
+            ]),
         ]);
     }
 
