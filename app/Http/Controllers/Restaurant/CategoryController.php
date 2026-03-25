@@ -40,7 +40,7 @@ class CategoryController extends Controller
         $restaurant = $request->user()->restaurant;
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('categories', 'public');
+            $validated['image'] = $request->file('image')->store('categories', 's3');
         }
 
         $validated['restaurant_id'] = $restaurant->id;
@@ -72,9 +72,9 @@ class CategoryController extends Controller
 
         if ($request->hasFile('image')) {
             if ($category->image) {
-                Storage::disk('public')->delete($category->image);
+                Storage::disk('s3')->delete($category->image);
             }
-            $validated['image'] = $request->file('image')->store('categories', 'public');
+            $validated['image'] = $request->file('image')->store('categories', 's3');
         }
 
         $category->update($validated);
@@ -87,7 +87,7 @@ class CategoryController extends Controller
         $this->authorize($category);
 
         if ($category->image) {
-            Storage::disk('public')->delete($category->image);
+            Storage::disk('s3')->delete($category->image);
         }
 
         $category->delete();

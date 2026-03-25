@@ -15,7 +15,7 @@ class SettingsController extends Controller
 
         return Inertia::render('Settings/Edit', [
             'restaurant' => array_merge($restaurant->toArray(), [
-                'logo_url' => $restaurant->logo ? asset('storage/' . $restaurant->logo) : null,
+                'logo_url' => $restaurant->logo ? Storage::disk('s3')->url($restaurant->logo) : null,
             ]),
         ]);
     }
@@ -39,9 +39,9 @@ class SettingsController extends Controller
 
         if ($request->hasFile('logo')) {
             if ($restaurant->logo) {
-                Storage::disk('public')->delete($restaurant->logo);
+                Storage::disk('s3')->delete($restaurant->logo);
             }
-            $validated['logo'] = $request->file('logo')->store('logos', 'public');
+            $validated['logo'] = $request->file('logo')->store('logos', 's3');
         }
 
         $restaurant->update($validated);

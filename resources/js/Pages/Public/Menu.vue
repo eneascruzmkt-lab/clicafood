@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import Icon from '@/Components/Icon.vue';
 import axios from 'axios';
@@ -12,116 +12,210 @@ const props = defineProps({
 });
 
 const activeCategory = ref(null);
-const showVideoModal = ref(false);
-const currentVideo = ref(null);
-const selectedItem = ref(null);
+
+// ====== REELS MODE ======
+const showReels = ref(false);
+const reelsCategoryIndex = ref(0);
+const reelsVisibleIndex = ref(0);
+const reelsContainerRef = ref(null);
+const videoRefs = ref({});
+
+const expandedDescriptionId = ref(null);
+
+const toggleDescription = (itemId) => {
+    expandedDescriptionId.value = expandedDescriptionId.value === itemId ? null : itemId;
+};
+
+const reelsCategories = computed(() => [{ id: null, name: 'Todos' }, ...props.categories]);
+
+const reelsItems = computed(() => {
+    const cat = reelsCategories.value[reelsCategoryIndex.value];
+    if (!cat || cat.id === null) return props.items;
+    return props.items.filter(item => item.category_id === cat.id);
+});
+
+const currentReelsItem = computed(() => reelsItems.value[reelsVisibleIndex.value] || null);
+
+// Set video ref for each item
+const setVideoRef = (el, id) => {
+    if (el) videoRefs.value[id] = el;
+    else delete videoRefs.value[id];
+};
+
+// Detect which slide is visible via IntersectionObserver
+let observer = null;
+const setupObserver = () => {
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const idx = parseInt(entry.target.dataset.index);
+            const itemId = parseInt(entry.target.dataset.itemId);
+            if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+                reelsVisibleIndex.value = idx;
+                expandedDescriptionId.value = null;
+                // Play this video
+                const video = videoRefs.value[itemId];
+                if (video) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {});
+                    trackEvent('video_play', itemId);
+                }
+            } else {
+                // Pause and reset to first frame
+                const video = videoRefs.value[itemId];
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            }
+        });
+    }, { threshold: [0.6], root: null });
+};
+
+const observeSlides = () => {
+    nextTick(() => {
+        if (!reelsContainerRef.value) return;
+        if (observer) observer.disconnect();
+        setupObserver();
+        reelsContainerRef.value.querySelectorAll('.reels-slide').forEach(el => {
+            observer.observe(el);
+        });
+    });
+};
+
+const openReels = (item) => {
+    const catIdx = reelsCategories.value.findIndex(c => c.id === (activeCategory.value ?? null));
+    reelsCategoryIndex.value = catIdx >= 0 ? catIdx : 0;
+    const items = reelsCategoryIndex.value === 0 ? props.items : props.items.filter(i => i.category_id === reelsCategories.value[reelsCategoryIndex.value].id);
+    const idx = items.findIndex(i => i.id === item.id);
+    reelsVisibleIndex.value = idx >= 0 ? idx : 0;
+    showReels.value = true;
+    trackEvent('click', item.id);
+    document.body.style.overflow = 'hidden';
+
+    nextTick(() => {
+        // Scroll to the correct item
+        const container = reelsContainerRef.value;
+        if (container) {
+            const targetSlide = container.querySelector(`[data-index="${reelsVisibleIndex.value}"]`);
+            if (targetSlide) targetSlide.scrollIntoView({ behavior: 'instant' });
+        }
+        observeSlides();
+    });
+};
+
+const closeReels = () => {
+    // Pause all
+    Object.values(videoRefs.value).forEach(v => { v.pause(); v.currentTime = 0; });
+    showReels.value = false;
+    document.body.style.overflow = '';
+};
+
+// Horizontal swipe for category change
+const hTouchStartX = ref(0);
+const hTouchDeltaX = ref(0);
+const hSwiping = ref(false);
+
+const onHorizontalTouchStart = (e) => {
+    hTouchStartX.value = e.touches[0].clientX;
+    hTouchDeltaX.value = 0;
+    hSwiping.value = true;
+};
+const onHorizontalTouchMove = (e) => {
+    if (!hSwiping.value) return;
+    hTouchDeltaX.value = e.touches[0].clientX - hTouchStartX.value;
+};
+const onHorizontalTouchEnd = () => {
+    if (!hSwiping.value) return;
+    hSwiping.value = false;
+    const THRESHOLD = 80;
+    if (hTouchDeltaX.value < -THRESHOLD && reelsCategoryIndex.value < reelsCategories.value.length - 1) {
+        reelsCategoryIndex.value++;
+        reelsVisibleIndex.value = 0;
+        nextTick(() => {
+            if (reelsContainerRef.value) reelsContainerRef.value.scrollTop = 0;
+            observeSlides();
+        });
+    } else if (hTouchDeltaX.value > THRESHOLD && reelsCategoryIndex.value > 0) {
+        reelsCategoryIndex.value--;
+        reelsVisibleIndex.value = 0;
+        nextTick(() => {
+            if (reelsContainerRef.value) reelsContainerRef.value.scrollTop = 0;
+            observeSlides();
+        });
+    }
+    hTouchDeltaX.value = 0;
+};
+
+// Keyboard
+const onReelsKeydown = (e) => {
+    if (!showReels.value) return;
+    const container = reelsContainerRef.value;
+    if (!container) return;
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = container.querySelector(`[data-index="${reelsVisibleIndex.value + 1}"]`);
+        if (next) next.scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = container.querySelector(`[data-index="${reelsVisibleIndex.value - 1}"]`);
+        if (prev) prev.scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowRight' && reelsCategoryIndex.value < reelsCategories.value.length - 1) {
+        reelsCategoryIndex.value++; reelsVisibleIndex.value = 0;
+        nextTick(() => { container.scrollTop = 0; observeSlides(); });
+    } else if (e.key === 'ArrowLeft' && reelsCategoryIndex.value > 0) {
+        reelsCategoryIndex.value--; reelsVisibleIndex.value = 0;
+        nextTick(() => { container.scrollTop = 0; observeSlides(); });
+    } else if (e.key === 'Escape') closeReels();
+};
+
+// Toggle mute
+const toggleMute = () => {
+    const item = currentReelsItem.value;
+    if (!item) return;
+    const video = videoRefs.value[item.id];
+    if (video) video.muted = !video.muted;
+};
+
+// ====== STORIES ======
 const showStory = ref(false);
 const currentStoryIndex = ref(0);
 const storyProgress = ref(0);
 let storyTimer = null;
 const STORY_DURATION = 5000;
 
-// Filter items by category
+const startStoryTimer = () => {
+    clearInterval(storyTimer); storyProgress.value = 0;
+    const ci = props.featured[currentStoryIndex.value];
+    if (ci?.video_url) return;
+    const step = 100 / (STORY_DURATION / 50);
+    storyTimer = setInterval(() => { storyProgress.value += step; if (storyProgress.value >= 100) nextStory(); }, 50);
+};
+const openStory = (index) => { currentStoryIndex.value = index; showStory.value = true; trackEvent('click', props.featured[index].id); startStoryTimer(); };
+const nextStory = () => { if (currentStoryIndex.value < props.featured.length - 1) { currentStoryIndex.value++; trackEvent('click', props.featured[currentStoryIndex.value].id); startStoryTimer(); } else closeStory(); };
+const prevStory = () => { if (currentStoryIndex.value > 0) { currentStoryIndex.value--; startStoryTimer(); } };
+const closeStory = () => { showStory.value = false; clearInterval(storyTimer); storyProgress.value = 0; };
+const onStoryVideoEnded = () => nextStory();
+const onStoryVideoPlay = () => { clearInterval(storyTimer); storyProgress.value = 0; const ci = props.featured[currentStoryIndex.value]; if (ci) trackEvent('video_play', ci.id); };
+
+// ====== UTILS ======
 const filteredItems = computed(() => {
     if (!activeCategory.value) return props.items;
     return props.items.filter(item => item.category_id === activeCategory.value);
 });
 
-const formatPrice = (price) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
-};
+const formatPrice = (price) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
 
-// Track events
 const trackEvent = (eventType, menuItemId) => {
-    axios.post(`/${props.restaurant.slug}/track`, {
-        event_type: eventType,
-        menu_item_id: menuItemId,
-    }).catch(() => {});
-};
-
-// Open video modal
-const openVideo = (item) => {
-    currentVideo.value = item;
-    showVideoModal.value = true;
-    trackEvent('video_play', item.id);
-};
-
-const closeVideo = () => {
-    showVideoModal.value = false;
-    currentVideo.value = null;
-};
-
-// Item detail modal
-const openItemDetail = (item) => {
-    selectedItem.value = item;
-    trackEvent('click', item.id);
-};
-
-const closeItemDetail = () => {
-    selectedItem.value = null;
-};
-
-// Stories
-const startStoryTimer = () => {
-    clearInterval(storyTimer);
-    storyProgress.value = 0;
-    const currentItem = props.featured[currentStoryIndex.value];
-    if (currentItem?.video_url) return;
-    const step = 100 / (STORY_DURATION / 50);
-    storyTimer = setInterval(() => {
-        storyProgress.value += step;
-        if (storyProgress.value >= 100) {
-            nextStory();
-        }
-    }, 50);
-};
-
-const openStory = (index) => {
-    currentStoryIndex.value = index;
-    showStory.value = true;
-    trackEvent('click', props.featured[index].id);
-    startStoryTimer();
-};
-
-const nextStory = () => {
-    if (currentStoryIndex.value < props.featured.length - 1) {
-        currentStoryIndex.value++;
-        trackEvent('click', props.featured[currentStoryIndex.value].id);
-        startStoryTimer();
-    } else {
-        closeStory();
-    }
-};
-
-const prevStory = () => {
-    if (currentStoryIndex.value > 0) {
-        currentStoryIndex.value--;
-        startStoryTimer();
-    }
-};
-
-const closeStory = () => {
-    showStory.value = false;
-    clearInterval(storyTimer);
-    storyProgress.value = 0;
-};
-
-const onStoryVideoEnded = () => {
-    nextStory();
-};
-
-const onStoryVideoPlay = () => {
-    clearInterval(storyTimer);
-    storyProgress.value = 0;
-    const currentItem = props.featured[currentStoryIndex.value];
-    if (currentItem) {
-        trackEvent('video_play', currentItem.id);
-    }
+    if (!menuItemId) return;
+    axios.post(`/${props.restaurant.slug}/track`, { event_type: eventType, menu_item_id: menuItemId }).catch(() => {});
 };
 
 const getVideoUrl = (item) => {
-    if (!item.video_url) return null;
+    if (!item?.video_url) return null;
+    // URLs are already resolved by the backend (full https:// URLs)
     if (item.video_url.startsWith('http')) return item.video_url;
+    // Fallback for legacy local paths
     return '/storage/' + item.video_url;
 };
 
@@ -131,23 +225,23 @@ const getImageUrl = (path) => {
     return '/storage/' + path;
 };
 
-// Dynamic primary color
 const primaryColor = computed(() => props.restaurant.primary_color || '#E63B2E');
 const secondaryColor = computed(() => props.restaurant.secondary_color || '#0d0d0d');
 
-// Scroll-based header
 const headerCompact = ref(false);
-const handleScroll = () => {
-    headerCompact.value = window.scrollY > 120;
-};
+const handleScroll = () => { headerCompact.value = window.scrollY > 120; };
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('keydown', onReelsKeydown);
 });
 
 onUnmounted(() => {
     clearInterval(storyTimer);
+    if (observer) observer.disconnect();
     window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('keydown', onReelsKeydown);
+    document.body.style.overflow = '';
 });
 </script>
 
@@ -155,7 +249,7 @@ onUnmounted(() => {
     <div class="min-h-screen" :style="{ backgroundColor: secondaryColor }">
         <Head :title="restaurant.name + ' - Cardapio Digital'" />
 
-        <!-- Sticky Header (compact, appears on scroll) -->
+        <!-- Sticky Header -->
         <header class="sticky top-0 z-20 transition-all duration-300"
                 :class="headerCompact ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'"
                 :style="{ backgroundColor: secondaryColor + 'f2', borderBottom: '1px solid rgba(255,255,255,0.06)' }">
@@ -172,10 +266,9 @@ onUnmounted(() => {
             </div>
         </header>
 
-        <!-- Hero Banner (scrolls away) -->
+        <!-- Hero -->
         <div class="max-w-lg mx-auto px-4">
             <div class="pt-6 pb-5 text-center">
-                <!-- Logo grande -->
                 <div class="flex justify-center mb-4">
                     <div v-if="restaurant.logo" class="w-20 h-20 rounded-2xl overflow-hidden"
                          :style="{ boxShadow: `0 0 0 2px ${primaryColor}25, 0 8px 24px rgba(0,0,0,0.3)` }">
@@ -186,218 +279,238 @@ onUnmounted(() => {
                         <Icon name="restaurant" class="w-9 h-9" :style="{ color: primaryColor }" />
                     </div>
                 </div>
-
-                <!-- Nome e descricao -->
                 <h1 class="font-display font-bold text-white text-xl leading-tight">{{ restaurant.name }}</h1>
-                <p v-if="restaurant.description" class="text-sm text-gray-400 mt-1.5 max-w-xs mx-auto leading-relaxed">
-                    {{ restaurant.description }}
-                </p>
-
-                <!-- Redes sociais + endereco -->
+                <p v-if="restaurant.description" class="text-sm text-gray-400 mt-1.5 max-w-xs mx-auto leading-relaxed">{{ restaurant.description }}</p>
                 <div class="flex items-center justify-center gap-3 mt-4">
-                    <a v-if="restaurant.whatsapp"
-                       :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
-                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+                    <a v-if="restaurant.whatsapp" :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
                        :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
-                        <Icon name="phone" class="w-3.5 h-3.5" />
-                        <span>WhatsApp</span>
+                        <Icon name="phone" class="w-3.5 h-3.5" /><span>WhatsApp</span>
                     </a>
-                    <a v-if="restaurant.instagram"
-                       :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
-                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+                    <a v-if="restaurant.instagram" :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
                        :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
-                        <Icon name="instagram" class="w-3.5 h-3.5" />
-                        <span>Instagram</span>
+                        <Icon name="instagram" class="w-3.5 h-3.5" /><span>Instagram</span>
                     </a>
                 </div>
-
                 <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-gray-500 text-xs">
                     <Icon name="map-pin" class="w-3 h-3 flex-shrink-0" />
                     <span class="truncate max-w-[260px]">{{ restaurant.address }}</span>
                 </div>
             </div>
-
-            <!-- Separador sutil -->
             <div class="h-px w-12 mx-auto rounded-full" :style="{ backgroundColor: primaryColor + '20' }"></div>
         </div>
 
         <div class="max-w-lg mx-auto px-4 pb-8">
-            <!-- Stories / Featured -->
+            <!-- Stories -->
             <div v-if="featured.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
                 <div class="flex gap-3">
-                    <button v-for="(item, index) in featured" :key="item.id"
-                            @click="openStory(index)"
-                            class="flex-shrink-0 text-center group">
-                        <div class="w-16 h-16 rounded-full p-0.5 mb-1"
-                             :style="{ background: `linear-gradient(135deg, ${primaryColor}, #ff8c00)` }">
-                            <div class="w-full h-full rounded-full overflow-hidden border-2"
-                                 :style="{ borderColor: secondaryColor }">
-                                <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name"
-                                     class="w-full h-full object-cover" />
-                                <div v-else class="w-full h-full flex items-center justify-center"
-                                     :style="{ backgroundColor: primaryColor + '15' }">
+                    <button v-for="(item, index) in featured" :key="item.id" @click="openStory(index)" class="flex-shrink-0 text-center group">
+                        <div class="w-16 h-16 rounded-full p-0.5 mb-1" :style="{ background: `linear-gradient(135deg, ${primaryColor}, #ff8c00)` }">
+                            <div class="w-full h-full rounded-full overflow-hidden border-2" :style="{ borderColor: secondaryColor }">
+                                <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" />
+                                <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: primaryColor + '15' }">
                                     <Icon name="play" class="w-4 h-4" :style="{ color: primaryColor }" />
                                 </div>
                             </div>
                         </div>
-                        <p class="text-[10px] text-gray-400 w-16 truncate group-hover:text-gray-300 transition-colors">{{ item.name }}</p>
+                        <p class="text-[10px] text-gray-400 w-16 truncate">{{ item.name }}</p>
                     </button>
                 </div>
             </div>
 
-            <!-- Categories filter -->
+            <!-- Categories -->
             <div class="flex gap-2 py-3 overflow-x-auto -mx-4 px-4 scrollbar-hide">
                 <button @click="activeCategory = null"
-                        :class="!activeCategory ? 'text-white' : 'text-gray-400 hover:text-gray-300'"
-                        :style="!activeCategory ? { backgroundColor: primaryColor } : { backgroundColor: '#333' }"
-                        class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    Todos
-                </button>
-                <button v-for="cat in categories" :key="cat.id"
-                        @click="activeCategory = cat.id"
-                        :class="activeCategory === cat.id ? 'text-white' : 'text-gray-400 hover:text-gray-300'"
-                        :style="activeCategory === cat.id ? { backgroundColor: primaryColor } : { backgroundColor: '#333' }"
-                        class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                    {{ cat.name }}
-                </button>
+                        :style="!activeCategory ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: '#333', color: '#999' }"
+                        class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">Todos</button>
+                <button v-for="cat in categories" :key="cat.id" @click="activeCategory = cat.id"
+                        :style="activeCategory === cat.id ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: '#333', color: '#999' }"
+                        class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">{{ cat.name }}</button>
             </div>
 
             <!-- Menu Items -->
             <div class="space-y-3 mt-4">
-                <div v-for="item in filteredItems" :key="item.id"
-                     @click="openItemDetail(item)"
-                     class="flex gap-3 p-3 rounded-xl transition-colors hover:bg-white/5 cursor-pointer"
-                     :style="{ backgroundColor: '#1a1a1a' }">
-                    <!-- Image with video indicator -->
+                <div v-for="item in filteredItems" :key="item.id" @click="openReels(item)"
+                     class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer" style="background-color: #1a1a1a">
                     <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
-                        <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name"
-                             class="w-full h-full object-cover" loading="lazy" />
-                        <div v-else class="w-full h-full bg-dark-700 flex items-center justify-center">
-                            <Icon name="image" class="w-8 h-8 text-dark-500" />
+                        <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
+                        <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
+                        <div v-if="item.video_url" class="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center" :style="{ backgroundColor: primaryColor }">
+                            <Icon name="play" class="w-2.5 h-2.5 text-white ml-px" />
                         </div>
-                        <!-- Play button overlay -->
-                        <button v-if="item.video_url" @click.stop="openVideo(item)"
-                                class="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/30 transition-colors">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center"
-                                 :style="{ backgroundColor: primaryColor }">
-                                <Icon name="play" class="w-4 h-4 text-white ml-0.5" />
-                            </div>
-                        </button>
                     </div>
-
-                    <!-- Info -->
                     <div class="flex-1 min-w-0 py-1">
                         <h3 class="font-semibold text-white text-sm">{{ item.name }}</h3>
-                        <p v-if="item.description" class="text-xs text-gray-400 mt-0.5 line-clamp-2">
-                            {{ item.description }}
-                        </p>
-                        <p class="font-bold mt-1.5 text-sm" :style="{ color: primaryColor }">
-                            {{ formatPrice(item.price) }}
-                        </p>
+                        <p v-if="item.description" class="text-xs text-gray-400 mt-0.5 line-clamp-2">{{ item.description }}</p>
+                        <p class="font-bold mt-1.5 text-sm" :style="{ color: primaryColor }">{{ formatPrice(item.price) }}</p>
                     </div>
                 </div>
-
-                <p v-if="filteredItems.length === 0" class="text-center text-gray-500 py-8 text-sm">
-                    Nenhum item nesta categoria
-                </p>
+                <p v-if="filteredItems.length === 0" class="text-center text-gray-500 py-8 text-sm">Nenhum item nesta categoria</p>
             </div>
 
-            <!-- Footer -->
             <div class="mt-8 pt-4 border-t border-gray-800 text-center">
-                <p class="text-xs text-gray-500">
-                    Powered by
-                    <span class="font-display font-bold">
-                        <span :style="{ color: primaryColor }">Clica</span>Food
-                    </span>
-                </p>
+                <p class="text-xs text-gray-500">Powered by <span class="font-display font-bold"><span :style="{ color: primaryColor }">Clica</span>Food</span></p>
             </div>
         </div>
 
-        <!-- Item Detail Modal -->
+        <!-- ====== REELS FULLSCREEN (scroll-snap native) ====== -->
         <teleport to="body">
-            <Transition
-                enter-active-class="transition-opacity duration-200 ease-out"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="transition-opacity duration-150 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div v-if="selectedItem"
-                     class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center"
-                     @click.self="closeItemDetail">
-                    <div class="relative w-full sm:max-w-lg sm:rounded-2xl rounded-t-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
-                         :style="{ backgroundColor: '#1a1a1a' }">
-                        <!-- Close button -->
-                        <button @click="closeItemDetail"
-                                class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white/80 hover:text-white transition-colors">
-                            <Icon name="close" class="w-5 h-5" />
-                        </button>
+            <Transition enter-active-class="reels-enter-active" enter-from-class="reels-enter-from" enter-to-class="reels-enter-to"
+                        leave-active-class="reels-leave-active" leave-from-class="reels-leave-from" leave-to-class="reels-leave-to">
+                <div v-if="showReels" class="fixed inset-0 z-50 bg-black"
+                     @touchstart.passive="onHorizontalTouchStart"
+                     @touchmove.passive="onHorizontalTouchMove"
+                     @touchend.passive="onHorizontalTouchEnd">
 
-                        <!-- Item image -->
-                        <div class="relative w-full aspect-[4/3]">
-                            <img v-if="selectedItem.image"
-                                 :src="getImageUrl(selectedItem.image)"
-                                 :alt="selectedItem.name"
-                                 class="w-full h-full object-cover" />
-                            <div v-else class="w-full h-full bg-dark-700 flex items-center justify-center"
-                                 :style="{ backgroundColor: '#222' }">
-                                <Icon name="image" class="w-16 h-16 text-gray-600" />
+                    <!-- Category pills -->
+                    <div class="absolute top-0 left-0 right-0 z-30 safe-top">
+                        <div class="flex items-center justify-between px-4 pt-3 pb-2">
+                            <div class="flex gap-1.5 overflow-hidden flex-1 mr-3">
+                                <span v-for="(cat, ci) in reelsCategories" :key="ci"
+                                      class="flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all duration-300"
+                                      :style="{
+                                          backgroundColor: ci === reelsCategoryIndex ? primaryColor : 'rgba(255,255,255,0.1)',
+                                          color: ci === reelsCategoryIndex ? '#fff' : 'rgba(255,255,255,0.5)'
+                                      }">{{ cat.name }}</span>
                             </div>
-                            <!-- Play button overlay for video -->
-                            <button v-if="selectedItem.video_url"
-                                    @click="openVideo(selectedItem)"
-                                    class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/20 transition-colors">
-                                <div class="w-14 h-14 rounded-full flex items-center justify-center"
-                                     :style="{ backgroundColor: primaryColor }">
-                                    <Icon name="play" class="w-7 h-7 text-white ml-0.5" />
-                                </div>
+                            <button @click="closeReels" class="flex-shrink-0 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80">
+                                <Icon name="close" class="w-5 h-5" />
                             </button>
                         </div>
-
-                        <!-- Item info -->
-                        <div class="p-5">
-                            <h2 class="font-bold text-white text-xl">{{ selectedItem.name }}</h2>
-                            <p v-if="selectedItem.description" class="text-sm text-gray-400 mt-2 leading-relaxed">
-                                {{ selectedItem.description }}
-                            </p>
-                            <p class="font-bold text-lg mt-3" :style="{ color: primaryColor }">
-                                {{ formatPrice(selectedItem.price) }}
-                            </p>
+                        <div class="flex gap-0.5 px-4 pb-2">
+                            <div v-for="(_, i) in reelsItems" :key="i" class="h-[2px] rounded-full transition-all duration-300"
+                                 :style="{ backgroundColor: i === reelsVisibleIndex ? primaryColor : 'rgba(255,255,255,0.2)', flex: i === reelsVisibleIndex ? '3' : '1' }"></div>
                         </div>
                     </div>
-                </div>
-            </Transition>
-        </teleport>
 
-        <!-- Video Modal -->
-        <teleport to="body">
-            <Transition
-                enter-active-class="transition-opacity duration-200 ease-out"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="transition-opacity duration-150 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div v-if="showVideoModal && currentVideo"
-                     class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-                     @click.self="closeVideo">
-                    <div class="relative max-w-lg w-full">
-                        <button @click="closeVideo"
-                                class="absolute -top-10 right-0 text-white/60 hover:text-white transition-colors">
-                            <Icon name="close" class="w-6 h-6" />
-                        </button>
-                        <video :src="getVideoUrl(currentVideo)" controls autoplay
-                               class="w-full rounded-xl max-h-[80vh]"
-                               playsinline></video>
-                        <div class="mt-3">
-                            <h3 class="font-bold text-white">{{ currentVideo.name }}</h3>
-                            <p class="text-sm text-gray-400">{{ currentVideo.description }}</p>
-                            <p class="font-bold mt-1" :style="{ color: primaryColor }">
-                                {{ formatPrice(currentVideo.price) }}
-                            </p>
+                    <!-- Scroll-snap container -->
+                    <div ref="reelsContainerRef"
+                         class="reels-container h-full w-full overflow-y-scroll snap-y snap-mandatory">
+
+                        <div v-for="(item, index) in reelsItems" :key="item.id"
+                             class="reels-slide snap-start h-full w-full relative flex-shrink-0"
+                             :data-index="index"
+                             :data-item-id="item.id">
+
+                            <!-- Background placeholder (always visible, instant) -->
+                            <div class="absolute inset-0"
+                                 :style="{ background: `linear-gradient(135deg, ${secondaryColor}, ${primaryColor}15)` }">
+                                <img v-if="item.video_thumbnail" :src="item.video_thumbnail"
+                                     class="w-full h-full object-cover" loading="lazy" />
+                                <img v-else-if="item.image" :src="getImageUrl(item.image)"
+                                     class="w-full h-full object-cover blur-md opacity-40" loading="lazy" />
+                            </div>
+
+                            <!-- Video (paused at frame 0, plays only when visible) -->
+                            <div v-if="item.video_url" class="absolute inset-0">
+                                <video :ref="(el) => setVideoRef(el, item.id)"
+                                       :src="getVideoUrl(item)"
+                                       class="h-full w-full object-cover"
+                                       loop playsinline preload="auto"
+                                       @loadeddata="(e) => { e.target.currentTime = 0; }"></video>
+                            </div>
+
+                            <!-- Image (no video) -->
+                            <div v-else-if="item.image" class="absolute inset-0">
+                                <img :src="getImageUrl(item.image)"
+                                     class="w-full h-full object-cover"
+                                     :class="{ 'reels-image-zoom': index === reelsVisibleIndex }" />
+                            </div>
+
+                            <!-- No media fallback -->
+                            <div v-else class="absolute inset-0 flex items-center justify-center"
+                                 :style="{ background: `linear-gradient(135deg, ${secondaryColor}, ${primaryColor}30)` }">
+                                <Icon name="restaurant" class="w-24 h-24 text-white/10" />
+                            </div>
+
+                            <!-- Gradient overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 pointer-events-none"></div>
+
+                            <!-- Expanded description overlay (covers full screen when open) -->
+                            <Transition
+                                enter-active-class="transition-opacity duration-200"
+                                enter-from-class="opacity-0"
+                                enter-to-class="opacity-100"
+                                leave-active-class="transition-opacity duration-150"
+                                leave-from-class="opacity-100"
+                                leave-to-class="opacity-0">
+                                <div v-if="expandedDescriptionId === item.id"
+                                     class="absolute inset-0 z-20 bg-black/85 backdrop-blur-sm flex flex-col justify-end"
+                                     @click.self="toggleDescription(null)">
+                                    <div class="px-5 pb-6 pt-4 max-h-[70vh] overflow-y-auto">
+                                        <h2 class="font-bold text-white text-2xl leading-tight">{{ item.name }}</h2>
+                                        <p class="text-sm text-gray-100 mt-3 leading-relaxed whitespace-pre-line">{{ item.description }}</p>
+                                        <div class="flex items-center gap-3 mt-4">
+                                            <span class="font-bold text-xl" :style="{ color: primaryColor }">{{ formatPrice(item.price) }}</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">{{ item.category?.name }}</span>
+                                        </div>
+                                        <button @click="toggleDescription(null)"
+                                                class="mt-4 text-xs text-white/40 flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                                            Fechar
+                                        </button>
+                                    </div>
+                                </div>
+                            </Transition>
+
+                            <!-- Bottom info -->
+                            <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom"
+                                 :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
+                                <div class="bg-gradient-to-t from-black via-black/70 to-transparent pt-16 px-5 pb-6">
+                                    <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">{{ item.name }}</h2>
+                                    <p v-if="item.description"
+                                       @click.stop="toggleDescription(item.id)"
+                                       class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3 cursor-pointer active:text-white">
+                                        {{ item.description }}
+                                        <span class="text-white/40 text-xs ml-1">...mais</span>
+                                    </p>
+                                    <div class="flex items-center gap-3 mt-3">
+                                        <span class="font-bold text-xl" :style="{ color: primaryColor }">{{ formatPrice(item.price) }}</span>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">{{ item.category?.name }}</span>
+                                        <span v-if="item.video_url" class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1"
+                                              :style="{ backgroundColor: primaryColor + '30', color: primaryColor }">
+                                            <Icon name="play" class="w-2.5 h-2.5" /> Video
+                                        </span>
+                                    </div>
+                                    <a v-if="restaurant.whatsapp"
+                                       :href="`https://wa.me/${restaurant.whatsapp}?text=${encodeURIComponent('Olá! Gostaria de pedir: ' + item.name + ' - ' + formatPrice(item.price))}`"
+                                       target="_blank" rel="noopener"
+                                       class="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white text-sm active:scale-[0.97] transition-transform"
+                                       :style="{ backgroundColor: primaryColor }">
+                                        <Icon name="phone" class="w-4 h-4" /> Pedir pelo WhatsApp
+                                    </a>
+                                    <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
+                                        <span>↕ deslize para mais</span><span>•</span><span>↔ deslize para categorias</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Unmute -->
+                    <button v-if="currentReelsItem?.video_url" @click="toggleMute"
+                            class="absolute top-20 right-4 z-30 w-9 h-9 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white">
+                        <Icon name="video" class="w-4 h-4" />
+                    </button>
+
+                    <!-- Counter -->
+                    <div class="absolute right-4 bottom-48 z-20 pointer-events-none">
+                        <span class="text-xs text-white/30 font-mono">{{ reelsVisibleIndex + 1 }}/{{ reelsItems.length }}</span>
+                    </div>
+
+                    <!-- Desktop nav -->
+                    <div class="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 flex-col gap-2">
+                        <button v-if="reelsVisibleIndex > 0"
+                                @click="reelsContainerRef?.querySelector(`[data-index='${reelsVisibleIndex - 1}']`)?.scrollIntoView({ behavior: 'smooth' })"
+                                class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:bg-black/50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+                        </button>
+                        <button v-if="reelsVisibleIndex < reelsItems.length - 1"
+                                @click="reelsContainerRef?.querySelector(`[data-index='${reelsVisibleIndex + 1}']`)?.scrollIntoView({ behavior: 'smooth' })"
+                                class="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:bg-black/50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
                     </div>
                 </div>
             </Transition>
@@ -405,67 +518,26 @@ onUnmounted(() => {
 
         <!-- Stories Fullscreen -->
         <teleport to="body">
-            <Transition
-                enter-active-class="transition-opacity duration-200 ease-out"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="transition-opacity duration-150 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div v-if="showStory && featured.length > 0"
-                     class="fixed inset-0 z-50 bg-black flex items-center justify-center">
+            <Transition enter-active-class="transition-opacity duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100"
+                        leave-active-class="transition-opacity duration-150" leave-from-class="opacity-100" leave-to-class="opacity-0">
+                <div v-if="showStory && featured.length > 0" class="fixed inset-0 z-50 bg-black flex items-center justify-center">
                     <div class="relative w-full max-w-lg h-full">
-                        <!-- Progress bars -->
                         <div class="absolute top-2 left-2 right-2 flex gap-1 z-10">
-                            <div v-for="(_, i) in featured" :key="i"
-                                 class="flex-1 h-0.5 rounded-full bg-white/30 overflow-hidden">
-                                <div class="h-full rounded-full bg-white transition-all"
-                                     :style="{
-                                         width: i < currentStoryIndex ? '100%' : (i === currentStoryIndex ? storyProgress + '%' : '0%'),
-                                         transitionDuration: i === currentStoryIndex ? '50ms' : '300ms'
-                                     }">
-                                </div>
+                            <div v-for="(_, i) in featured" :key="i" class="flex-1 h-0.5 rounded-full bg-white/30 overflow-hidden">
+                                <div class="h-full rounded-full bg-white transition-all" :style="{ width: i < currentStoryIndex ? '100%' : (i === currentStoryIndex ? storyProgress + '%' : '0%'), transitionDuration: i === currentStoryIndex ? '50ms' : '300ms' }"></div>
                             </div>
                         </div>
-
-                        <!-- Close button -->
-                        <button @click="closeStory"
-                                class="absolute top-6 right-4 z-10 text-white/80 hover:text-white transition-colors">
-                            <Icon name="close" class="w-6 h-6" />
-                        </button>
-
-                        <!-- Content -->
+                        <button @click="closeStory" class="absolute top-6 right-4 z-10 text-white/80 hover:text-white"><Icon name="close" class="w-6 h-6" /></button>
                         <div class="h-full flex items-center justify-center">
-                            <video v-if="featured[currentStoryIndex]?.video_url"
-                                   :key="'story-video-' + currentStoryIndex"
-                                   :src="getVideoUrl(featured[currentStoryIndex])"
-                                   autoplay playsinline
-                                   @ended="onStoryVideoEnded"
-                                   @play="onStoryVideoPlay"
-                                   class="max-h-full max-w-full object-contain">
-                            </video>
-                            <img v-else-if="featured[currentStoryIndex]?.image"
-                                 :key="'story-img-' + currentStoryIndex"
-                                 :src="getImageUrl(featured[currentStoryIndex].image)"
-                                 :alt="featured[currentStoryIndex].name"
-                                 class="max-h-full max-w-full object-contain" />
-                            <div v-else class="flex flex-col items-center justify-center text-gray-500">
-                                <Icon name="image" class="w-16 h-16 mb-2" />
-                                <span class="text-sm">Sem midia</span>
-                            </div>
+                            <video v-if="featured[currentStoryIndex]?.video_url" :key="'sv-' + currentStoryIndex" :src="getVideoUrl(featured[currentStoryIndex])" autoplay playsinline @ended="onStoryVideoEnded" @play="onStoryVideoPlay" class="max-h-full max-w-full object-contain"></video>
+                            <img v-else-if="featured[currentStoryIndex]?.image" :key="'si-' + currentStoryIndex" :src="getImageUrl(featured[currentStoryIndex].image)" class="max-h-full max-w-full object-contain" />
+                            <div v-else class="flex flex-col items-center justify-center text-gray-500"><Icon name="image" class="w-16 h-16 mb-2" /><span class="text-sm">Sem midia</span></div>
                         </div>
-
-                        <!-- Item info overlay -->
                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
                             <h3 class="font-bold text-white text-lg">{{ featured[currentStoryIndex]?.name }}</h3>
                             <p class="text-sm text-gray-300 line-clamp-2">{{ featured[currentStoryIndex]?.description }}</p>
-                            <p class="font-bold text-lg mt-1" :style="{ color: primaryColor }">
-                                {{ formatPrice(featured[currentStoryIndex]?.price) }}
-                            </p>
+                            <p class="font-bold text-lg mt-1" :style="{ color: primaryColor }">{{ formatPrice(featured[currentStoryIndex]?.price) }}</p>
                         </div>
-
-                        <!-- Navigation areas (tap left=prev, tap right=next) -->
                         <div class="absolute inset-0 flex z-[5]">
                             <div class="w-1/3 h-full cursor-pointer" @click="prevStory"></div>
                             <div class="w-1/3 h-full"></div>
@@ -479,17 +551,33 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.scrollbar-hide {
-    -ms-overflow-style: none;
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.safe-top { padding-top: env(safe-area-inset-top, 0px); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* Scroll-snap reels */
+.reels-container {
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    -ms-overflow-style: none;
 }
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+.reels-container::-webkit-scrollbar { display: none; }
+.reels-slide {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+
+.reels-image-zoom { animation: slowZoom 8s ease-in-out infinite alternate; }
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
+
+.reels-enter-active { transition: transform 300ms ease-out, opacity 300ms ease-out; }
+.reels-enter-from { transform: translateY(100%); opacity: 0; }
+.reels-enter-to { transform: translateY(0); opacity: 1; }
+.reels-leave-active { transition: transform 250ms ease-in, opacity 250ms ease-in; }
+.reels-leave-from { transform: translateY(0); opacity: 1; }
+.reels-leave-to { transform: translateY(100%); opacity: 0; }
 </style>

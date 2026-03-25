@@ -7,6 +7,7 @@ use App\Models\Analytic;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class MenuController extends Controller
@@ -29,8 +30,6 @@ class MenuController extends Controller
                 'image', 'video_url', 'video_thumbnail', 'featured', 'order',
             ]);
 
-        $featured = $items->where('featured', true)->values();
-
         // Track page view
         Analytic::create([
             'restaurant_id' => $restaurant->id,
@@ -39,8 +38,28 @@ class MenuController extends Controller
             'user_agent' => request()->userAgent(),
         ]);
 
+        // Resolve storage paths to full URLs
+        $resolveUrl = fn ($path) => $path ? (str_starts_with($path, 'http') ? $path : Storage::disk('s3')->url($path)) : null;
+
+        $restaurantData = $restaurant->only('id', 'name', 'slug', 'description', 'logo', 'primary_color', 'secondary_color', 'phone', 'instagram', 'whatsapp', 'address', 'working_hours');
+        $restaurantData['logo'] = $resolveUrl($restaurant->logo);
+
+        $items->transform(function ($item) use ($resolveUrl) {
+            $item->image = $resolveUrl($item->image);
+            $item->video_url = $resolveUrl($item->video_url);
+            $item->video_thumbnail = $resolveUrl($item->video_thumbnail);
+            return $item;
+        });
+
+        $categories->transform(function ($cat) use ($resolveUrl) {
+            $cat->image = $resolveUrl($cat->image);
+            return $cat;
+        });
+
+        $featured = $items->where('featured', true)->values();
+
         return Inertia::render('Public/Menu', [
-            'restaurant' => $restaurant->only('id', 'name', 'slug', 'description', 'logo', 'primary_color', 'secondary_color', 'phone', 'instagram', 'whatsapp', 'address', 'working_hours'),
+            'restaurant' => $restaurantData,
             'categories' => $categories,
             'items' => $items,
             'featured' => $featured,

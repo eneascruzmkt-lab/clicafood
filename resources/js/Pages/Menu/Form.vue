@@ -10,8 +10,16 @@ const props = defineProps({
 });
 
 const isEditing = computed(() => !!props.item);
-const imagePreview = ref(props.item?.image ? '/storage/' + props.item.image : null);
+
+const getMediaUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return '/storage/' + path;
+};
+
+const imagePreview = ref(getMediaUrl(props.item?.image));
 const videoPreview = ref(null);
+const thumbnailPreview = ref(getMediaUrl(props.item?.video_thumbnail));
 const videoSource = ref(
     props.item?.video_url
         ? (props.item.video_url.startsWith('http') ? 'external' : 'upload')
@@ -25,13 +33,16 @@ const form = useForm({
     category_id: props.item?.category_id || '',
     image: null,
     video: null,
+    thumbnail: null,
     video_url_external: props.item?.video_url?.startsWith('http') ? props.item.video_url : '',
     featured: props.item?.featured ?? false,
     available: props.item?.available ?? true,
     remove_video: false,
+    remove_thumbnail: false,
 });
 
 const hasExistingVideo = computed(() => isEditing.value && props.item?.video_url && !form.remove_video);
+const hasExistingThumbnail = computed(() => (isEditing.value && props.item?.video_thumbnail && !form.remove_thumbnail) || thumbnailPreview.value);
 
 const handleImage = (e) => {
     const file = e.target.files[0];
@@ -49,10 +60,25 @@ const handleVideo = (e) => {
     }
 };
 
+const handleThumbnail = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        form.thumbnail = file;
+        form.remove_thumbnail = false;
+        thumbnailPreview.value = URL.createObjectURL(file);
+    }
+};
+
 const removeVideo = () => {
     form.remove_video = true;
     form.video = null;
     videoPreview.value = null;
+};
+
+const removeThumbnail = () => {
+    form.remove_thumbnail = true;
+    form.thumbnail = null;
+    thumbnailPreview.value = null;
 };
 
 const submit = () => {
@@ -160,7 +186,7 @@ const submit = () => {
                 <div class="border border-brand-500/20 rounded-lg p-4 bg-brand-500/5">
                     <label class="flex items-center gap-2 text-sm font-bold text-brand-400 mb-3">
                         <Icon name="video" class="w-5 h-5" />
-                        Video do prato (funcionalidade principal)
+                        Video do prato
                     </label>
 
                     <!-- Existing video -->
@@ -202,7 +228,7 @@ const submit = () => {
                     <div v-if="videoSource === 'upload'">
                         <label class="btn-secondary cursor-pointer text-sm inline-flex items-center gap-2">
                             <Icon name="video" class="w-4 h-4" />
-                            <span>Selecionar video (MP4, max 50MB)</span>
+                            <span>Selecionar video (MP4, max 100MB)</span>
                             <input
                                 type="file"
                                 accept="video/mp4,video/webm,video/quicktime"
@@ -210,6 +236,7 @@ const submit = () => {
                                 @change="handleVideo"
                             />
                         </label>
+                        <p class="text-xs text-dark-500 mt-1.5">O video sera comprimido automaticamente para carregamento rapido</p>
                         <div v-if="videoPreview" class="mt-3">
                             <video :src="videoPreview" controls class="w-full max-w-sm rounded-lg"></video>
                         </div>
@@ -225,6 +252,37 @@ const submit = () => {
                     </div>
 
                     <p v-if="form.errors.video" class="mt-1 text-sm text-red-400">{{ form.errors.video }}</p>
+                </div>
+
+                <!-- Thumbnail -->
+                <div class="border border-purple-500/20 rounded-lg p-4 bg-purple-500/5">
+                    <label class="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
+                        <Icon name="image" class="w-5 h-5" />
+                        Thumbnail do video
+                    </label>
+                    <p class="text-xs text-dark-400 mb-3">Imagem de capa exibida antes do video iniciar. Se nao enviar, sera usado a imagem do prato.</p>
+
+                    <div class="flex items-center gap-4">
+                        <div v-if="thumbnailPreview" class="relative w-20 h-32 rounded-lg overflow-hidden">
+                            <img :src="thumbnailPreview" class="w-full h-full object-cover" />
+                            <button type="button" @click="removeThumbnail"
+                                    class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:text-white">
+                                <Icon name="close" class="w-3 h-3" />
+                            </button>
+                        </div>
+                        <div v-else class="w-20 h-32 rounded-lg bg-dark-800 flex items-center justify-center">
+                            <Icon name="image" class="w-6 h-6 text-dark-500" />
+                        </div>
+                        <div>
+                            <label class="btn-secondary cursor-pointer text-sm">
+                                <Icon name="download" class="w-4 h-4" />
+                                <span>{{ thumbnailPreview ? 'Trocar thumbnail' : 'Upload thumbnail' }}</span>
+                                <input type="file" accept="image/*" class="hidden" @change="handleThumbnail" />
+                            </label>
+                            <p class="text-xs text-dark-500 mt-1">Formato vertical (9:16) recomendado</p>
+                        </div>
+                    </div>
+                    <p v-if="form.errors.thumbnail" class="mt-1 text-sm text-red-400">{{ form.errors.thumbnail }}</p>
                 </div>
 
                 <!-- Toggles -->
@@ -261,7 +319,16 @@ const submit = () => {
                 <!-- Submit -->
                 <div class="flex gap-3 pt-4 border-t border-dark-700">
                     <button type="submit" :disabled="form.processing" class="btn-primary">
-                        {{ form.processing ? 'Salvando...' : (isEditing ? 'Salvar alteracoes' : 'Adicionar ao cardapio') }}
+                        <template v-if="form.processing">
+                            <svg class="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processando video...
+                        </template>
+                        <template v-else>
+                            {{ isEditing ? 'Salvar alteracoes' : 'Adicionar ao cardapio' }}
+                        </template>
                     </button>
                     <Link href="/menu-items" class="btn-secondary">Cancelar</Link>
                 </div>

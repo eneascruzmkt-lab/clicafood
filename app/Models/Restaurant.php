@@ -72,7 +72,9 @@ class Restaurant extends Model
 
     public function getLogoUrlAttribute(): ?string
     {
-        return $this->logo ? asset('storage/' . $this->logo) : null;
+        if (!$this->logo) return null;
+        if (str_starts_with($this->logo, 'http')) return $this->logo;
+        return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->logo);
     }
 
     public function getPublicUrlAttribute(): string

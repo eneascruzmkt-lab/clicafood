@@ -54,14 +54,16 @@ class MenuItem extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image ? asset('storage/' . $this->image) : null;
+        if (!$this->image) return null;
+        if (str_starts_with($this->image, 'http')) return $this->image;
+        return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->image);
     }
 
     public function getVideoUrlFullAttribute(): ?string
     {
         if (!$this->video_url) return null;
         if (str_starts_with($this->video_url, 'http')) return $this->video_url;
-        return asset('storage/' . $this->video_url);
+        return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->video_url);
     }
 
     public function getFormattedPriceAttribute(): string
