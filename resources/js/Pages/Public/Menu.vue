@@ -366,13 +366,14 @@ onUnmounted(() => {
                     <!-- Category pills -->
                     <div class="absolute top-0 left-0 right-0 z-30 safe-top">
                         <div class="flex items-center justify-between px-4 pt-3 pb-2">
-                            <div class="flex gap-1.5 overflow-hidden flex-1 mr-3">
-                                <span v-for="(cat, ci) in reelsCategories" :key="ci"
+                            <div class="flex gap-1.5 overflow-x-auto flex-1 mr-3 scrollbar-hide">
+                                <button v-for="(cat, ci) in reelsCategories" :key="ci"
+                                      @click="reelsCategoryIndex = ci; reelsVisibleIndex = 0; $nextTick(() => { if(reelsContainerRef) reelsContainerRef.scrollTop = 0; observeSlides(); })"
                                       class="flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all duration-300"
                                       :style="{
                                           backgroundColor: ci === reelsCategoryIndex ? primaryColor : 'rgba(255,255,255,0.1)',
                                           color: ci === reelsCategoryIndex ? '#fff' : 'rgba(255,255,255,0.5)'
-                                      }">{{ cat.name }}</span>
+                                      }">{{ cat.name }}</button>
                             </div>
                             <button @click="closeReels" class="flex-shrink-0 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/80">
                                 <Icon name="close" class="w-5 h-5" />
