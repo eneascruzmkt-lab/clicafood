@@ -168,23 +168,51 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                     <div class="relative w-80 h-[650px] bg-slate-900 rounded-[3rem] border-[10px] border-slate-800 landing-iphone overflow-hidden scale-110 md:scale-100 lg:scale-110">
                         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-7 bg-slate-800 rounded-b-3xl z-30"></div>
                         <div class="h-full w-full relative">
-                            <img
-                                alt="App mostrando cardapio video-first"
+                            <!-- Video do produto real (Carbonara - Nonna Titina) -->
+                            <video
+                                autoplay muted loop playsinline
                                 class="h-full w-full object-cover"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZgJEEZeeMp8p18PnpjSerN8oJBhn4siDiSsRi16ZmZRqWwpZwxjIXcy5fvLMCj3PwlMW-e6X6TY13anLDx8Jr4BUrO--9BL1kiTwxAq71UtFXfoNrRALtqLQH1MfRHAT3zlJW5I8MsJDLAXty_4dm8WCkCwvvFfgRpUoBbK_ArB3mtN8PvoT-MFnbltG0se2w-RDEKIiDbMzNmAgDr5QMzvRQ0yjcbKhwBFStETvKiJi7WbhvIpkVCTHFzqC04fxCqpPU8LEJ0cMu"
-                            />
-                            <div class="absolute inset-0 landing-video-overlay flex flex-col justify-end p-8 text-white">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="bg-red-600 text-[10px] font-bold px-2 py-0.5 rounded animate-pulse">AO VIVO</span>
-                                    <div class="flex -space-x-2">
-                                        <div class="w-6 h-6 rounded-full border border-white bg-slate-300"></div>
-                                        <div class="w-6 h-6 rounded-full border border-white bg-slate-400"></div>
+                                poster="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg"
+                            >
+                                <source src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4" type="video/mp4" />
+                            </video>
+
+                            <!-- Gradient overlay (identico ao cardapio real) -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 pointer-events-none"></div>
+
+                            <!-- Mute icon (top right, como no real) -->
+                            <div class="absolute top-12 right-4 z-20 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0021 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                            </div>
+
+                            <!-- Counter (bottom right, como no real) -->
+                            <div class="absolute right-4 bottom-48 z-20">
+                                <span class="text-xs text-white/30 font-mono">3/7</span>
+                            </div>
+
+                            <!-- Bottom info (identico ao layout reels do cardapio real) -->
+                            <div class="absolute bottom-0 left-0 right-0 z-10">
+                                <div class="bg-gradient-to-t from-black via-black/70 to-transparent pt-16 px-5 pb-6">
+                                    <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">Carbonara</h2>
+                                    <p class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3">
+                                        Massa al dente com molho cremoso de ovos, queijo parmesao, bacon crocante e pimenta preta. Um classico italiano irresistivel.
+                                        <span class="text-white/40 text-xs ml-1">...mais</span>
+                                    </p>
+                                    <div class="flex items-center gap-3 mt-3">
+                                        <span class="font-bold text-xl text-[#db3327]">R$ 19,90</span>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">Massas</span>
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 bg-[#db3327]/30 text-[#db3327]">
+                                            <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Video
+                                        </span>
                                     </div>
-                                    <span class="text-[10px] opacity-80">42 pessoas vendo agora</span>
+                                    <button class="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white text-sm bg-[#db3327]">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                                        Pedir pelo WhatsApp
+                                    </button>
+                                    <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
+                                        <span>↕ deslize para mais</span><span>·</span><span>↔ deslize para categorias</span>
+                                    </div>
                                 </div>
-                                <h3 class="font-headline font-bold text-2xl mb-2">Burger Artesanal X</h3>
-                                <p class="text-sm opacity-90 mb-6">Pao brioche, 180g de carne angus, queijo cheddar derretido e cebola caramelizada.</p>
-                                <button class="landing-btn-primary w-full py-4 rounded-xl font-bold text-lg shadow-lg">Adicionar R$ 39,90</button>
                             </div>
                         </div>
                     </div>
