@@ -128,12 +128,17 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
         <!-- HERO -->
         <section class="relative pt-32 pb-20 overflow-hidden min-h-[80vh] flex items-center">
             <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 bg-[#121c2a]/40 z-10"></div>
-                <img
-                    alt="Chef profissional preparando prato gourmet"
+                <div class="absolute inset-0 bg-[#121c2a]/50 z-10"></div>
+                <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
                     class="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtxc_nKsRJhDhtw_RmM3t-RToqEr8KY7SfQGhuQtnfQKiCwt6j5f2jjlAj1J2jaDsefqnG9eU0m-w8nWenRGVXVPng1btsue8awpHmJNLDJ-tdMMyu_uMxRztBhzj02QpEWTizIhg0VohBgw3xvTBBc5j8TAV8BL07bOkRtE6GVFsE9ZOtokyJan-bqPxAqj3UgqPB8ZAxhG4y-oG4R5AWnwmaEshEm6ipva99B3UlWCKqfTfRbeOkfJ8u4TaSqFnnV3cQIZduQkkl"
-                />
+                    poster="https://lh3.googleusercontent.com/aida-public/AB6AXuBtxc_nKsRJhDhtw_RmM3t-RToqEr8KY7SfQGhuQtnfQKiCwt6j5f2jjlAj1J2jaDsefqnG9eU0m-w8nWenRGVXVPng1btsue8awpHmJNLDJ-tdMMyu_uMxRztBhzj02QpEWTizIhg0VohBgw3xvTBBc5j8TAV8BL07bOkRtE6GVFsE9ZOtokyJan-bqPxAqj3UgqPB8ZAxhG4y-oG4R5AWnwmaEshEm6ipva99B3UlWCKqfTfRbeOkfJ8u4TaSqFnnV3cQIZduQkkl"
+                >
+                    <source src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4" type="video/mp4" />
+                </video>
             </div>
             <div class="max-w-7xl mx-auto px-6 relative z-20">
                 <div class="max-w-3xl">
