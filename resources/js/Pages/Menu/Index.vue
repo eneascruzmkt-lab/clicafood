@@ -7,6 +7,12 @@ const props = defineProps({
     items: Array,
 });
 
+const mediaUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return '/storage/' + path;
+};
+
 const deleteItem = (id) => {
     if (confirm('Tem certeza que deseja excluir este item?')) {
         router.delete(`/menu-items/${id}`);
@@ -65,7 +71,7 @@ const formatPrice = (price) => {
                 <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-dark-700 relative">
                     <img
                         v-if="item.image"
-                        :src="'/storage/' + item.image"
+                        :src="mediaUrl(item.image)"
                         :alt="item.name"
                         class="w-full h-full object-cover"
                     />

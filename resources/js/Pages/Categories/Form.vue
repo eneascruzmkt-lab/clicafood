@@ -12,7 +12,8 @@ const props = defineProps({
 });
 
 const isEditing = !!props.category;
-const imagePreview = ref(props.category?.image ? '/storage/' + props.category.image : null);
+const mediaUrl = (path) => path ? (path.startsWith('http') ? path : '/storage/' + path) : null;
+const imagePreview = ref(mediaUrl(props.category?.image));
 
 const form = useForm({
     name: props.category?.name || '',

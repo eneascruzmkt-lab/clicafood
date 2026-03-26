@@ -12,6 +12,12 @@ const props = defineProps({
     restaurant: Object,
 });
 
+const mediaUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return '/storage/' + path;
+};
+
 const statCards = computed(() => [
     { label: 'Visualizacoes', value: props.stats.totalViews, icon: 'eye', color: 'text-brand-400', bg: 'bg-brand-500/10' },
     { label: 'Cliques', value: props.stats.totalClicks, icon: 'chart', color: 'text-amber-400', bg: 'bg-amber-500/10' },
@@ -64,7 +70,7 @@ const statCards = computed(() => [
                         <span class="text-sm font-bold text-dark-400 w-6">{{ index + 1 }}</span>
                         <div v-if="item.image" class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
                             <img
-                                :src="'/storage/' + item.image"
+                                :src="mediaUrl(item.image)"
                                 :alt="item.name"
                                 class="w-full h-full object-cover"
                             />

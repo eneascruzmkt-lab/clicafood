@@ -8,7 +8,8 @@ const props = defineProps({
     restaurant: Object,
 });
 
-const logoPreview = ref(props.restaurant?.logo_url || (props.restaurant?.logo ? '/storage/' + props.restaurant.logo : null));
+const mediaUrl = (path) => path ? (path.startsWith('http') ? path : '/storage/' + path) : null;
+const logoPreview = ref(props.restaurant?.logo_url || mediaUrl(props.restaurant?.logo));
 
 const form = useForm({
     name: props.restaurant?.name || '',

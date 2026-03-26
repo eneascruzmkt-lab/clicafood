@@ -7,6 +7,12 @@ const props = defineProps({
     categories: Array,
 });
 
+const mediaUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return '/storage/' + path;
+};
+
 const deleteCategory = (id) => {
     if (confirm('Tem certeza que deseja excluir esta categoria?')) {
         router.delete(`/categories/${id}`);
@@ -59,7 +65,7 @@ const toggleActive = (category) => {
                 <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-dark-700">
                     <img
                         v-if="category.image"
-                        :src="'/storage/' + category.image"
+                        :src="mediaUrl(category.image)"
                         :alt="category.name"
                         class="w-full h-full object-cover"
                     />
