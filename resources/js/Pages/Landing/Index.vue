@@ -172,9 +172,9 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                             <video
                                 autoplay muted loop playsinline
                                 class="h-full w-full object-cover"
-                                poster="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg"
+                                poster="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg"
                             >
-                                <source src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4" type="video/mp4" />
+                                <source src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4" type="video/mp4" />
                             </video>
 
                             <!-- Gradient overlay (identico ao cardapio real) -->
@@ -193,13 +193,13 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                             <!-- Bottom info (identico ao layout reels do cardapio real) -->
                             <div class="absolute bottom-0 left-0 right-0 z-10">
                                 <div class="bg-gradient-to-t from-black via-black/70 to-transparent pt-16 px-5 pb-6">
-                                    <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">Carbonara</h2>
+                                    <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">Grano Duro - Piccolo</h2>
                                     <p class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3">
-                                        Massa al dente com molho cremoso de ovos, queijo parmesao, bacon crocante e pimenta preta. Um classico italiano irresistivel.
+                                        Massa tradicional italiana de trigo duro. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.
                                         <span class="text-white/40 text-xs ml-1">...mais</span>
                                     </p>
                                     <div class="flex items-center gap-3 mt-3">
-                                        <span class="font-bold text-xl text-[#db3327]">R$ 19,90</span>
+                                        <span class="font-bold text-xl text-[#db3327]">R$ 24,90</span>
                                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">Massas</span>
                                         <span class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 bg-[#db3327]/30 text-[#db3327]">
                                             <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Video
