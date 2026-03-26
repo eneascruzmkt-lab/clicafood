@@ -31,7 +31,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Copy the rest of the application (bust cache: v2)
+# Copy the rest of the application (bust cache: v3)
 COPY . .
 
 # Ensure directories exist before composer scripts
