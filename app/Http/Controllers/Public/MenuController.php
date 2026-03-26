@@ -45,16 +45,23 @@ class MenuController extends Controller
             'phone', 'instagram', 'whatsapp', 'address', 'working_hours',
         ]));
 
+        // Stories: combine dedicated stories + featured menu items
         $stories = $restaurant->stories()
             ->where('active', true)
             ->orderBy('order')
-            ->get(['id', 'restaurant_id', 'title', 'image', 'order']);
+            ->get()
+            ->map(fn ($s) => ['id' => 'story-'.$s->id, 'title' => $s->title, 'image' => $s->image, 'type' => 'story']);
+
+        $featuredStories = $items->where('featured', true)->values()
+            ->map(fn ($item) => ['id' => 'item-'.$item->id, 'title' => $item->name, 'image' => $item->image ?? $item->video_thumbnail, 'type' => 'item', 'item_id' => $item->id]);
+
+        $allStories = $stories->concat($featuredStories)->values();
 
         return Inertia::render('Public/Menu', [
             'restaurant' => $restaurantData,
             'categories' => $categories,
             'items' => $items,
-            'stories' => $stories,
+            'stories' => $allStories,
         ]);
     }
 

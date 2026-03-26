@@ -190,7 +190,15 @@ const startStoryTimer = () => {
     const step = 100 / (STORY_DURATION / 50);
     storyTimer = setInterval(() => { storyProgress.value += step; if (storyProgress.value >= 100) nextStory(); }, 50);
 };
-const openStory = (index) => { currentStoryIndex.value = index; showStory.value = true; startStoryTimer(); };
+const openStory = (index) => {
+    const story = props.stories[index];
+    // If it's a featured menu item, open in reels mode instead
+    if (story?.type === 'item' && story.item_id) {
+        const item = props.items.find(i => i.id === story.item_id);
+        if (item) { openReels(item); return; }
+    }
+    currentStoryIndex.value = index; showStory.value = true; startStoryTimer();
+};
 const nextStory = () => { if (currentStoryIndex.value < props.stories.length - 1) { currentStoryIndex.value++; startStoryTimer(); } else closeStory(); };
 const prevStory = () => { if (currentStoryIndex.value > 0) { currentStoryIndex.value--; startStoryTimer(); } };
 const closeStory = () => { showStory.value = false; clearInterval(storyTimer); storyProgress.value = 0; };

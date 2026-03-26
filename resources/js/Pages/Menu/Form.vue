@@ -20,9 +20,16 @@ const getMediaUrl = (path) => {
 const imagePreview = ref(getMediaUrl(props.item?.image));
 const videoPreview = ref(null);
 const thumbnailPreview = ref(getMediaUrl(props.item?.video_thumbnail));
+// R2 URLs are stored uploads, not external links
+const isExternalVideo = (url) => {
+    if (!url) return false;
+    if (url.includes('.r2.dev/') || url.includes('.r2.cloudflarestorage.com/')) return false;
+    return url.startsWith('http');
+};
+
 const videoSource = ref(
     props.item?.video_url
-        ? (props.item.video_url.startsWith('http') ? 'external' : 'upload')
+        ? (isExternalVideo(props.item.video_url) ? 'external' : 'upload')
         : 'upload'
 );
 
@@ -34,7 +41,7 @@ const form = useForm({
     image: null,
     video: null,
     thumbnail: null,
-    video_url_external: props.item?.video_url?.startsWith('http') ? props.item.video_url : '',
+    video_url_external: isExternalVideo(props.item?.video_url) ? props.item.video_url : '',
     featured: props.item?.featured ?? false,
     available: props.item?.available ?? true,
     remove_video: false,
