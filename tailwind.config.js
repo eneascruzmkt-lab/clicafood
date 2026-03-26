@@ -43,6 +43,9 @@ export default {
             fontFamily: {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
                 display: ['Montserrat', ...defaultTheme.fontFamily.sans],
+                headline: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
+                body: ['Inter', ...defaultTheme.fontFamily.sans],
+                label: ['Inter', ...defaultTheme.fontFamily.sans],
             },
         },
     },
