@@ -46,14 +46,20 @@ class MenuController extends Controller
         ]));
 
         // Stories: combine dedicated stories + featured menu items
+        $resolveUrl = fn ($path) => $path ? (str_starts_with($path, 'http') ? $path : Storage::disk('s3')->url($path)) : null;
+
         $stories = $restaurant->stories()
             ->where('active', true)
             ->orderBy('order')
             ->get()
-            ->map(fn ($s) => ['id' => 'story-'.$s->id, 'title' => $s->title, 'image' => $s->image, 'type' => 'story']);
+            ->map(fn ($s) => ['id' => 'story-'.$s->id, 'title' => $s->title, 'image' => $resolveUrl($s->getRawOriginal('image')), 'type' => 'story']);
 
         $featuredStories = $items->where('featured', true)->values()
-            ->map(fn ($item) => ['id' => 'item-'.$item->id, 'title' => $item->name, 'image' => $item->image ?? $item->video_thumbnail, 'type' => 'item', 'item_id' => $item->id]);
+            ->map(function ($item) use ($resolveUrl) {
+                $img = $resolveUrl($item->getRawOriginal('image'))
+                    ?? $resolveUrl($item->getRawOriginal('video_thumbnail'));
+                return ['id' => 'item-'.$item->id, 'title' => $item->name, 'image' => $img, 'type' => 'item', 'item_id' => $item->id];
+            });
 
         $allStories = $stories->concat($featuredStories)->values();
 

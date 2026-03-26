@@ -20,18 +20,6 @@ const getMediaUrl = (path) => {
 const imagePreview = ref(getMediaUrl(props.item?.image));
 const videoPreview = ref(null);
 const thumbnailPreview = ref(getMediaUrl(props.item?.video_thumbnail));
-// R2 URLs are stored uploads, not external links
-const isExternalVideo = (url) => {
-    if (!url) return false;
-    if (url.includes('.r2.dev/') || url.includes('.r2.cloudflarestorage.com/')) return false;
-    return url.startsWith('http');
-};
-
-const videoSource = ref(
-    props.item?.video_url
-        ? (isExternalVideo(props.item.video_url) ? 'external' : 'upload')
-        : 'upload'
-);
 
 const form = useForm({
     name: props.item?.name || '',
@@ -41,7 +29,7 @@ const form = useForm({
     image: null,
     video: null,
     thumbnail: null,
-    video_url_external: isExternalVideo(props.item?.video_url) ? props.item.video_url : '',
+    video_url_external: '',
     featured: props.item?.featured ?? false,
     available: props.item?.available ?? true,
     remove_video: false,
@@ -210,29 +198,7 @@ const submit = () => {
                         </button>
                     </div>
 
-                    <!-- Source toggle -->
-                    <div class="flex gap-2 mb-3">
-                        <button
-                            type="button"
-                            @click="videoSource = 'upload'"
-                            :class="videoSource === 'upload' ? 'bg-brand-500 text-white' : 'bg-dark-700 text-dark-300'"
-                            class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1.5"
-                        >
-                            <Icon name="download" class="w-4 h-4" />
-                            Upload MP4
-                        </button>
-                        <button
-                            type="button"
-                            @click="videoSource = 'external'"
-                            :class="videoSource === 'external' ? 'bg-brand-500 text-white' : 'bg-dark-700 text-dark-300'"
-                            class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-1.5"
-                        >
-                            <Icon name="external-link" class="w-4 h-4" />
-                            Link externo
-                        </button>
-                    </div>
-
-                    <div v-if="videoSource === 'upload'">
+                    <div>
                         <label class="btn-secondary cursor-pointer text-sm inline-flex items-center gap-2">
                             <Icon name="video" class="w-4 h-4" />
                             <span>Selecionar video (MP4, max 100MB)</span>
@@ -247,15 +213,6 @@ const submit = () => {
                         <div v-if="videoPreview" class="mt-3">
                             <video :src="videoPreview" controls class="w-full max-w-sm rounded-lg"></video>
                         </div>
-                    </div>
-
-                    <div v-else>
-                        <input
-                            v-model="form.video_url_external"
-                            type="url"
-                            class="input-field"
-                            placeholder="https://exemplo.com/video.mp4"
-                        />
                     </div>
 
                     <p v-if="form.errors.video" class="mt-1 text-sm text-red-400">{{ form.errors.video }}</p>
