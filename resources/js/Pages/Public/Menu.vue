@@ -363,7 +363,7 @@ onUnmounted(() => {
             <div class="space-y-3 mt-4">
                 <div v-for="item in filteredItems" :key="item.id" @click="openReels(item)"
                      class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
-                     :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }"
+                     :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }">
                     <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
                         <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
                         <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
