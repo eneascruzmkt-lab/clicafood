@@ -326,7 +326,7 @@ onUnmounted(() => {
                         <Icon name="instagram" class="w-3.5 h-3.5" /><span>Instagram</span>
                     </a>
                 </div>
-                <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-xs" :style="{ color: textSecColor }"
+                <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-xs" :style="{ color: textSecColor }">
                     <Icon name="map-pin" class="w-3 h-3 flex-shrink-0" />
                     <span class="truncate max-w-[260px]">{{ restaurant.address }}</span>
                 </div>
