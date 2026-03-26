@@ -315,11 +315,6 @@ onUnmounted(() => {
                 <h1 class="font-display font-bold text-xl leading-tight" :style="{ color: textColor }">{{ restaurant.name }}</h1>
                 <p v-if="restaurant.description" class="text-sm mt-1.5 max-w-xs mx-auto leading-relaxed" :style="{ color: textSecColor }">{{ restaurant.description }}</p>
                 <div class="flex items-center justify-center gap-3 mt-4">
-                    <a v-if="restaurant.whatsapp" :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
-                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
-                       :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
-                        <Icon name="phone" class="w-3.5 h-3.5" /><span>WhatsApp</span>
-                    </a>
                     <a v-if="restaurant.instagram" :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
                        :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
@@ -441,7 +436,7 @@ onUnmounted(() => {
                                 <video :ref="(el) => setVideoRef(el, item.id)"
                                        :src="getVideoUrl(item)"
                                        class="h-full w-full object-cover"
-                                       loop playsinline preload="auto"
+                                       loop playsinline muted preload="auto"
                                        @loadeddata="(e) => { e.target.currentTime = 0; }"></video>
                             </div>
 
@@ -507,13 +502,6 @@ onUnmounted(() => {
                                             <Icon name="play" class="w-2.5 h-2.5" /> Video
                                         </span>
                                     </div>
-                                    <a v-if="restaurant.whatsapp"
-                                       :href="`https://wa.me/${restaurant.whatsapp}?text=${encodeURIComponent('Olá! Gostaria de pedir: ' + item.name + ' - ' + formatPrice(item.price))}`"
-                                       target="_blank" rel="noopener"
-                                       class="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white text-sm active:scale-[0.97] transition-transform"
-                                       :style="{ backgroundColor: primaryColor }">
-                                        <Icon name="phone" class="w-4 h-4" /> Pedir pelo WhatsApp
-                                    </a>
                                     <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
                                         <span>↕ deslize para mais</span><span>•</span><span>↔ deslize para categorias</span>
                                     </div>

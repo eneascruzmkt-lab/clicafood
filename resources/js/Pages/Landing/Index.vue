@@ -205,10 +205,6 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                                             <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Video
                                         </span>
                                     </div>
-                                    <button class="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white text-sm bg-[#db3327]">
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                                        Pedir pelo WhatsApp
-                                    </button>
                                     <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
                                         <span>↕ deslize para mais</span><span>·</span><span>↔ deslize para categorias</span>
                                     </div>
@@ -403,17 +399,6 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
             </div>
         </footer>
 
-        <!-- WHATSAPP FLOAT -->
-        <a
-            v-if="whatsapp"
-            :href="`https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message)}`"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-600/30 hover:bg-emerald-700 hover:shadow-emerald-600/50 transition-all duration-300 hover:scale-110"
-            aria-label="Contato via WhatsApp"
-        >
-            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.387 0-4.591-.822-6.328-2.2l-.442-.362-3.095 1.038 1.038-3.095-.362-.442A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        </a>
     </div>
 </template>
 
