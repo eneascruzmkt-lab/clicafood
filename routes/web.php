@@ -11,6 +11,7 @@ use App\Http\Controllers\Restaurant\QrCodeController;
 use App\Http\Controllers\Restaurant\AnalyticsController;
 use App\Http\Controllers\Restaurant\SettingsController;
 use App\Http\Controllers\Restaurant\AccountController;
+use App\Http\Controllers\Restaurant\StoryController;
 use App\Http\Controllers\Public\MenuController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminRestaurantController;
@@ -55,6 +56,10 @@ Route::middleware(['auth', 'restaurant'])->group(function () {
     // Menu Items
     Route::resource('menu-items', MenuItemController::class)->except(['show']);
     Route::post('/menu-items/reorder', [MenuItemController::class, 'reorder'])->name('menu-items.reorder');
+
+    // Stories
+    Route::resource('stories', StoryController::class)->except(['show']);
+    Route::post('/stories/reorder', [StoryController::class, 'reorder'])->name('stories.reorder');
 
     // QR Codes
     Route::resource('qr-codes', QrCodeController::class)->except(['show']);

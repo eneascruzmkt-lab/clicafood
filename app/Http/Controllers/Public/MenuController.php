@@ -45,13 +45,16 @@ class MenuController extends Controller
             'phone', 'instagram', 'whatsapp', 'address', 'working_hours',
         ]));
 
-        $featured = $items->where('featured', true)->values();
+        $stories = $restaurant->stories()
+            ->where('active', true)
+            ->orderBy('order')
+            ->get(['id', 'restaurant_id', 'title', 'image', 'order']);
 
         return Inertia::render('Public/Menu', [
             'restaurant' => $restaurantData,
             'categories' => $categories,
             'items' => $items,
-            'featured' => $featured,
+            'stories' => $stories,
         ]);
     }
 

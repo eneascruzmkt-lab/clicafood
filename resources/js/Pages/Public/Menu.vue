@@ -8,7 +8,7 @@ const props = defineProps({
     restaurant: Object,
     categories: Array,
     items: Array,
-    featured: Array,
+    stories: Array,
 });
 
 const activeCategory = ref(null);
@@ -178,6 +178,7 @@ const toggleMute = () => {
 };
 
 // ====== STORIES ======
+// ====== STORIES ======
 const showStory = ref(false);
 const currentStoryIndex = ref(0);
 const storyProgress = ref(0);
@@ -186,17 +187,13 @@ const STORY_DURATION = 5000;
 
 const startStoryTimer = () => {
     clearInterval(storyTimer); storyProgress.value = 0;
-    const ci = props.featured[currentStoryIndex.value];
-    if (ci?.video_url) return;
     const step = 100 / (STORY_DURATION / 50);
     storyTimer = setInterval(() => { storyProgress.value += step; if (storyProgress.value >= 100) nextStory(); }, 50);
 };
-const openStory = (index) => { currentStoryIndex.value = index; showStory.value = true; trackEvent('click', props.featured[index].id); startStoryTimer(); };
-const nextStory = () => { if (currentStoryIndex.value < props.featured.length - 1) { currentStoryIndex.value++; trackEvent('click', props.featured[currentStoryIndex.value].id); startStoryTimer(); } else closeStory(); };
+const openStory = (index) => { currentStoryIndex.value = index; showStory.value = true; startStoryTimer(); };
+const nextStory = () => { if (currentStoryIndex.value < props.stories.length - 1) { currentStoryIndex.value++; startStoryTimer(); } else closeStory(); };
 const prevStory = () => { if (currentStoryIndex.value > 0) { currentStoryIndex.value--; startStoryTimer(); } };
 const closeStory = () => { showStory.value = false; clearInterval(storyTimer); storyProgress.value = 0; };
-const onStoryVideoEnded = () => nextStory();
-const onStoryVideoPlay = () => { clearInterval(storyTimer); storyProgress.value = 0; const ci = props.featured[currentStoryIndex.value]; if (ci) trackEvent('video_play', ci.id); };
 
 // ====== UTILS ======
 const filteredItems = computed(() => {
@@ -303,18 +300,15 @@ onUnmounted(() => {
 
         <div class="max-w-lg mx-auto px-4 pb-8">
             <!-- Stories -->
-            <div v-if="featured.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+            <div v-if="stories.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
                 <div class="flex gap-3">
-                    <button v-for="(item, index) in featured" :key="item.id" @click="openStory(index)" class="flex-shrink-0 text-center group">
+                    <button v-for="(story, index) in stories" :key="story.id" @click="openStory(index)" class="flex-shrink-0 text-center group">
                         <div class="w-16 h-16 rounded-full p-0.5 mb-1" :style="{ background: `linear-gradient(135deg, ${primaryColor}, #ff8c00)` }">
                             <div class="w-full h-full rounded-full overflow-hidden border-2" :style="{ borderColor: secondaryColor }">
-                                <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" />
-                                <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: primaryColor + '15' }">
-                                    <Icon name="play" class="w-4 h-4" :style="{ color: primaryColor }" />
-                                </div>
+                                <img :src="story.image" :alt="story.title || 'Story'" class="w-full h-full object-cover" />
                             </div>
                         </div>
-                        <p class="text-[10px] text-gray-400 w-16 truncate">{{ item.name }}</p>
+                        <p class="text-[10px] text-gray-400 w-16 truncate">{{ story.title || '' }}</p>
                     </button>
                 </div>
             </div>
@@ -521,24 +515,27 @@ onUnmounted(() => {
         <teleport to="body">
             <Transition enter-active-class="transition-opacity duration-200" enter-from-class="opacity-0" enter-to-class="opacity-100"
                         leave-active-class="transition-opacity duration-150" leave-from-class="opacity-100" leave-to-class="opacity-0">
-                <div v-if="showStory && featured.length > 0" class="fixed inset-0 z-50 bg-black flex items-center justify-center">
+                <div v-if="showStory && stories.length > 0" class="fixed inset-0 z-50 bg-black flex items-center justify-center">
                     <div class="relative w-full max-w-lg h-full">
+                        <!-- Progress bars -->
                         <div class="absolute top-2 left-2 right-2 flex gap-1 z-10">
-                            <div v-for="(_, i) in featured" :key="i" class="flex-1 h-0.5 rounded-full bg-white/30 overflow-hidden">
+                            <div v-for="(_, i) in stories" :key="i" class="flex-1 h-0.5 rounded-full bg-white/30 overflow-hidden">
                                 <div class="h-full rounded-full bg-white transition-all" :style="{ width: i < currentStoryIndex ? '100%' : (i === currentStoryIndex ? storyProgress + '%' : '0%'), transitionDuration: i === currentStoryIndex ? '50ms' : '300ms' }"></div>
                             </div>
                         </div>
                         <button @click="closeStory" class="absolute top-6 right-4 z-10 text-white/80 hover:text-white"><Icon name="close" class="w-6 h-6" /></button>
+                        <!-- Image -->
                         <div class="h-full flex items-center justify-center">
-                            <video v-if="featured[currentStoryIndex]?.video_url" :key="'sv-' + currentStoryIndex" :src="getVideoUrl(featured[currentStoryIndex])" autoplay playsinline @ended="onStoryVideoEnded" @play="onStoryVideoPlay" class="max-h-full max-w-full object-contain"></video>
-                            <img v-else-if="featured[currentStoryIndex]?.image" :key="'si-' + currentStoryIndex" :src="getImageUrl(featured[currentStoryIndex].image)" class="max-h-full max-w-full object-contain" />
-                            <div v-else class="flex flex-col items-center justify-center text-gray-500"><Icon name="image" class="w-16 h-16 mb-2" /><span class="text-sm">Sem midia</span></div>
+                            <img v-if="stories[currentStoryIndex]?.image"
+                                 :key="'si-' + currentStoryIndex"
+                                 :src="stories[currentStoryIndex].image"
+                                 class="max-h-full max-w-full object-contain" />
                         </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                            <h3 class="font-bold text-white text-lg">{{ featured[currentStoryIndex]?.name }}</h3>
-                            <p class="text-sm text-gray-300 line-clamp-2">{{ featured[currentStoryIndex]?.description }}</p>
-                            <p class="font-bold text-lg mt-1" :style="{ color: primaryColor }">{{ formatPrice(featured[currentStoryIndex]?.price) }}</p>
+                        <!-- Title overlay -->
+                        <div v-if="stories[currentStoryIndex]?.title" class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                            <h3 class="font-bold text-white text-lg">{{ stories[currentStoryIndex].title }}</h3>
                         </div>
+                        <!-- Nav areas -->
                         <div class="absolute inset-0 flex z-[5]">
                             <div class="w-1/3 h-full cursor-pointer" @click="prevStory"></div>
                             <div class="w-1/3 h-full"></div>

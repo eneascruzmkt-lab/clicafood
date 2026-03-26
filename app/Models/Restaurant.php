@@ -60,6 +60,11 @@ class Restaurant extends Model
         return $this->hasMany(MenuItem::class)->orderBy('order');
     }
 
+    public function stories()
+    {
+        return $this->hasMany(Story::class)->orderBy('order');
+    }
+
     public function qrCodes()
     {
         return $this->hasMany(QrCode::class);

@@ -27,6 +27,7 @@ const navigation = computed(() => {
         { name: 'Dashboard', href: '/dashboard', icon: 'dashboard' },
         { name: 'Cardapio', href: '/menu-items', icon: 'menu' },
         { name: 'Categorias', href: '/categories', icon: 'tag' },
+        { name: 'Stories', href: '/stories', icon: 'star' },
         { name: 'QR Codes', href: '/qr-codes', icon: 'qrcode' },
         { name: 'Metricas', href: '/analytics', icon: 'chart' },
         { name: 'Configuracoes', href: '/settings', icon: 'settings' },
