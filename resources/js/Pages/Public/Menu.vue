@@ -199,8 +199,20 @@ const openStory = (index) => {
     }
     currentStoryIndex.value = index; showStory.value = true; startStoryTimer();
 };
-const nextStory = () => { if (currentStoryIndex.value < props.stories.length - 1) { currentStoryIndex.value++; startStoryTimer(); } else closeStory(); };
-const prevStory = () => { if (currentStoryIndex.value > 0) { currentStoryIndex.value--; startStoryTimer(); } };
+const navigateStory = (newIndex) => {
+    if (newIndex < 0 || newIndex >= props.stories.length) { closeStory(); return; }
+    const story = props.stories[newIndex];
+    // If navigating to a featured item story, switch to reels
+    if (story?.type === 'item' && story.item_id) {
+        closeStory();
+        const item = props.items.find(i => i.id === story.item_id);
+        if (item) { openReels(item); }
+        return;
+    }
+    currentStoryIndex.value = newIndex; startStoryTimer();
+};
+const nextStory = () => navigateStory(currentStoryIndex.value + 1);
+const prevStory = () => navigateStory(currentStoryIndex.value - 1);
 const closeStory = () => { showStory.value = false; clearInterval(storyTimer); storyProgress.value = 0; };
 
 // ====== UTILS ======
