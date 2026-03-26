@@ -38,23 +38,12 @@ class MenuController extends Controller
             'user_agent' => request()->userAgent(),
         ]);
 
-        // Resolve storage paths to full URLs
-        $resolveUrl = fn ($path) => $path ? (str_starts_with($path, 'http') ? $path : Storage::disk('s3')->url($path)) : null;
-
-        $restaurantData = $restaurant->only('id', 'name', 'slug', 'description', 'logo', 'primary_color', 'secondary_color', 'phone', 'instagram', 'whatsapp', 'address', 'working_hours');
-        $restaurantData['logo'] = $resolveUrl($restaurant->logo);
-
-        $items->transform(function ($item) use ($resolveUrl) {
-            $item->image = $resolveUrl($item->image);
-            $item->video_url = $resolveUrl($item->video_url);
-            $item->video_thumbnail = $resolveUrl($item->video_thumbnail);
-            return $item;
-        });
-
-        $categories->transform(function ($cat) use ($resolveUrl) {
-            $cat->image = $resolveUrl($cat->image);
-            return $cat;
-        });
+        // URLs are resolved automatically by model toArray()
+        $restaurantData = $restaurant->toArray();
+        $restaurantData = array_intersect_key($restaurantData, array_flip([
+            'id', 'name', 'slug', 'description', 'logo', 'primary_color', 'secondary_color',
+            'phone', 'instagram', 'whatsapp', 'address', 'working_hours',
+        ]));
 
         $featured = $items->where('featured', true)->values();
 

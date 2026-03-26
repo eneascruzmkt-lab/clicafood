@@ -75,4 +75,18 @@ class MenuItem extends Model
     {
         return !empty($this->video_url);
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $resolve = function ($path) {
+            if (!$path) return null;
+            if (str_starts_with($path, 'http')) return $path;
+            return \Illuminate\Support\Facades\Storage::disk('s3')->url($path);
+        };
+        if (isset($array['image'])) $array['image'] = $resolve($array['image']);
+        if (isset($array['video_url'])) $array['video_url'] = $resolve($array['video_url']);
+        if (isset($array['video_thumbnail'])) $array['video_thumbnail'] = $resolve($array['video_thumbnail']);
+        return $array;
+    }
 }

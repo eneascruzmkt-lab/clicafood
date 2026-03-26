@@ -41,4 +41,13 @@ class Category extends Model
         if (str_starts_with($this->image, 'http')) return $this->image;
         return \Illuminate\Support\Facades\Storage::disk('s3')->url($this->image);
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        if (isset($array['image']) && $array['image'] && !str_starts_with($array['image'], 'http')) {
+            $array['image'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($array['image']);
+        }
+        return $array;
+    }
 }

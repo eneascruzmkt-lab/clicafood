@@ -81,4 +81,13 @@ class Restaurant extends Model
     {
         return url('/' . $this->slug);
     }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        if (isset($array['logo']) && $array['logo'] && !str_starts_with($array['logo'], 'http')) {
+            $array['logo'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($array['logo']);
+        }
+        return $array;
+    }
 }
