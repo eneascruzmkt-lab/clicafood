@@ -18,6 +18,13 @@ class Restaurant extends Model
         'logo',
         'primary_color',
         'secondary_color',
+        'text_color',
+        'text_secondary_color',
+        'border_color',
+        'price_color',
+        'font_family',
+        'background_image',
+        'background_opacity',
         'address',
         'phone',
         'instagram',
@@ -90,9 +97,13 @@ class Restaurant extends Model
     public function toArray()
     {
         $array = parent::toArray();
-        if (isset($array['logo']) && $array['logo'] && !str_starts_with($array['logo'], 'http')) {
-            $array['logo'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($array['logo']);
-        }
+        $resolve = function ($path) {
+            if (!$path) return null;
+            if (str_starts_with($path, 'http')) return $path;
+            return \Illuminate\Support\Facades\Storage::disk('s3')->url($path);
+        };
+        if (isset($array['logo'])) $array['logo'] = $resolve($array['logo']);
+        if (isset($array['background_image'])) $array['background_image'] = $resolve($array['background_image']);
         return $array;
     }
 }

@@ -28,6 +28,14 @@ class SettingsController extends Controller
             'logo' => 'nullable|image|max:2048',
             'primary_color' => 'nullable|string|max:7',
             'secondary_color' => 'nullable|string|max:7',
+            'text_color' => 'nullable|string|max:7',
+            'text_secondary_color' => 'nullable|string|max:7',
+            'border_color' => 'nullable|string|max:7',
+            'price_color' => 'nullable|string|max:7',
+            'font_family' => 'nullable|string|max:50',
+            'background_image' => 'nullable|image|max:4096',
+            'background_opacity' => 'nullable|integer|min:0|max:100',
+            'remove_background' => 'nullable|boolean',
             'address' => 'nullable|string|max:500',
             'phone' => 'nullable|string|max:20',
             'instagram' => 'nullable|string|max:255',
@@ -43,6 +51,20 @@ class SettingsController extends Controller
             }
             $validated['logo'] = $request->file('logo')->store('logos', 's3');
         }
+
+        if ($request->hasFile('background_image')) {
+            if ($restaurant->background_image && !str_starts_with($restaurant->background_image, 'http')) {
+                Storage::disk('s3')->delete($restaurant->background_image);
+            }
+            $validated['background_image'] = $request->file('background_image')->store('backgrounds', 's3');
+        } elseif ($request->boolean('remove_background')) {
+            if ($restaurant->background_image && !str_starts_with($restaurant->background_image, 'http')) {
+                Storage::disk('s3')->delete($restaurant->background_image);
+            }
+            $validated['background_image'] = null;
+        }
+
+        unset($validated['remove_background']);
 
         $restaurant->update($validated);
 

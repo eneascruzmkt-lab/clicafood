@@ -244,6 +244,13 @@ const getImageUrl = (path) => {
 
 const primaryColor = computed(() => props.restaurant.primary_color || '#E63B2E');
 const secondaryColor = computed(() => props.restaurant.secondary_color || '#0d0d0d');
+const textColor = computed(() => props.restaurant.text_color || '#ffffff');
+const textSecColor = computed(() => props.restaurant.text_secondary_color || '#9ca3af');
+const borderColor = computed(() => props.restaurant.border_color || '#333333');
+const priceColor = computed(() => props.restaurant.price_color || primaryColor.value);
+const fontFamily = computed(() => `'${props.restaurant.font_family || 'Inter'}', sans-serif`);
+const bgImage = computed(() => props.restaurant.background_image || null);
+const bgOpacity = computed(() => (props.restaurant.background_opacity ?? 100) / 100);
 
 const headerCompact = ref(false);
 const handleScroll = () => { headerCompact.value = window.scrollY > 120; };
@@ -263,8 +270,17 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="min-h-screen" :style="{ backgroundColor: secondaryColor }">
-        <Head :title="restaurant.name + ' - Cardapio Digital'" />
+    <div class="min-h-screen relative" :style="{ backgroundColor: secondaryColor, fontFamily: fontFamily }">
+        <!-- Background image -->
+        <div v-if="bgImage" class="fixed inset-0 z-0 pointer-events-none">
+            <img :src="bgImage" class="w-full h-full object-cover" :style="{ opacity: bgOpacity }" />
+        </div>
+        <div class="relative z-10">
+        <Head :title="restaurant.name + ' - Cardapio Digital'">
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+            <link :href="`https://fonts.googleapis.com/css2?family=${encodeURIComponent(restaurant.font_family || 'Inter')}:wght@400;500;600;700&display=swap`" rel="stylesheet" />
+        </Head>
 
         <!-- Sticky Header -->
         <header class="sticky top-0 z-20 transition-all duration-300"
@@ -279,7 +295,7 @@ onUnmounted(() => {
                      :style="{ backgroundColor: primaryColor + '15' }">
                     <Icon name="restaurant" class="w-4 h-4" :style="{ color: primaryColor }" />
                 </div>
-                <h1 class="font-display font-bold text-white text-sm leading-tight flex-1 truncate">{{ restaurant.name }}</h1>
+                <h1 class="font-display font-bold text-sm leading-tight flex-1 truncate" :style="{ color: textColor }">{{ restaurant.name }}</h1>
             </div>
         </header>
 
@@ -296,8 +312,8 @@ onUnmounted(() => {
                         <Icon name="restaurant" class="w-9 h-9" :style="{ color: primaryColor }" />
                     </div>
                 </div>
-                <h1 class="font-display font-bold text-white text-xl leading-tight">{{ restaurant.name }}</h1>
-                <p v-if="restaurant.description" class="text-sm text-gray-400 mt-1.5 max-w-xs mx-auto leading-relaxed">{{ restaurant.description }}</p>
+                <h1 class="font-display font-bold text-xl leading-tight" :style="{ color: textColor }">{{ restaurant.name }}</h1>
+                <p v-if="restaurant.description" class="text-sm mt-1.5 max-w-xs mx-auto leading-relaxed" :style="{ color: textSecColor }">{{ restaurant.description }}</p>
                 <div class="flex items-center justify-center gap-3 mt-4">
                     <a v-if="restaurant.whatsapp" :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
@@ -310,7 +326,7 @@ onUnmounted(() => {
                         <Icon name="instagram" class="w-3.5 h-3.5" /><span>Instagram</span>
                     </a>
                 </div>
-                <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-gray-500 text-xs">
+                <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-xs" :style="{ color: textSecColor }"
                     <Icon name="map-pin" class="w-3 h-3 flex-shrink-0" />
                     <span class="truncate max-w-[260px]">{{ restaurant.address }}</span>
                 </div>
@@ -336,17 +352,18 @@ onUnmounted(() => {
             <!-- Categories -->
             <div class="flex gap-2 py-3 overflow-x-auto -mx-4 px-4 scrollbar-hide">
                 <button @click="activeCategory = null"
-                        :style="!activeCategory ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: '#333', color: '#999' }"
+                        :style="!activeCategory ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: borderColor, color: textSecColor }"
                         class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">Todos</button>
                 <button v-for="cat in categories" :key="cat.id" @click="activeCategory = cat.id"
-                        :style="activeCategory === cat.id ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: '#333', color: '#999' }"
+                        :style="activeCategory === cat.id ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: borderColor, color: textSecColor }"
                         class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">{{ cat.name }}</button>
             </div>
 
             <!-- Menu Items -->
             <div class="space-y-3 mt-4">
                 <div v-for="item in filteredItems" :key="item.id" @click="openReels(item)"
-                     class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer" style="background-color: #1a1a1a">
+                     class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
+                     :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }"
                     <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
                         <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
                         <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
@@ -355,18 +372,20 @@ onUnmounted(() => {
                         </div>
                     </div>
                     <div class="flex-1 min-w-0 py-1">
-                        <h3 class="font-semibold text-white text-sm">{{ item.name }}</h3>
-                        <p v-if="item.description" class="text-xs text-gray-400 mt-0.5 line-clamp-2">{{ item.description }}</p>
-                        <p class="font-bold mt-1.5 text-sm" :style="{ color: primaryColor }">{{ formatPrice(item.price) }}</p>
+                        <h3 class="font-semibold text-sm" :style="{ color: textColor }">{{ item.name }}</h3>
+                        <p v-if="item.description" class="text-xs mt-0.5 line-clamp-2" :style="{ color: textSecColor }">{{ item.description }}</p>
+                        <p class="font-bold mt-1.5 text-sm" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
                     </div>
                 </div>
                 <p v-if="filteredItems.length === 0" class="text-center text-gray-500 py-8 text-sm">Nenhum item nesta categoria</p>
             </div>
 
-            <div class="mt-8 pt-4 border-t border-gray-800 text-center">
-                <p class="text-xs text-gray-500">Powered by <span class="font-display font-bold"><span :style="{ color: primaryColor }">Clica</span>Food</span></p>
+            <div class="mt-8 pt-4 text-center" :style="{ borderTop: `1px solid ${borderColor}40` }">
+                <p class="text-xs" :style="{ color: textSecColor + '80' }">Powered by <span class="font-display font-bold"><span :style="{ color: primaryColor }">Clica</span><span :style="{ color: textColor }">Food</span></span></p>
             </div>
         </div>
+
+        </div><!-- /z-10 wrapper -->
 
         <!-- ====== REELS FULLSCREEN (scroll-snap native) ====== -->
         <teleport to="body">
