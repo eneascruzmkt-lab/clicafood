@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -13,6 +13,35 @@ const handleScroll = () => {
 };
 onMounted(() => window.addEventListener('scroll', handleScroll));
 onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+
+// Mockup products (Nonna Titina)
+const mockupProducts = [
+    { name: 'Grano Duro - Piccolo', desc: 'Massa tradicional italiana de trigo duro. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.', price: '24,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg' },
+    { name: 'Artesanal - Piccolo', desc: 'Massa artesanal feita a mao diariamente. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.', price: '29,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/556dccb1-8e40-4dc9-84a0-31f5912cce32.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/gZbj5t2bLouzuZPtoHSPCfydRTtcnfduUqGNz9cT.jpg' },
+    { name: 'Nero di Sepia - Piccolo', desc: 'Massa negra com tinta de lula. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.', price: '34,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/58f6b049-b315-4123-b8f5-6d747cca019e.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Xsi740k5SeGeTSydRwOQHcZhNon8WHjFHHlkr62F.jpg' },
+    { name: 'Pasta Alla Contadina', desc: 'Massa al dente envolvida em azeite extravirgem com alho, pimentao e tomate fresco salteados. Molho pesto com frango desfiado.', price: '18,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/7442ec33-f591-4a34-9f03-c671ade2a71f.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/kTWxTzYfqnHkIca6stHNJRXgxH3bTN9LMpncwLfF.jpg' },
+    { name: 'Fettuccine Alfredo', desc: 'Fettuccine perfeitamente al dente envolvido em molho classico de manteiga de alta qualidade e queijo parmesao.', price: '17,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/d528ec63-ef5f-470a-b50b-b08a48814248.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Q5UzFKj3EwU9D95p0eBfjLcJN2vKWriwLimeBfhe.jpg' },
+    { name: 'Carbonara', desc: 'Massa al dente com molho cremoso de ovos, queijo parmesao, bacon crocante e pimenta preta. Um classico italiano irresistivel.', price: '19,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg' },
+];
+const mockupIndex = ref(0);
+const mockupTransitioning = ref(false);
+const currentMockupProduct = computed(() => mockupProducts[mockupIndex.value]);
+let mockupTimer = null;
+
+const advanceMockup = () => {
+    mockupTransitioning.value = true;
+    setTimeout(() => {
+        mockupIndex.value = (mockupIndex.value + 1) % mockupProducts.length;
+        mockupTransitioning.value = false;
+    }, 400);
+};
+
+onMounted(() => {
+    mockupTimer = setInterval(advanceMockup, 5000);
+});
+onUnmounted(() => {
+    if (mockupTimer) clearInterval(mockupTimer);
+});
 
 // Animated counters
 const counters = ref([
@@ -167,44 +196,58 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 <div class="order-2 md:order-1 flex justify-center">
                     <div class="relative w-80 h-[650px] bg-slate-900 rounded-[3rem] border-[10px] border-slate-800 landing-iphone overflow-hidden scale-110 md:scale-100 lg:scale-110">
                         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-7 bg-slate-800 rounded-b-3xl z-30"></div>
-                        <div class="h-full w-full relative">
-                            <!-- Video do produto real (Carbonara - Nonna Titina) -->
+                        <div class="h-full w-full relative overflow-hidden">
+                            <!-- Video do produto atual -->
                             <video
+                                v-for="(product, idx) in mockupProducts"
+                                :key="product.name"
                                 autoplay muted loop playsinline
-                                class="h-full w-full object-cover"
-                                poster="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg"
-                            >
-                                <source src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4" type="video/mp4" />
-                            </video>
+                                class="absolute inset-0 h-full w-full object-cover transition-all duration-500"
+                                :class="idx === mockupIndex ? (mockupTransitioning ? 'opacity-0 -translate-y-full' : 'opacity-100 translate-y-0') : (idx === (mockupIndex + 1) % mockupProducts.length && mockupTransitioning ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full')"
+                                :poster="product.thumb"
+                                :src="product.video"
+                            ></video>
 
-                            <!-- Gradient overlay (identico ao cardapio real) -->
-                            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 pointer-events-none"></div>
+                            <!-- Gradient overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 pointer-events-none z-[1]"></div>
 
-                            <!-- Mute icon (top right, como no real) -->
+                            <!-- Mute icon -->
                             <div class="absolute top-12 right-4 z-20 w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0021 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
                             </div>
 
-                            <!-- Counter (bottom right, como no real) -->
+                            <!-- Counter -->
                             <div class="absolute right-4 bottom-48 z-20">
-                                <span class="text-xs text-white/30 font-mono">3/7</span>
+                                <span class="text-xs text-white/30 font-mono">{{ mockupIndex + 1 }}/{{ mockupProducts.length }}</span>
                             </div>
 
-                            <!-- Bottom info (identico ao layout reels do cardapio real) -->
+                            <!-- Bottom info -->
                             <div class="absolute bottom-0 left-0 right-0 z-10">
                                 <div class="bg-gradient-to-t from-black via-black/70 to-transparent pt-16 px-5 pb-6">
-                                    <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">Grano Duro - Piccolo</h2>
-                                    <p class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3">
-                                        Massa tradicional italiana de trigo duro. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.
-                                        <span class="text-white/40 text-xs ml-1">...mais</span>
-                                    </p>
-                                    <div class="flex items-center gap-3 mt-3">
-                                        <span class="font-bold text-xl text-[#db3327]">R$ 24,90</span>
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">Massas</span>
-                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 bg-[#db3327]/30 text-[#db3327]">
-                                            <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Video
-                                        </span>
-                                    </div>
+                                    <transition
+                                        enter-active-class="transition-all duration-400 ease-out"
+                                        enter-from-class="opacity-0 translate-y-4"
+                                        enter-to-class="opacity-100 translate-y-0"
+                                        leave-active-class="transition-all duration-200 ease-in"
+                                        leave-from-class="opacity-100 translate-y-0"
+                                        leave-to-class="opacity-0 -translate-y-4"
+                                        mode="out-in"
+                                    >
+                                        <div :key="mockupIndex">
+                                            <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">{{ currentMockupProduct.name }}</h2>
+                                            <p class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3">
+                                                {{ currentMockupProduct.desc }}
+                                                <span class="text-white/40 text-xs ml-1">...mais</span>
+                                            </p>
+                                            <div class="flex items-center gap-3 mt-3">
+                                                <span class="font-bold text-xl text-[#db3327]">R$ {{ currentMockupProduct.price }}</span>
+                                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">Massas</span>
+                                                <span class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 bg-[#db3327]/30 text-[#db3327]">
+                                                    <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Video
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </transition>
                                     <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
                                         <span>↕ deslize para mais</span><span>·</span><span>↔ deslize para categorias</span>
                                     </div>
