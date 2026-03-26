@@ -12,7 +12,10 @@ const handleScroll = () => {
     scrolled.value = window.scrollY > 40;
 };
 onMounted(() => window.addEventListener('scroll', handleScroll));
-onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('scroll', handleBurgerScroll);
+});
 
 // Mockup products (Nonna Titina)
 const mockupProducts = [
@@ -66,8 +69,24 @@ const animateCounters = () => {
     });
 };
 
+// Burger assembly scroll
+const burgerProgress = ref(0);
+const burgerRef = ref(null);
+
+const handleBurgerScroll = () => {
+    if (!burgerRef.value) return;
+    const rect = burgerRef.value.getBoundingClientRect();
+    const windowH = window.innerHeight;
+    // Start assembling when section enters viewport, complete when centered
+    const start = windowH;
+    const end = windowH * 0.2;
+    const raw = 1 - (rect.top - end) / (start - end);
+    burgerProgress.value = Math.min(1, Math.max(0, raw));
+};
+
 // Scroll reveal animation
 onMounted(() => {
+    window.addEventListener('scroll', handleBurgerScroll, { passive: true });
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -184,6 +203,97 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                             Ver Beneficios
                         </a>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BURGER ASSEMBLY SECTION -->
+        <section ref="burgerRef" class="py-32 md:py-48 bg-[#121c2a] relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <!-- Burger visual -->
+                <div class="flex justify-center">
+                    <div class="relative w-72 h-[420px] flex flex-col items-center justify-center">
+                        <!-- Pao superior -->
+                        <div class="burger-layer absolute w-56 h-20 left-1/2 -translate-x-1/2"
+                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * -180}px)`, opacity: 0.3 + burgerProgress * 0.7 }">
+                            <div class="w-full h-full rounded-t-[50%] rounded-b-lg bg-gradient-to-b from-[#e8a54b] via-[#d4893a] to-[#c47a2e] relative overflow-hidden shadow-lg">
+                                <div class="absolute top-3 left-10 w-2 h-2 rounded-full bg-[#f5d89a]/60"></div>
+                                <div class="absolute top-5 left-20 w-1.5 h-1.5 rounded-full bg-[#f5d89a]/50"></div>
+                                <div class="absolute top-4 right-12 w-2 h-2 rounded-full bg-[#f5d89a]/60"></div>
+                                <div class="absolute top-6 right-20 w-1.5 h-1.5 rounded-full bg-[#f5d89a]/40"></div>
+                                <div class="absolute top-2 left-1/2 w-1.5 h-1.5 rounded-full bg-[#f5d89a]/50"></div>
+                                <div class="absolute bottom-0 w-full h-3 bg-[#b86e25]"></div>
+                            </div>
+                        </div>
+
+                        <!-- Alface -->
+                        <div class="burger-layer absolute w-60 left-1/2 -translate-x-1/2"
+                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * -100}px)`, top: '105px', opacity: 0.3 + burgerProgress * 0.7 }">
+                            <svg viewBox="0 0 240 30" class="w-full drop-shadow-md">
+                                <path d="M5,20 Q20,5 40,18 Q55,2 75,16 Q90,0 110,15 Q125,2 145,18 Q160,5 180,16 Q195,0 215,18 Q230,5 238,15 L238,28 L5,28 Z"
+                                      fill="#4ade80" opacity="0.9"/>
+                                <path d="M8,22 Q25,8 45,20 Q60,5 80,18 Q95,3 115,17 Q130,5 150,20 Q165,8 185,18 Q200,3 220,20 L235,25 L5,25 Z"
+                                      fill="#22c55e"/>
+                            </svg>
+                        </div>
+
+                        <!-- Tomate -->
+                        <div class="burger-layer absolute w-56 h-5 left-1/2 -translate-x-1/2"
+                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * -40}px)`, top: '135px', opacity: 0.3 + burgerProgress * 0.7 }">
+                            <div class="w-full h-full rounded-sm bg-gradient-to-b from-[#ef4444] to-[#dc2626] shadow-md relative">
+                                <div class="absolute inset-0 flex justify-around items-center px-4">
+                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
+                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
+                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
+                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Queijo -->
+                        <div class="burger-layer absolute w-60 left-1/2 -translate-x-1/2"
+                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * 30}px)`, top: '155px', opacity: 0.3 + burgerProgress * 0.7 }">
+                            <svg viewBox="0 0 240 25" class="w-full drop-shadow-md">
+                                <path d="M0,0 L240,0 L240,12 Q225,22 210,14 Q195,22 180,14 Q165,22 150,14 Q135,22 120,14 Q105,22 90,14 Q75,22 60,14 Q45,22 30,14 Q15,22 0,12 Z"
+                                      fill="#fbbf24"/>
+                                <path d="M0,0 L240,0 L240,8 L0,8 Z" fill="#f59e0b" opacity="0.5"/>
+                            </svg>
+                        </div>
+
+                        <!-- Carne -->
+                        <div class="burger-layer absolute w-56 h-12 left-1/2 -translate-x-1/2"
+                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * 100}px)`, top: '175px', opacity: 0.3 + burgerProgress * 0.7 }">
+                            <div class="w-full h-full rounded-lg bg-gradient-to-b from-[#78350f] via-[#5c2d0e] to-[#451a03] shadow-xl relative">
+                                <div class="absolute inset-0 rounded-lg opacity-30"
+                                     style="background: radial-gradient(circle at 30% 40%, #92400e 0%, transparent 50%), radial-gradient(circle at 70% 60%, #92400e 0%, transparent 50%);"></div>
+                            </div>
+                        </div>
+
+                        <!-- Pao inferior -->
+                        <div class="burger-layer absolute w-56 h-10 left-1/2 -translate-x-1/2"
+                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * 180}px)`, top: '225px', opacity: 0.3 + burgerProgress * 0.7 }">
+                            <div class="w-full h-full rounded-b-2xl rounded-t-sm bg-gradient-to-b from-[#d4893a] to-[#c47a2e] shadow-lg">
+                                <div class="w-full h-2 bg-[#b86e25] rounded-t-sm"></div>
+                            </div>
+                        </div>
+
+                        <!-- Sombra no chao -->
+                        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-48 h-4 bg-black/20 rounded-[50%] blur-md"
+                             :style="{ opacity: burgerProgress * 0.6, transform: `translateX(-50%) scaleX(${0.6 + burgerProgress * 0.4})` }">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Texto -->
+                <div class="text-white text-center md:text-left">
+                    <span class="text-[#db3327] font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Experiencia Visual</span>
+                    <h2 class="font-headline text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+                        Cada detalhe<br/>
+                        <span class="text-[#db3327]">vende mais.</span>
+                    </h2>
+                    <p class="text-white/60 text-lg leading-relaxed max-w-md mx-auto md:mx-0">
+                        Seus clientes veem cada ingrediente, cada camada, cada textura. Videos que despertam o desejo e transformam curiosidade em pedido.
+                    </p>
                 </div>
             </div>
         </section>
