@@ -128,7 +128,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
         <!-- HERO -->
         <section class="relative pt-32 pb-20 overflow-hidden min-h-[80vh] flex items-center">
             <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 bg-[#121c2a]/[0.45] z-10"></div>
+                <div class="absolute inset-0 bg-[#121c2a]/75 z-10"></div>
                 <video
                     autoplay
                     muted
