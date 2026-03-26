@@ -28,12 +28,10 @@ const mockupTransitioning = ref(false);
 const currentMockupProduct = computed(() => mockupProducts[mockupIndex.value]);
 let mockupTimer = null;
 
+const prevMockupIndex = ref(null);
 const advanceMockup = () => {
-    mockupTransitioning.value = true;
-    setTimeout(() => {
-        mockupIndex.value = (mockupIndex.value + 1) % mockupProducts.length;
-        mockupTransitioning.value = false;
-    }, 400);
+    prevMockupIndex.value = mockupIndex.value;
+    mockupIndex.value = (mockupIndex.value + 1) % mockupProducts.length;
 };
 
 onMounted(() => {
@@ -202,7 +200,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                                 v-for="(product, idx) in mockupProducts"
                                 :key="product.name"
                                 class="absolute inset-0 h-full w-full transition-transform duration-500 ease-in-out"
-                                :class="idx === mockupIndex ? 'translate-y-0 z-[2]' : idx === ((mockupIndex - 1 + mockupProducts.length) % mockupProducts.length) && mockupTransitioning ? '-translate-y-full z-[1]' : 'translate-y-full z-[1]'"
+                                :class="idx === mockupIndex ? 'translate-y-0 z-[2]' : idx === prevMockupIndex ? '-translate-y-full z-[2]' : 'translate-y-full z-[1]'"
                             >
                                 <video
                                     autoplay muted loop playsinline
