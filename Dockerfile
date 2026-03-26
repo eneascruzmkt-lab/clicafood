@@ -31,8 +31,7 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Invalidate cache for code changes
-ARG CACHE_BUST=1
+# Copy application code
 COPY . .
 
 # Ensure directories exist before composer scripts
@@ -42,7 +41,7 @@ RUN mkdir -p bootstrap/cache storage/framework/{sessions,views,cache} storage/lo
 # Re-run composer scripts after full copy
 RUN composer dump-autoload --optimize
 
-# Install npm dependencies and build frontend AFTER full copy
+# Install npm dependencies and build frontend
 RUN npm ci && npm run build
 
 # Set permissions
@@ -51,17 +50,15 @@ RUN chmod -R 775 storage bootstrap/cache
 # Startup script
 COPY <<'SCRIPT' /usr/local/bin/start.sh
 #!/bin/bash
-set -e
 
 # Ensure storage directories exist at runtime
 mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
-php artisan config:cache
-php artisan route:cache
+php artisan config:cache || true
+php artisan route:cache || true
 php artisan view:cache || true
-php artisan migrate --force
-php artisan db:seed --force || true
+php artisan migrate --force || true
 php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
 SCRIPT
 RUN chmod +x /usr/local/bin/start.sh
