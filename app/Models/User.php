@@ -18,6 +18,11 @@ class User extends Authenticatable
         'phone',
         'password',
         'role',
+        'subscription_status',
+        'subscription_id',
+        'subscription_plan',
+        'subscription_expires_at',
+        'abacatepay_customer_id',
     ];
 
     protected $hidden = [
@@ -29,6 +34,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'subscription_expires_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

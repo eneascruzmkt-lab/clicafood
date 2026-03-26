@@ -16,6 +16,7 @@ use App\Http\Controllers\Public\MenuController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminRestaurantController;
 use App\Http\Controllers\Admin\AdminPlanController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('restaurants', AdminRestaurantController::class)->only(['index', 'show', 'destroy']);
     Route::resource('plans', AdminPlanController::class);
 });
+
+// Subscription & Plans
+Route::middleware('auth')->group(function () {
+    Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans');
+    Route::post('/subscribe/{plan}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+    Route::get('/subscription/success', [SubscriptionController::class, 'success'])->name('subscription.success');
+    Route::get('/subscription', [SubscriptionController::class, 'manage'])->name('subscription.manage');
+});
+Route::post('/webhooks/abacatepay', [SubscriptionController::class, 'webhook'])->name('webhooks.abacatepay');
 
 // Public Menu (must be last — catches slug)
 Route::get('/{slug}', [MenuController::class, 'show'])->name('menu.public');

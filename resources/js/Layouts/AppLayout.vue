@@ -32,6 +32,7 @@ const navigation = computed(() => {
         { name: 'Metricas', href: '/analytics', icon: 'chart' },
         { name: 'Configuracoes', href: '/settings', icon: 'settings' },
         { name: 'Minha Conta', href: '/account', icon: 'user' },
+        { name: 'Planos', href: '/plans', icon: 'dollar' },
     ];
 });
 

@@ -26,4 +26,8 @@ return [
         'number' => env('WHATSAPP_NUMBER', '5511999999999'),
         'message' => env('WHATSAPP_MESSAGE', 'Olá! Quero saber mais sobre o ClicaFood'),
     ],
+
+    'abacatepay' => [
+        'api_key' => env('ABACATEPAY_API_KEY'),
+    ],
 ];
