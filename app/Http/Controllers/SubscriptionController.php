@@ -92,7 +92,7 @@ class SubscriptionController extends Controller
                 'items' => [
                     ['id' => $productId, 'quantity' => 1],
                 ],
-                'methods' => ['CARD'],
+                'methods' => ['CARD', 'PIX'],
                 'returnUrl' => route('subscription.success'),
                 'completionUrl' => route('subscription.success'),
                 'customerId' => $user->abacatepay_customer_id,
