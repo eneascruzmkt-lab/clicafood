@@ -37,6 +37,7 @@ class SubscriptionController extends Controller
         return Inertia::render('Plans/Index', [
             'plans' => array_values($this->plans),
             'currentPlan' => $request->user()->subscription_plan ?? 'free',
+            'currentStatus' => $request->user()->subscription_status,
         ]);
     }
 
@@ -159,8 +160,15 @@ class SubscriptionController extends Controller
      */
     public function success(Request $request)
     {
+        $user = $request->user();
+
+        // If not actually paid, redirect to plans
+        if (!in_array($user->subscription_status, ['active', 'trial'])) {
+            return redirect()->route('plans')->with('error', 'Pagamento não confirmado. Tente novamente.');
+        }
+
         return Inertia::render('Subscription/Success', [
-            'plan' => $request->user()->subscription_plan ?? 'free',
+            'plan' => $user->subscription_plan ?? 'free',
         ]);
     }
 

@@ -7,6 +7,7 @@ import Icon from '@/Components/Icon.vue';
 const props = defineProps({
     plans: Array,
     currentPlan: String,
+    currentStatus: String,
 });
 
 const loading = ref(false);
@@ -27,7 +28,7 @@ const subscribe = (planSlug) => {
 };
 
 const isCurrentPlan = (planSlug) => {
-    return props.currentPlan === planSlug;
+    return props.currentPlan === planSlug && (props.currentStatus === 'active' || props.currentStatus === 'trial');
 };
 
 const features = [
