@@ -31,10 +31,10 @@ const handleImage = (e) => {
 
 const submit = () => {
     if (isEditing) {
-        form.post(`/categories/${props.category.id}`, {
-            _method: 'PUT',
-            forceFormData: true,
-        });
+        form.transform((data) => ({ ...data, _method: 'PUT' }))
+            .post(`/categories/${props.category.id}`, {
+                forceFormData: true,
+            });
     } else {
         form.post('/categories', {
             forceFormData: true,
