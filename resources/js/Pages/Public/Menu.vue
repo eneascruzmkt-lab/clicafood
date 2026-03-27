@@ -242,6 +242,29 @@ const getImageUrl = (path) => {
     return '/storage/' + path;
 };
 
+// Likes
+const likedItems = ref(new Set(JSON.parse(localStorage.getItem(`likes_${props.restaurant.slug}`) || '[]')));
+const likeCounts = ref({});
+
+// Initialize like counts from items
+props.items.forEach(item => { likeCounts.value[item.id] = item.likes_count || 0; });
+
+const isLiked = (itemId) => likedItems.value.has(itemId);
+
+const likeItem = (itemId) => {
+    if (isLiked(itemId)) return;
+    likedItems.value.add(itemId);
+    likeCounts.value[itemId] = (likeCounts.value[itemId] || 0) + 1;
+    localStorage.setItem(`likes_${props.restaurant.slug}`, JSON.stringify([...likedItems.value]));
+    axios.post(`/${props.restaurant.slug}/like`, { menu_item_id: itemId }).catch(() => {});
+};
+
+const formatLikes = (count) => {
+    if (!count) return '0';
+    if (count >= 1000) return (count / 1000).toFixed(1).replace('.0', '') + 'k';
+    return String(count);
+};
+
 const primaryColor = computed(() => props.restaurant.primary_color || '#E63B2E');
 const secondaryColor = computed(() => props.restaurant.secondary_color || '#0d0d0d');
 const textColor = computed(() => props.restaurant.text_color || '#ffffff');
@@ -611,6 +634,20 @@ onUnmounted(() => {
                                     </div>
                                 </div>
                             </Transition>
+
+                            <!-- Like button (right side, TikTok style) -->
+                            <div class="absolute right-4 bottom-56 z-10 flex flex-col items-center gap-1"
+                                 :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
+                                <button @click.stop="likeItem(item.id)"
+                                        class="w-11 h-11 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all duration-300 active:scale-125"
+                                        :class="isLiked(item.id) ? 'text-red-500' : 'text-white/70'">
+                                    <svg class="w-6 h-6 transition-transform duration-300" :class="{ 'scale-110': isLiked(item.id) }"
+                                         :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                </button>
+                                <span class="text-[11px] font-semibold text-white/70 drop-shadow">{{ formatLikes(likeCounts[item.id]) }}</span>
+                            </div>
 
                             <!-- Bottom info -->
                             <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom"

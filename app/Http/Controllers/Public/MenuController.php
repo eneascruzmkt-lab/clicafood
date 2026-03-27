@@ -27,7 +27,7 @@ class MenuController extends Controller
             ->orderBy('order')
             ->get([
                 'id', 'category_id', 'name', 'description', 'price',
-                'image', 'video_url', 'video_thumbnail', 'featured', 'order',
+                'image', 'video_url', 'video_thumbnail', 'featured', 'order', 'likes_count',
             ]);
 
         // Track page view
@@ -99,5 +99,18 @@ class MenuController extends Controller
         }
 
         return response()->json(['ok' => true]);
+    }
+
+    public function like(Request $request, string $slug)
+    {
+        $request->validate([
+            'menu_item_id' => 'required|exists:menu_items,id',
+        ]);
+
+        $restaurant = Restaurant::where('slug', $slug)->firstOrFail();
+        $item = $restaurant->menuItems()->where('id', $request->menu_item_id)->firstOrFail();
+        $item->increment('likes_count');
+
+        return response()->json(['likes_count' => $item->fresh()->likes_count]);
     }
 }

@@ -97,3 +97,4 @@ Route::post('/webhooks/abacatepay', [SubscriptionController::class, 'webhook'])-
 // Public Menu (must be last — catches slug)
 Route::get('/{slug}', [MenuController::class, 'show'])->name('menu.public');
 Route::post('/{slug}/track', [MenuController::class, 'track'])->name('menu.track');
+Route::post('/{slug}/like', [MenuController::class, 'like'])->name('menu.like');
