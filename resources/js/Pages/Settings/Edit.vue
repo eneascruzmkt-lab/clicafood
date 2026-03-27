@@ -30,7 +30,9 @@ const form = useForm({
     address: props.restaurant?.address || '',
     phone: props.restaurant?.phone || '',
     instagram: props.restaurant?.instagram || '',
+    show_instagram: props.restaurant?.show_instagram ?? true,
     whatsapp: props.restaurant?.whatsapp || '',
+    show_whatsapp: props.restaurant?.show_whatsapp ?? true,
     working_hours: props.restaurant?.working_hours || {},
 });
 
@@ -293,14 +295,22 @@ const activeTab = ref('identity');
                                 <label class="block text-sm font-medium text-dark-300 mb-1">Endereco</label>
                                 <input v-model="form.address" type="text" class="input-field" placeholder="Rua, numero, bairro..." />
                             </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-dark-300 mb-1">Telefone</label>
-                                    <input v-model="form.phone" type="text" class="input-field" placeholder="(11) 3333-4444" />
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-dark-300 mb-1">WhatsApp</label>
-                                    <input v-model="form.whatsapp" type="text" class="input-field" placeholder="5511999999999" />
+                            <div>
+                                <label class="block text-sm font-medium text-dark-300 mb-1">Telefone</label>
+                                <input v-model="form.phone" type="text" class="input-field" placeholder="(11) 3333-4444" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-dark-300 mb-1">WhatsApp</label>
+                                <input v-model="form.whatsapp" type="text" class="input-field" placeholder="5511999999999" />
+                                <div class="flex items-center gap-3 mt-2">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" v-model="form.show_whatsapp" class="sr-only peer" />
+                                        <div class="w-9 h-5 bg-dark-600 rounded-full peer peer-checked:bg-brand-500
+                                                    peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5
+                                                    after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4
+                                                    after:transition-all"></div>
+                                    </label>
+                                    <span class="text-xs text-dark-400">Exibir botão no cardápio</span>
                                 </div>
                             </div>
                             <div>
@@ -308,6 +318,16 @@ const activeTab = ref('identity');
                                 <div class="flex items-center gap-2">
                                     <Icon name="instagram" class="w-5 h-5 text-dark-400" />
                                     <input v-model="form.instagram" type="text" class="input-field flex-1" placeholder="@seurestaurante" />
+                                </div>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" v-model="form.show_instagram" class="sr-only peer" />
+                                        <div class="w-9 h-5 bg-dark-600 rounded-full peer peer-checked:bg-brand-500
+                                                    peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5
+                                                    after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4
+                                                    after:transition-all"></div>
+                                    </label>
+                                    <span class="text-xs text-dark-400">Exibir botão no cardápio</span>
                                 </div>
                             </div>
                         </div>
@@ -340,8 +360,7 @@ const activeTab = ref('identity');
                             <div class="relative z-10 px-4 pt-8 pb-4">
                                 <!-- Header -->
                                 <div class="text-center mb-4">
-                                    <div v-if="logoPreview" class="w-14 h-14 rounded-xl overflow-hidden mx-auto mb-2"
-                                         :style="{ boxShadow: `0 0 0 2px ${previewPrimary}25` }">
+                                    <div v-if="logoPreview" class="w-14 h-14 rounded-xl overflow-hidden mx-auto mb-2">
                                         <img :src="logoPreview" class="w-full h-full object-cover" />
                                     </div>
                                     <div v-else class="w-14 h-14 rounded-xl mx-auto mb-2 flex items-center justify-center"

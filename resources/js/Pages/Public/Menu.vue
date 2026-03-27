@@ -294,8 +294,7 @@ onUnmounted(() => {
                 :class="headerCompact ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'"
                 :style="{ backgroundColor: secondaryColor + 'f2', borderBottom: '1px solid rgba(255,255,255,0.06)' }">
             <div class="max-w-lg mx-auto px-4 py-2.5 flex items-center gap-2.5 backdrop-blur-xl">
-                <div v-if="restaurant.logo" class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0"
-                     :style="{ boxShadow: `0 0 0 1.5px ${primaryColor}30` }">
+                <div v-if="restaurant.logo" class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                     <img :src="getImageUrl(restaurant.logo)" :alt="restaurant.name" class="w-full h-full object-cover" />
                 </div>
                 <div v-else class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
@@ -310,22 +309,26 @@ onUnmounted(() => {
         <div class="max-w-lg mx-auto px-4">
             <div class="pt-6 pb-5 text-center">
                 <div class="flex justify-center mb-4">
-                    <div v-if="restaurant.logo" class="w-20 h-20 rounded-2xl overflow-hidden"
-                         :style="{ boxShadow: `0 0 0 2px ${primaryColor}25, 0 8px 24px rgba(0,0,0,0.3)` }">
+                    <div v-if="restaurant.logo" class="w-20 h-20 rounded-2xl overflow-hidden">
                         <img :src="getImageUrl(restaurant.logo)" :alt="restaurant.name" class="w-full h-full object-cover" />
                     </div>
                     <div v-else class="w-20 h-20 rounded-2xl flex items-center justify-center"
-                         :style="{ backgroundColor: primaryColor + '12', boxShadow: `0 0 0 2px ${primaryColor}20` }">
+                         :style="{ backgroundColor: primaryColor + '12' }">
                         <Icon name="restaurant" class="w-9 h-9" :style="{ color: primaryColor }" />
                     </div>
                 </div>
                 <h1 class="font-display font-bold text-xl leading-tight" :style="{ color: textColor }">{{ restaurant.name }}</h1>
                 <p v-if="restaurant.description" class="text-sm mt-1.5 max-w-xs mx-auto leading-relaxed" :style="{ color: textSecColor }">{{ restaurant.description }}</p>
                 <div class="flex items-center justify-center gap-3 mt-4">
-                    <a v-if="restaurant.instagram" :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
+                    <a v-if="restaurant.instagram && restaurant.show_instagram !== false" :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
                        :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
                         <Icon name="instagram" class="w-3.5 h-3.5" /><span>Instagram</span>
+                    </a>
+                    <a v-if="restaurant.whatsapp && restaurant.show_whatsapp !== false" :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
+                       class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                       :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
+                        <Icon name="phone" class="w-3.5 h-3.5" /><span>WhatsApp</span>
                     </a>
                 </div>
                 <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-xs" :style="{ color: textSecColor }">

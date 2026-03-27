@@ -40,7 +40,9 @@ class SettingsController extends Controller
             'address' => 'nullable|string|max:500',
             'phone' => 'nullable|string|max:20',
             'instagram' => 'nullable|string|max:255',
+            'show_instagram' => 'nullable|boolean',
             'whatsapp' => 'nullable|string|max:20',
+            'show_whatsapp' => 'nullable|boolean',
             'working_hours' => 'nullable|array',
         ]);
 
@@ -51,6 +53,8 @@ class SettingsController extends Controller
                 Storage::disk('s3')->delete($restaurant->logo);
             }
             $validated['logo'] = $request->file('logo')->store('logos', 's3');
+        } else {
+            unset($validated['logo']);
         }
 
         if ($request->hasFile('background_image')) {
