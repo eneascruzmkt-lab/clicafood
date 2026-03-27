@@ -39,12 +39,10 @@ defineProps({
         <div class="w-full max-w-md relative z-10">
             <!-- Logo -->
             <div class="text-center mb-8">
-                <a href="/" class="inline-block group">
-                    <h1 class="text-4xl font-display font-black tracking-tight">
-                        <span class="text-brand-500 transition-colors duration-200 group-hover:text-brand-400">Clica</span><span class="text-white">Food</span>
-                    </h1>
+                <a href="/" class="inline-block">
+                    <img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-10 mx-auto" />
                 </a>
-                <p class="text-dark-400 mt-2.5 text-sm font-medium tracking-wide">Cardapio digital com video</p>
+                <p class="text-dark-400 mt-2.5 text-sm font-medium tracking-wide">Cardápio digital com vídeo</p>
             </div>
 
             <!-- Card -->

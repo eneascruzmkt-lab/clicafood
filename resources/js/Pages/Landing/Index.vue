@@ -159,7 +159,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
         <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
              :class="scrolled ? 'landing-glass shadow-sm' : ''">
             <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
-                <a href="/" class="text-2xl font-black text-red-600 tracking-tighter font-headline">Clicafood</a>
+                <a href="/"><img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-8" /></a>
                 <div class="hidden md:flex items-center gap-8">
                     <a class="text-white/80 hover:text-white transition-colors font-headline text-sm" href="#recursos">Benefícios</a>
                     <a class="text-white/80 hover:text-white transition-colors font-headline text-sm" href="#precos">Planos</a>
@@ -495,7 +495,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
                     <!-- Brand -->
                     <div>
-                        <a href="/" class="text-lg font-black tracking-tighter font-headline text-[#121c2a] uppercase">Clicafood</a>
+                        <a href="/"><img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-7" /></a>
                         <p class="text-xs text-[#5c6274] mt-3 leading-relaxed max-w-xs uppercase">
                             A maior plataforma de cardápios cinéticos do Brasil. Transformando seu cardápio em espetáculo.
                         </p>

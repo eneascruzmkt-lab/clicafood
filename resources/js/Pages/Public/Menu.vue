@@ -528,7 +528,10 @@ onUnmounted(() => {
             </template>
 
             <div class="mt-8 pt-4 text-center" :style="{ borderTop: `1px solid ${borderColor}40` }">
-                <p class="text-xs" :style="{ color: textSecColor + '80' }">Powered by <span class="font-display font-bold"><span :style="{ color: primaryColor }">Clica</span><span :style="{ color: textColor }">Food</span></span></p>
+                <div class="flex items-center justify-center gap-1.5">
+                    <span class="text-xs" :style="{ color: textSecColor + '80' }">Powered by</span>
+                    <img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-4" />
+                </div>
             </div>
         </div>
 

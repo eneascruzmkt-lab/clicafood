@@ -83,9 +83,7 @@ const userInitials = computed(() => {
                 <div class="flex flex-col h-full bg-dark-900 border-r border-dark-700/60 shadow-2xl">
                     <!-- Mobile sidebar header -->
                     <div class="flex items-center justify-between px-6 py-5 border-b border-dark-700/40">
-                        <h1 class="text-2xl font-display font-black tracking-tight">
-                            <span class="text-brand-500">Clica</span><span class="text-white">Food</span>
-                        </h1>
+                        <a href="/dashboard"><img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-8" /></a>
                         <button
                             @click="sidebarOpen = false"
                             class="p-1.5 rounded-lg text-dark-400 hover:text-white hover:bg-dark-800 transition-colors duration-150"
@@ -143,10 +141,8 @@ const userInitials = computed(() => {
         <aside class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col">
             <div class="flex flex-col h-full bg-dark-900 border-r border-dark-700/60">
                 <!-- Logo -->
-                <div class="px-6 py-6 border-b border-dark-700/40">
-                    <h1 class="text-2xl font-display font-black tracking-tight">
-                        <span class="text-brand-500">Clica</span><span class="text-white">Food</span>
-                    </h1>
+                <div class="px-6 py-4 border-b border-dark-700/40">
+                    <a href="/dashboard"><img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-8" /></a>
                     <div v-if="restaurant && !isAdmin" class="flex items-center gap-2 mt-2">
                         <Icon name="restaurant" class="w-4 h-4 text-brand-500/70 flex-shrink-0" />
                         <p class="text-dark-400 text-xs font-medium truncate">{{ restaurant.name }}</p>
@@ -199,9 +195,7 @@ const userInitials = computed(() => {
                     >
                         <Icon name="bars" class="w-6 h-6" />
                     </button>
-                    <h1 class="text-lg font-display font-bold tracking-tight">
-                        <span class="text-brand-500">Clica</span><span class="text-white">Food</span>
-                    </h1>
+                    <a href="/dashboard"><img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-7" /></a>
                     <div class="w-9"></div>
                 </div>
             </div>
