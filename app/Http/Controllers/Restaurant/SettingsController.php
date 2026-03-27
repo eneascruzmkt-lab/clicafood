@@ -38,6 +38,7 @@ class SettingsController extends Controller
             'menu_layout' => 'nullable|string|in:reels,categories,categories_featured',
             'remove_background' => 'nullable|boolean',
             'address' => 'nullable|string|max:500',
+            'show_address' => 'nullable|boolean',
             'phone' => 'nullable|string|max:20',
             'instagram' => 'nullable|string|max:255',
             'show_instagram' => 'nullable|boolean',
@@ -70,6 +71,11 @@ class SettingsController extends Controller
         }
 
         unset($validated['remove_background']);
+
+        // Booleans sent via FormData need explicit handling
+        $validated['show_instagram'] = $request->boolean('show_instagram');
+        $validated['show_whatsapp'] = $request->boolean('show_whatsapp');
+        $validated['show_address'] = $request->boolean('show_address');
 
         $restaurant->update($validated);
 

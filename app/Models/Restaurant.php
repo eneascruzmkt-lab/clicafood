@@ -29,6 +29,7 @@ class Restaurant extends Model
         'show_instagram',
         'show_whatsapp',
         'address',
+        'show_address',
         'phone',
         'instagram',
         'whatsapp',

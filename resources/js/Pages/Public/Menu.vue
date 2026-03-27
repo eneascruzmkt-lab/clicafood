@@ -320,18 +320,18 @@ onUnmounted(() => {
                 <h1 class="font-display font-bold text-xl leading-tight" :style="{ color: textColor }">{{ restaurant.name }}</h1>
                 <p v-if="restaurant.description" class="text-sm mt-1.5 max-w-xs mx-auto leading-relaxed" :style="{ color: textSecColor }">{{ restaurant.description }}</p>
                 <div class="flex items-center justify-center gap-3 mt-4">
-                    <a v-if="restaurant.instagram && restaurant.show_instagram !== false" :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
+                    <a v-if="restaurant.instagram && restaurant.show_instagram" :href="`https://instagram.com/${restaurant.instagram.replace('@','')}`" target="_blank" rel="noopener"
                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
                        :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
                         <Icon name="instagram" class="w-3.5 h-3.5" /><span>Instagram</span>
                     </a>
-                    <a v-if="restaurant.whatsapp && restaurant.show_whatsapp !== false" :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
+                    <a v-if="restaurant.whatsapp && restaurant.show_whatsapp" :href="`https://wa.me/${restaurant.whatsapp}`" target="_blank" rel="noopener"
                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
                        :style="{ backgroundColor: primaryColor + '12', color: primaryColor }">
                         <Icon name="phone" class="w-3.5 h-3.5" /><span>WhatsApp</span>
                     </a>
                 </div>
-                <div v-if="restaurant.address" class="flex items-center justify-center gap-1.5 mt-3 text-xs" :style="{ color: textSecColor }">
+                <div v-if="restaurant.address && restaurant.show_address" class="flex items-center justify-center gap-1.5 mt-3 text-xs" :style="{ color: textSecColor }">
                     <Icon name="map-pin" class="w-3 h-3 flex-shrink-0" />
                     <span class="truncate max-w-[260px]">{{ restaurant.address }}</span>
                 </div>

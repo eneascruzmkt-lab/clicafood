@@ -44,7 +44,7 @@ class MenuController extends Controller
             'id', 'name', 'slug', 'description', 'logo', 'primary_color', 'secondary_color',
             'text_color', 'text_secondary_color', 'border_color', 'price_color',
             'font_family', 'background_image', 'background_opacity', 'menu_layout',
-            'phone', 'instagram', 'show_instagram', 'whatsapp', 'show_whatsapp', 'address', 'working_hours',
+            'phone', 'instagram', 'show_instagram', 'whatsapp', 'show_whatsapp', 'address', 'show_address', 'working_hours',
         ]));
 
         // Stories: combine dedicated stories + featured menu items

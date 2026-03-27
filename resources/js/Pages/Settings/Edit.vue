@@ -28,6 +28,7 @@ const form = useForm({
     menu_layout: props.restaurant?.menu_layout || 'reels',
     remove_background: false,
     address: props.restaurant?.address || '',
+    show_address: props.restaurant?.show_address ?? true,
     phone: props.restaurant?.phone || '',
     instagram: props.restaurant?.instagram || '',
     show_instagram: props.restaurant?.show_instagram ?? true,
@@ -292,8 +293,18 @@ const activeTab = ref('identity');
                                 Contato e Redes
                             </h3>
                             <div>
-                                <label class="block text-sm font-medium text-dark-300 mb-1">Endereco</label>
+                                <label class="block text-sm font-medium text-dark-300 mb-1">Endereço</label>
                                 <input v-model="form.address" type="text" class="input-field" placeholder="Rua, numero, bairro..." />
+                                <div class="flex items-center gap-3 mt-2">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" v-model="form.show_address" class="sr-only peer" />
+                                        <div class="w-9 h-5 bg-dark-600 rounded-full peer peer-checked:bg-brand-500
+                                                    peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5
+                                                    after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4
+                                                    after:transition-all"></div>
+                                    </label>
+                                    <span class="text-xs text-dark-400">Exibir no cardápio</span>
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-dark-300 mb-1">Telefone</label>
