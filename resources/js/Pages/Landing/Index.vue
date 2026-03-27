@@ -225,7 +225,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
         </section>
 
         <!-- EXPERIENCE SECTION (Mobile Mockup) -->
-        <section class="py-24 landing-dark-gradient overflow-hidden relative reveal-section" id="explorar">
+        <section class="py-24 bg-[#fff7ed] overflow-hidden relative" id="explorar">
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
                 <div class="order-2 md:order-1 flex justify-center">
                     <div class="relative w-80 h-[650px] bg-slate-900 rounded-[3rem] border-[10px] border-slate-800 landing-iphone overflow-hidden scale-110 md:scale-100 lg:scale-110">
@@ -262,26 +262,26 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                         </div>
                     </div>
                 </div>
-                <div class="order-1 md:order-2 text-white">
-                    <span class="text-[#db3327] font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Formato Imersivo</span>
-                    <h2 class="font-headline text-4xl md:text-6xl font-extrabold mb-8 leading-tight">A Experiência que seus Clientes Amam</h2>
+                <div class="order-1 md:order-2">
+                    <span class="text-[#ea580c] font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Formato Imersivo</span>
+                    <h2 class="font-headline text-4xl md:text-6xl font-extrabold mb-8 leading-tight text-[#121c2a]">A Experiência que seus Clientes Amam</h2>
                     <div class="space-y-8">
                         <div class="flex gap-6">
-                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-[#db3327]">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#ea580c]/10 flex items-center justify-center text-[#ea580c]">
                                 <span class="material-symbols-outlined">bolt</span>
                             </div>
                             <div>
-                                <h4 class="font-headline font-bold text-xl mb-2">Engajamento Instantâneo</h4>
-                                <p class="text-white/60 leading-relaxed">Utilizamos o mesmo gatilho mental das redes sociais mais populares do mundo para prender a atenção do seu cliente.</p>
+                                <h4 class="font-headline font-bold text-xl mb-2 text-[#121c2a]">Engajamento Instantâneo</h4>
+                                <p class="text-[#5c6274] leading-relaxed">Utilizamos o mesmo gatilho mental das redes sociais mais populares do mundo para prender a atenção do seu cliente.</p>
                             </div>
                         </div>
                         <div class="flex gap-6">
-                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-[#db3327]">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#ea580c]/10 flex items-center justify-center text-[#ea580c]">
                                 <span class="material-symbols-outlined">touch_app</span>
                             </div>
                             <div>
-                                <h4 class="font-headline font-bold text-xl mb-2">Navegação Intuitiva</h4>
-                                <p class="text-white/60 leading-relaxed">Scroll vertical infinito. Seus clientes já são especialistas no Clicafood antes mesmo do primeiro pedido.</p>
+                                <h4 class="font-headline font-bold text-xl mb-2 text-[#121c2a]">Navegação Intuitiva</h4>
+                                <p class="text-[#5c6274] leading-relaxed">Scroll vertical infinito. Seus clientes já são especialistas no Clicafood antes mesmo do primeiro pedido.</p>
                             </div>
                         </div>
                     </div>
