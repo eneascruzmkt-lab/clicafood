@@ -274,8 +274,8 @@ const activeTab = ref('identity');
                                        :class="form.menu_layout === 'categories_featured' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
                                     <input type="radio" v-model="form.menu_layout" value="categories_featured" class="mt-1 accent-brand-500" />
                                     <div class="flex-1">
-                                        <span class="font-semibold text-white text-sm">Categorias + Destaques</span>
-                                        <p class="text-xs text-dark-400 mt-1">Categorias com ícones grandes no topo + seção de destaques com os pratos marcados como destaque abaixo.</p>
+                                        <span class="font-semibold text-white text-sm">Categorias + Stories</span>
+                                        <p class="text-xs text-dark-400 mt-1">Stories de destaques no topo + categorias com ícones grandes abaixo. O cliente navega pelos stories e pelas categorias.</p>
                                     </div>
                                 </label>
                             </div>
