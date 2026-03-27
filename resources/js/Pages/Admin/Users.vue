@@ -9,7 +9,16 @@ const props = defineProps({
 });
 
 const editingUser = ref(null);
-const editForm = useForm({});
+const editForm = useForm({
+    name: '',
+    email: '',
+    phone: '',
+    cpf_cnpj: '',
+    role: 'owner',
+    subscription_status: 'pending',
+    subscription_plan: '',
+    subscription_expires_at: '',
+});
 
 const startEdit = (user) => {
     editingUser.value = user.id;
