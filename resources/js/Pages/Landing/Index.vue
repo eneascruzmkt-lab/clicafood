@@ -14,7 +14,6 @@ const handleScroll = () => {
 onMounted(() => window.addEventListener('scroll', handleScroll));
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
-    window.removeEventListener('scroll', handleBurgerScroll);
 });
 
 // Word reveal animation
@@ -25,12 +24,12 @@ onMounted(() => {
 
 // Mockup products (Nonna Titina)
 const mockupProducts = [
-    { name: 'Grano Duro - Piccolo', desc: 'Massa tradicional italiana de trigo duro. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.', price: '24,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg' },
-    { name: 'Artesanal - Piccolo', desc: 'Massa artesanal feita a mao diariamente. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.', price: '29,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/556dccb1-8e40-4dc9-84a0-31f5912cce32.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/gZbj5t2bLouzuZPtoHSPCfydRTtcnfduUqGNz9cT.jpg' },
-    { name: 'Nero di Sepia - Piccolo', desc: 'Massa negra com tinta de lula. Porcao individual (250g a 350g). Escolha 1 proteina, 4 ingredientes e 1 molho.', price: '34,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/58f6b049-b315-4123-b8f5-6d747cca019e.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Xsi740k5SeGeTSydRwOQHcZhNon8WHjFHHlkr62F.jpg' },
-    { name: 'Pasta Alla Contadina', desc: 'Massa al dente envolvida em azeite extravirgem com alho, pimentao e tomate fresco salteados. Molho pesto com frango desfiado.', price: '18,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/7442ec33-f591-4a34-9f03-c671ade2a71f.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/kTWxTzYfqnHkIca6stHNJRXgxH3bTN9LMpncwLfF.jpg' },
-    { name: 'Fettuccine Alfredo', desc: 'Fettuccine perfeitamente al dente envolvido em molho classico de manteiga de alta qualidade e queijo parmesao.', price: '17,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/d528ec63-ef5f-470a-b50b-b08a48814248.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Q5UzFKj3EwU9D95p0eBfjLcJN2vKWriwLimeBfhe.jpg' },
-    { name: 'Carbonara', desc: 'Massa al dente com molho cremoso de ovos, queijo parmesao, bacon crocante e pimenta preta. Um classico italiano irresistivel.', price: '19,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg' },
+    { name: 'Grano Duro - Piccolo', desc: 'Massa tradicional italiana de trigo duro. Porção individual (250g a 350g). Escolha 1 proteína, 4 ingredientes e 1 molho.', price: '24,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg' },
+    { name: 'Artesanal - Piccolo', desc: 'Massa artesanal feita à mão diariamente. Porção individual (250g a 350g). Escolha 1 proteína, 4 ingredientes e 1 molho.', price: '29,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/556dccb1-8e40-4dc9-84a0-31f5912cce32.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/gZbj5t2bLouzuZPtoHSPCfydRTtcnfduUqGNz9cT.jpg' },
+    { name: 'Nero di Sepia - Piccolo', desc: 'Massa negra com tinta de lula. Porção individual (250g a 350g). Escolha 1 proteína, 4 ingredientes e 1 molho.', price: '34,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/58f6b049-b315-4123-b8f5-6d747cca019e.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Xsi740k5SeGeTSydRwOQHcZhNon8WHjFHHlkr62F.jpg' },
+    { name: 'Pasta Alla Contadina', desc: 'Massa al dente envolvida em azeite extravirgem com alho, pimentão e tomate fresco salteados. Molho pesto com frango desfiado.', price: '18,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/7442ec33-f591-4a34-9f03-c671ade2a71f.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/kTWxTzYfqnHkIca6stHNJRXgxH3bTN9LMpncwLfF.jpg' },
+    { name: 'Fettuccine Alfredo', desc: 'Fettuccine perfeitamente al dente envolvido em molho clássico de manteiga de alta qualidade e queijo parmesão.', price: '17,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/d528ec63-ef5f-470a-b50b-b08a48814248.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Q5UzFKj3EwU9D95p0eBfjLcJN2vKWriwLimeBfhe.jpg' },
+    { name: 'Carbonara', desc: 'Massa al dente com molho cremoso de ovos, queijo parmesão, bacon crocante e pimenta preta. Um clássico italiano irresistível.', price: '19,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg' },
 ];
 const mockupIndex = ref(0);
 const prevMockupIndex = ref(null);
@@ -46,11 +45,11 @@ onUnmounted(() => { if (mockupTimer) clearInterval(mockupTimer); });
 
 // Animated counters
 const counters = ref([
-    { target: 73, current: 0, suffix: '%', label: 'Mais Pedidos com Video', prefix: '+' },
-    { target: 2.4, current: 0, suffix: 'x', label: 'Mais Atencao no Cardapio', prefix: '' },
+    { target: 73, current: 0, suffix: '%', label: 'Mais Pedidos com Vídeo', prefix: '+' },
+    { target: 2.4, current: 0, suffix: 'x', label: 'Mais Atenção no Cardápio', prefix: '' },
     { target: 89, current: 0, suffix: '%', label: 'Taxa de Engajamento', prefix: '' },
-    { target: 35, current: 0, suffix: '%', label: 'Aumento no Ticket Medio', prefix: '+' },
-    { target: 45, current: 0, suffix: '%', label: 'Menos Indecisao', prefix: '-' },
+    { target: 35, current: 0, suffix: '%', label: 'Aumento no Ticket Médio', prefix: '+' },
+    { target: 45, current: 0, suffix: '%', label: 'Menos Indecisão', prefix: '-' },
 ]);
 
 const animateCounters = () => {
@@ -71,23 +70,8 @@ const animateCounters = () => {
     });
 };
 
-// Burger assembly scroll
-const burgerProgress = ref(0);
-const burgerRef = ref(null);
-
-const handleBurgerScroll = () => {
-    if (!burgerRef.value) return;
-    const rect = burgerRef.value.getBoundingClientRect();
-    const windowH = window.innerHeight;
-    const start = windowH;
-    const end = windowH * 0.2;
-    const raw = 1 - (rect.top - end) / (start - end);
-    burgerProgress.value = Math.min(1, Math.max(0, raw));
-};
-
 // Scroll reveal + counters
 onMounted(() => {
-    window.addEventListener('scroll', handleBurgerScroll, { passive: true });
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) { animateCounters(); counterObserver.disconnect(); }
@@ -104,65 +88,64 @@ onMounted(() => {
 
 // Features
 const features = [
-    { icon: 'videocam', title: 'Videos que Vendem', desc: 'Substitua fotos estaticas por videos imersivos que despertam o desejo imediato do cliente.' },
-    { icon: 'auto_stories', title: 'Stories dos Pratos', desc: 'Experiencia de navegacao familiar. Seus clientes ja sabem usar antes mesmo de abrir.' },
-    { icon: 'analytics', title: 'Metricas Real Time', desc: 'Saiba exatamente qual video esta gerando mais pedidos em tempo real no seu dashboard.' },
-    { icon: 'qr_code_2', title: 'QR Code Ilimitado', desc: 'Gerencie multiplas mesas e pontos de venda com codigos dinamicos e inteligentes.' },
-    { icon: 'category', title: 'Categorias com Imagem', desc: 'Organize seu cardapio com categorias visuais que guiam o cliente direto para o pedido.' },
-    { icon: 'tune', title: 'Gestao Poderosa', desc: 'Controle total do seu cardapio em poucos cliques. Edite, organize, domine.' },
+    { icon: 'videocam', title: 'Vídeos que Vendem', desc: 'Substitua fotos estáticas por vídeos imersivos que despertam o desejo imediato do cliente.' },
+    { icon: 'auto_stories', title: 'Stories dos Pratos', desc: 'Experiência de navegação familiar. Seus clientes já sabem usar antes mesmo de abrir.' },
+    { icon: 'analytics', title: 'Métricas Real Time', desc: 'Saiba exatamente qual vídeo está gerando mais pedidos em tempo real no seu dashboard.' },
+    { icon: 'qr_code_2', title: 'QR Code Ilimitado', desc: 'Gerencie múltiplas mesas e pontos de venda com códigos dinâmicos e inteligentes.' },
+    { icon: 'category', title: 'Categorias com Imagem', desc: 'Organize seu cardápio com categorias visuais que guiam o cliente direto para o pedido.' },
+    { icon: 'tune', title: 'Gestão Poderosa', desc: 'Controle total do seu cardápio em poucos cliques. Edite, organize, domine.' },
 ];
 
 // Testimonials
 const testimonials = [
-    { name: 'Carlos Mendes', role: 'CEO, Meat & Co.', text: 'O Clicafood mudou a forma como nossos clientes interagem com o menu. O aumento nas vendas de sobremesas foi instantaneo.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnyl_ej5aU1dWChtiH83guDZdC9XE8md0qeM-w6wemmsy61D7i1F9mX4B5dh6OtrCaHWfNskLPkXQp8uNc6gTACUPv0zykQnVHECsXL9b1Kqncf67Qmv5SmYLNSJVUfEYrrhjRpUvMO-izuuU6Bi8wN7sc1MUxkcg6zIYVwwS176I6CSpmwNPVOg18ce-l4oiuik3bQPZifVMMPv6tgB1u0LqfqNE01rDI8Epq0Bs6gm10mbpOpjXfiifpfKgdP77Up6CrOJMikaAM' },
-    { name: 'Ana Luiza', role: 'Fundadora, Sushi Flow', text: 'A facilidade de atualizar os pratos e as metricas em tempo real nos deram um controle que nunca tivemos antes.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAhPnhLZ-GraQvX8ZNnHpI3Ro9uYj7x2Xc-wK_NeS-_szCKPxcROiNZCp5xjAMZlrjKojcFOzEnWlilOK6R5g4Tqgrpva97oQf0lK68zIkBEDcLMo2adj2Ukdd4d0NsSoTRJZDYqHgzQz0i6wqnHkIPBysxfncEjAKFL4C6izg_XA0qDEkC-28dwInHx2XvmyqpuITkeOExSg0LvzQFRldJ10kDxbxBN6QSYOr3gtI2QWIyabaqInzPJ9UbUB44KybnK4YV5u3wFzAW' },
-    { name: 'Roberto Silva', role: 'Chef Executivo, Bistro 22', text: 'O layout video-first e viciante. Os clientes passam muito mais tempo explorando o cardapio e pedindo mais.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyKQNO2pa98DFxYdijHY1X33ZduhN_xup0xcYiCBCP3VG1PBvaeTfuz-zHN25Z6fwc-cDf18ojDF7XKNh-iaqaDbl2VBCsqXnd2TmoCjrvy_SRI9dpJphbysBGQGMGe8H2TVYjok5aptVYxL-dUnlTh3DMzuZsz1iYNHlOcujkPdtlSbe16AetsAC9ZPK0kaKhk0je2B7kFIz_mQ98FUAPyRVIwO10cMyVVL1S-Jqsyce4b3Mt90VcGAHdkH6vxEZ2_KJi2FQwMAKK' },
+    { name: 'Carlos Mendes', role: 'CEO, Meat & Co.', text: 'O Clicafood mudou a forma como nossos clientes interagem com o menu. O aumento nas vendas de sobremesas foi instantâneo.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnyl_ej5aU1dWChtiH83guDZdC9XE8md0qeM-w6wemmsy61D7i1F9mX4B5dh6OtrCaHWfNskLPkXQp8uNc6gTACUPv0zykQnVHECsXL9b1Kqncf67Qmv5SmYLNSJVUfEYrrhjRpUvMO-izuuU6Bi8wN7sc1MUxkcg6zIYVwwS176I6CSpmwNPVOg18ce-l4oiuik3bQPZifVMMPv6tgB1u0LqfqNE01rDI8Epq0Bs6gm10mbpOpjXfiifpfKgdP77Up6CrOJMikaAM' },
+    { name: 'Ana Luiza', role: 'Fundadora, Sushi Flow', text: 'A facilidade de atualizar os pratos e as métricas em tempo real nos deram um controle que nunca tivemos antes.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAhPnhLZ-GraQvX8ZNnHpI3Ro9uYj7x2Xc-wK_NeS-_szCKPxcROiNZCp5xjAMZlrjKojcFOzEnWlilOK6R5g4Tqgrpva97oQf0lK68zIkBEDcLMo2adj2Ukdd4d0NsSoTRJZDYqHgzQz0i6wqnHkIPBysxfncEjAKFL4C6izg_XA0qDEkC-28dwInHx2XvmyqpuITkeOExSg0LvzQFRldJ10kDxbxBN6QSYOr3gtI2QWIyabaqInzPJ9UbUB44KybnK4YV5u3wFzAW' },
+    { name: 'Roberto Silva', role: 'Chef Executivo, Bistro 22', text: 'O layout video-first é viciante. Os clientes passam muito mais tempo explorando o cardápio e pedindo mais.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyKQNO2pa98DFxYdijHY1X33ZduhN_xup0xcYiCBCP3VG1PBvaeTfuz-zHN25Z6fwc-cDf18ojDF7XKNh-iaqaDbl2VBCsqXnd2TmoCjrvy_SRI9dpJphbysBGQGMGe8H2TVYjok5aptVYxL-dUnlTh3DMzuZsz1iYNHlOcujkPdtlSbe16AetsAC9ZPK0kaKhk0je2B7kFIz_mQ98FUAPyRVIwO10cMyVVL1S-Jqsyce4b3Mt90VcGAHdkH6vxEZ2_KJi2FQwMAKK' },
 ];
 
 // Before/After
 const beforeItems = [
-    'Cardapio de papel desatualizado e caro',
+    'Cardápio de papel desatualizado e caro',
     'Cliente indeciso sem saber o que pedir',
-    'Zero dados sobre preferencias',
-    'Impressao cara, trabalhosa e lenta',
+    'Zero dados sobre preferências',
+    'Impressão cara, trabalhosa e lenta',
     'Sem destaque dos pratos mais lucrativos',
-    'Concorrencia te engolindo dia apos dia',
+    'Concorrência te engolindo dia após dia',
 ];
 const afterItems = [
-    'Cardapio digital sempre atualizado em tempo real',
-    'Videos que vendem o prato por voce',
-    'Metricas detalhadas de comportamento',
+    'Cardápio digital sempre atualizado em tempo real',
+    'Vídeos que vendem o prato por você',
+    'Métricas detalhadas de comportamento',
     'QR Code ilimitado e gratuito',
-    'Stories para destacar o que da mais lucro',
-    'Voce domina o mercado local',
+    'Stories para destacar o que dá mais lucro',
+    'Você domina o mercado local',
 ];
 
 // Target audiences
 const audiences = [
     'Restaurantes', 'Hamburguerias', 'Pizzarias', 'Bares e Pubs',
-    'Cafeterias', 'Food Trucks', 'Delivery', 'Steakhouses',
-    'Sorveterias', 'Padarias', 'Acaiterias', 'Eventos e Buffets',
+    'Cafeterias', 'Food Trucks', 'Steakhouses',
+    'Sorveterias', 'Padarias', 'Açaiterias', 'Eventos e Buffets',
 ];
 
 // Pricing
 const pricingFeatures = [
-    'Cardapio Video-First Ilimitado',
-    'QR Codes Dinamicos Ilimitados',
-    'Dashboard de Metricas Avancadas',
-    'Suporte Prioritario 24/7',
-    'Integracao com WhatsApp',
-    'Videos dos pratos',
+    'Cardápio Video-First Ilimitado',
+    'QR Codes Dinâmicos Ilimitados',
+    'Dashboard de Métricas Avançadas',
+    'Suporte Prioritário 24/7',
+    'Integração com WhatsApp',
+    'Vídeos dos pratos',
 ];
 
 // FAQ
 const faqs = [
-    { q: 'Preciso gravar videos profissionais?', a: 'Nao. Videos simples feitos com celular ja convertem muito. O importante e mostrar seu prato de forma real e atrativa.' },
-    { q: 'Funciona para delivery?', a: 'Sim. O cardapio digital funciona perfeitamente para delivery. Seus clientes podem acessar de qualquer lugar e decidir o pedido mais rapido.' },
-    { q: 'O QR Code ja vem pronto?', a: 'Sim. QR Codes ilimitados gerados automaticamente, personalizaveis com suas cores. Baixe em PNG ou SVG para imprimir.' },
-    { q: 'Posso editar categorias e imagens?', a: 'Total controle. Adicione, edite ou remova categorias, imagens e videos quando quiser. Tudo em tempo real.' },
-    { q: 'Quantos pratos posso adicionar?', a: 'No plano Pro, itens ilimitados. Adicione quantos pratos quiser, com foto e video para cada um.' },
-    { q: 'Preciso instalar algo?', a: 'Nada. ClicaFood e 100% web. Funciona no navegador do celular e computador. Sem app necessario.' },
-    { q: 'Tem metricas detalhadas?', a: 'Sim. Visualizacoes do cardapio, itens mais clicados, videos mais assistidos. Dados em tempo real para decisoes com base em numeros.' },
+    { q: 'Preciso gravar vídeos profissionais?', a: 'Não. Vídeos simples feitos com celular já convertem muito. O importante é mostrar seu prato de forma real e atrativa.' },
+    { q: 'O QR Code já vem pronto?', a: 'Sim. QR Codes ilimitados gerados automaticamente, personalizáveis com suas cores. Baixe em PNG ou SVG para imprimir.' },
+    { q: 'Posso editar categorias e imagens?', a: 'Total controle. Adicione, edite ou remova categorias, imagens e vídeos quando quiser. Tudo em tempo real.' },
+    { q: 'Quantos pratos posso adicionar?', a: 'No plano Pro, itens ilimitados. Adicione quantos pratos quiser, com foto e vídeo para cada um.' },
+    { q: 'Preciso instalar algo?', a: 'Nada. ClicaFood é 100% web. Funciona no navegador do celular e computador. Sem app necessário.' },
+    { q: 'Tem métricas detalhadas?', a: 'Sim. Visualizações do cardápio, itens mais clicados, vídeos mais assistidos. Dados em tempo real para decisões com base em números.' },
 ];
 const openFaq = ref(0);
 const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
@@ -170,20 +153,20 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
 
 <template>
     <div class="min-h-screen bg-[#f8f9ff] font-body text-[#121c2a] antialiased scroll-smooth">
-        <Head title="ClicaFood - Cardapio Digital com Video | Domine o Mercado" />
+        <Head title="ClicaFood - Cardápio Digital com Vídeo | Domine o Mercado" />
 
         <!-- NAV -->
-        <nav class="fixed top-0 w-full z-50 transition-all duration-300"
-             :class="scrolled ? 'landing-glass shadow-sm' : 'bg-transparent'">
+        <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+             :class="scrolled ? 'landing-glass shadow-sm' : ''">
             <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
                 <a href="/" class="text-2xl font-black text-red-600 tracking-tighter font-headline">Clicafood</a>
                 <div class="hidden md:flex items-center gap-8">
-                    <a class="text-white/80 hover:text-white transition-colors font-headline text-sm" href="#recursos">Beneficios</a>
+                    <a class="text-white/80 hover:text-white transition-colors font-headline text-sm" href="#recursos">Benefícios</a>
                     <a class="text-white/80 hover:text-white transition-colors font-headline text-sm" href="#precos">Planos</a>
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="/login" class="hidden sm:inline text-white/80 hover:text-white text-sm font-semibold font-headline transition-colors">Entrar</a>
-                    <a href="/register" class="landing-btn-primary text-sm py-2.5 px-6 font-bold font-headline">Comecar Agora</a>
+                    <a href="/register" class="landing-btn-primary text-sm py-2.5 px-6 font-bold font-headline">Começar Agora</a>
                 </div>
             </div>
         </nav>
@@ -198,7 +181,6 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 </video>
             </div>
             <div class="max-w-4xl mx-auto px-6 relative z-20 text-center">
-                <!-- Word reveal headline -->
                 <h1 class="font-headline text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tighter mb-8">
                     <span class="word-reveal inline-block" :class="{ 'word-revealed': heroReady }" style="--delay: 0">Domine</span>
                     <span class="word-reveal inline-block" :class="{ 'word-revealed': heroReady }" style="--delay: 1">a</span>
@@ -210,17 +192,17 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                     <br class="hidden sm:block" />
                     <span class="word-reveal inline-block" :class="{ 'word-revealed': heroReady }" style="--delay: 6">destrua</span>
                     <span class="word-reveal inline-block" :class="{ 'word-revealed': heroReady }" style="--delay: 7">a</span>
-                    <span class="word-reveal inline-block" :class="{ 'word-revealed': heroReady }" style="--delay: 8">concorrencia.</span>
+                    <span class="word-reveal inline-block" :class="{ 'word-revealed': heroReady }" style="--delay: 8">concorrência.</span>
                 </h1>
                 <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-                    Seu cardapio deixa de ser um catalogo sem graca. Videos despertam desejo imediato e transformam visualizacoes em pedidos.
+                    Seu cardápio deixa de ser um catálogo sem graça. Vídeos despertam desejo imediato e transformam visualizações em pedidos.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                     <a href="/register" class="landing-btn-primary text-lg py-4 px-10 font-bold shadow-lg shadow-[#b71511]/25">
-                        Quero dominar meu cardapio
+                        Quero dominar meu cardápio
                     </a>
                     <a href="#explorar" class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-4 rounded-full font-headline font-bold text-lg hover:bg-white/20 transition-all inline-flex items-center justify-center">
-                        Ver demonstracao
+                        Ver demonstração
                     </a>
                 </div>
 
@@ -230,79 +212,14 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                         <div class="flex -space-x-3">
                             <img v-for="t in testimonials" :key="t.name" :src="t.img" :alt="t.name" class="w-10 h-10 rounded-full border-2 border-white/20 object-cover" />
                         </div>
-                        <span class="text-sm text-white/70"><strong class="text-white">5.000+</strong> empresas ja usam</span>
+                        <span class="text-sm text-white/70"><strong class="text-white">5.000+</strong> empresas já usam</span>
                     </div>
                     <div class="flex items-center gap-2 text-sm text-white/70">
                         <div class="flex gap-0.5">
                             <span class="material-symbols-outlined text-amber-400 text-base" style="font-variation-settings: 'FILL' 1;" v-for="n in 5" :key="n">star</span>
                         </div>
-                        <span><strong class="text-white">4,8/5</strong> baseado em <strong class="text-white">1.247</strong> avaliacoes</span>
+                        <span><strong class="text-white">4,8/5</strong> baseado em <strong class="text-white">1.247</strong> avaliações</span>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- BURGER ASSEMBLY SECTION -->
-        <section ref="burgerRef" class="py-32 md:py-48 bg-[#121c2a] relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-                <div class="flex justify-center">
-                    <div class="relative w-72 h-[420px] flex flex-col items-center justify-center">
-                        <div class="burger-layer absolute w-56 h-20 left-1/2 -translate-x-1/2"
-                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * -180}px)`, opacity: 0.3 + burgerProgress * 0.7 }">
-                            <div class="w-full h-full rounded-t-[50%] rounded-b-lg bg-gradient-to-b from-[#e8a54b] via-[#d4893a] to-[#c47a2e] relative overflow-hidden shadow-lg">
-                                <div class="absolute top-3 left-10 w-2 h-2 rounded-full bg-[#f5d89a]/60"></div>
-                                <div class="absolute top-5 left-20 w-1.5 h-1.5 rounded-full bg-[#f5d89a]/50"></div>
-                                <div class="absolute top-4 right-12 w-2 h-2 rounded-full bg-[#f5d89a]/60"></div>
-                                <div class="absolute top-6 right-20 w-1.5 h-1.5 rounded-full bg-[#f5d89a]/40"></div>
-                                <div class="absolute top-2 left-1/2 w-1.5 h-1.5 rounded-full bg-[#f5d89a]/50"></div>
-                                <div class="absolute bottom-0 w-full h-3 bg-[#b86e25]"></div>
-                            </div>
-                        </div>
-                        <div class="burger-layer absolute w-60 left-1/2 -translate-x-1/2"
-                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * -100}px)`, top: '105px', opacity: 0.3 + burgerProgress * 0.7 }">
-                            <svg viewBox="0 0 240 30" class="w-full drop-shadow-md">
-                                <path d="M5,20 Q20,5 40,18 Q55,2 75,16 Q90,0 110,15 Q125,2 145,18 Q160,5 180,16 Q195,0 215,18 Q230,5 238,15 L238,28 L5,28 Z" fill="#4ade80" opacity="0.9"/>
-                                <path d="M8,22 Q25,8 45,20 Q60,5 80,18 Q95,3 115,17 Q130,5 150,20 Q165,8 185,18 Q200,3 220,20 L235,25 L5,25 Z" fill="#22c55e"/>
-                            </svg>
-                        </div>
-                        <div class="burger-layer absolute w-56 h-5 left-1/2 -translate-x-1/2"
-                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * -40}px)`, top: '135px', opacity: 0.3 + burgerProgress * 0.7 }">
-                            <div class="w-full h-full rounded-sm bg-gradient-to-b from-[#ef4444] to-[#dc2626] shadow-md relative">
-                                <div class="absolute inset-0 flex justify-around items-center px-4">
-                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
-                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
-                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
-                                    <div class="w-6 h-3 rounded-full border border-[#fca5a5]/30"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="burger-layer absolute w-60 left-1/2 -translate-x-1/2"
-                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * 30}px)`, top: '155px', opacity: 0.3 + burgerProgress * 0.7 }">
-                            <svg viewBox="0 0 240 25" class="w-full drop-shadow-md">
-                                <path d="M0,0 L240,0 L240,12 Q225,22 210,14 Q195,22 180,14 Q165,22 150,14 Q135,22 120,14 Q105,22 90,14 Q75,22 60,14 Q45,22 30,14 Q15,22 0,12 Z" fill="#fbbf24"/>
-                                <path d="M0,0 L240,0 L240,8 L0,8 Z" fill="#f59e0b" opacity="0.5"/>
-                            </svg>
-                        </div>
-                        <div class="burger-layer absolute w-56 h-12 left-1/2 -translate-x-1/2"
-                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * 100}px)`, top: '175px', opacity: 0.3 + burgerProgress * 0.7 }">
-                            <div class="w-full h-full rounded-lg bg-gradient-to-b from-[#78350f] via-[#5c2d0e] to-[#451a03] shadow-xl relative">
-                                <div class="absolute inset-0 rounded-lg opacity-30" style="background: radial-gradient(circle at 30% 40%, #92400e 0%, transparent 50%), radial-gradient(circle at 70% 60%, #92400e 0%, transparent 50%);"></div>
-                            </div>
-                        </div>
-                        <div class="burger-layer absolute w-56 h-10 left-1/2 -translate-x-1/2"
-                             :style="{ transform: `translateX(-50%) translateY(${(1 - burgerProgress) * 180}px)`, top: '225px', opacity: 0.3 + burgerProgress * 0.7 }">
-                            <div class="w-full h-full rounded-b-2xl rounded-t-sm bg-gradient-to-b from-[#d4893a] to-[#c47a2e] shadow-lg">
-                                <div class="w-full h-2 bg-[#b86e25] rounded-t-sm"></div>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-48 h-4 bg-black/20 rounded-[50%] blur-md"
-                             :style="{ opacity: burgerProgress * 0.6, transform: `translateX(-50%) scaleX(${0.6 + burgerProgress * 0.4})` }"></div>
-                    </div>
-                </div>
-                <div class="text-white text-center md:text-left">
-                    <span class="text-[#db3327] font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Experiencia Visual</span>
-                    <h2 class="font-headline text-4xl md:text-5xl font-extrabold mb-6 leading-tight">Cada detalhe<br/><span class="text-[#db3327]">vende mais.</span></h2>
-                    <p class="text-white/60 text-lg leading-relaxed max-w-md mx-auto md:mx-0">Seus clientes veem cada ingrediente, cada camada, cada textura. Videos que despertam o desejo e transformam curiosidade em pedido.</p>
                 </div>
             </div>
         </section>
@@ -327,7 +244,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                                             <span class="font-bold text-xl text-[#db3327]">R$ {{ product.price }}</span>
                                             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">Massas</span>
                                             <span class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1 bg-[#db3327]/30 text-[#db3327]">
-                                                <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Video
+                                                <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Vídeo
                                             </span>
                                         </div>
                                         <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
@@ -347,15 +264,15 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 </div>
                 <div class="order-1 md:order-2 text-white">
                     <span class="text-[#db3327] font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Formato Imersivo</span>
-                    <h2 class="font-headline text-4xl md:text-6xl font-extrabold mb-8 leading-tight">A Experiencia que seus Clientes Amam</h2>
+                    <h2 class="font-headline text-4xl md:text-6xl font-extrabold mb-8 leading-tight">A Experiência que seus Clientes Amam</h2>
                     <div class="space-y-8">
                         <div class="flex gap-6">
                             <div class="flex-shrink-0 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-[#db3327]">
                                 <span class="material-symbols-outlined">bolt</span>
                             </div>
                             <div>
-                                <h4 class="font-headline font-bold text-xl mb-2">Engajamento Instantaneo</h4>
-                                <p class="text-white/60 leading-relaxed">Utilizamos o mesmo gatilho mental das redes sociais mais populares do mundo para prender a atencao do seu cliente.</p>
+                                <h4 class="font-headline font-bold text-xl mb-2">Engajamento Instantâneo</h4>
+                                <p class="text-white/60 leading-relaxed">Utilizamos o mesmo gatilho mental das redes sociais mais populares do mundo para prender a atenção do seu cliente.</p>
                             </div>
                         </div>
                         <div class="flex gap-6">
@@ -363,8 +280,8 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                                 <span class="material-symbols-outlined">touch_app</span>
                             </div>
                             <div>
-                                <h4 class="font-headline font-bold text-xl mb-2">Navegacao Intuitiva</h4>
-                                <p class="text-white/60 leading-relaxed">Scroll vertical infinito. Seus clientes ja sao especialistas no Clicafood antes mesmo do primeiro pedido.</p>
+                                <h4 class="font-headline font-bold text-xl mb-2">Navegação Intuitiva</h4>
+                                <p class="text-white/60 leading-relaxed">Scroll vertical infinito. Seus clientes já são especialistas no Clicafood antes mesmo do primeiro pedido.</p>
                             </div>
                         </div>
                     </div>
@@ -377,7 +294,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
                     <span class="text-[#b71511] font-bold tracking-widest uppercase text-xs">Por que o Clicafood domina</span>
-                    <h2 class="font-headline text-4xl md:text-5xl font-extrabold mt-3 text-[#121c2a]">Tudo que um cardapio comum nao consegue ser.</h2>
+                    <h2 class="font-headline text-4xl md:text-5xl font-extrabold mt-3 text-[#121c2a]">Tudo que um cardápio comum não consegue ser.</h2>
                 </div>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div v-for="feature in features" :key="feature.title"
@@ -398,7 +315,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
             <div class="max-w-7xl mx-auto px-6 relative z-10">
                 <div class="text-center mb-16">
                     <span class="text-[#db3327] font-bold tracking-widest uppercase text-xs">Resultados Insanos</span>
-                    <h2 class="font-headline text-4xl md:text-5xl font-extrabold mt-3">Numeros que falam por si.</h2>
+                    <h2 class="font-headline text-4xl md:text-5xl font-extrabold mt-3">Números que falam por si.</h2>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
                     <div v-for="c in counters" :key="c.label">
@@ -409,12 +326,12 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
             </div>
         </section>
 
-        <!-- PUBLICO ALVO -->
+        <!-- PÚBLICO ALVO -->
         <section class="py-20 bg-[#f8f9ff] reveal-section">
             <div class="max-w-4xl mx-auto px-6 text-center">
-                <span class="text-[#b71511] font-bold tracking-widest uppercase text-xs">Publico-Alvo</span>
+                <span class="text-[#b71511] font-bold tracking-widest uppercase text-xs">Público-Alvo</span>
                 <h2 class="font-headline text-3xl md:text-4xl font-extrabold mt-3 mb-4">Feito para quem quer dominar</h2>
-                <p class="text-[#5c6274] mb-10 text-lg">Nao importa o tamanho. Se voce vende comida, o ClicaFood e para voce.</p>
+                <p class="text-[#5c6274] mb-10 text-lg">Não importa o tamanho. Se você vende comida, o ClicaFood é para você.</p>
                 <div class="flex flex-wrap gap-3 justify-center">
                     <span v-for="a in audiences" :key="a"
                           class="px-5 py-2.5 bg-white border border-[#e5beb8]/20 rounded-full text-sm text-[#5c6274] font-medium hover:border-[#b71511]/40 hover:text-[#b71511] transition-all duration-200 cursor-default">
@@ -465,7 +382,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                 <div class="text-center mb-16">
                     <span class="text-[#b71511] font-bold tracking-widest uppercase text-xs">Depoimentos</span>
                     <h2 class="font-headline text-4xl font-extrabold text-[#121c2a] mt-3">O que os restaurantes dizem.</h2>
-                    <p class="text-[#5c6274] mt-4">Resultados reais de donos de restaurantes como voce.</p>
+                    <p class="text-[#5c6274] mt-4">Resultados reais de donos de restaurantes como você.</p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8">
                     <div v-for="t in testimonials" :key="t.name" class="bg-white p-10 rounded-3xl shadow-sm border border-[#e5beb8]/10">
@@ -489,20 +406,20 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
         <section class="py-24 bg-[#e6eeff] reveal-section" id="precos">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="max-w-3xl mx-auto text-center mb-16">
-                    <h2 class="font-headline text-4xl font-extrabold text-[#121c2a]">O unico plano que voce precisa para dominar.</h2>
-                    <p class="text-[#5c6274] mt-4">Preco transparente. Sem surpresas. Cancele quando quiser.</p>
+                    <h2 class="font-headline text-4xl font-extrabold text-[#121c2a]">O único plano que você precisa para dominar.</h2>
+                    <p class="text-[#5c6274] mt-4">Preço transparente. Sem surpresas. Cancele quando quiser.</p>
                 </div>
                 <div class="max-w-lg mx-auto bg-white rounded-[2.5rem] p-12 shadow-xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 landing-btn-primary px-8 py-2 rounded-bl-3xl font-bold text-sm pointer-events-none">-20% OFF</div>
                     <h3 class="font-headline font-bold text-3xl mb-2">Plano Pro</h3>
-                    <p class="text-[#5c6274] mb-8">Tudo o que voce precisa para dominar.</p>
+                    <p class="text-[#5c6274] mb-8">Tudo o que você precisa para dominar.</p>
                     <div class="flex items-baseline gap-2 mb-2">
-                        <span class="text-sm text-[#5c6274] line-through">R$ 197/mes</span>
+                        <span class="text-sm text-[#5c6274] line-through">R$ 197/mês</span>
                     </div>
                     <div class="flex items-baseline gap-2 mb-10">
                         <span class="text-2xl font-bold text-[#121c2a]">R$</span>
                         <span class="text-6xl font-black text-[#121c2a] tracking-tighter">97</span>
-                        <span class="text-[#5c6274] font-medium">/mes</span>
+                        <span class="text-[#5c6274] font-medium">/mês</span>
                     </div>
                     <ul class="space-y-4 mb-10">
                         <li v-for="feature in pricingFeatures" :key="feature" class="flex items-center gap-3">
@@ -513,7 +430,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                     <a href="/register" class="landing-btn-primary w-full py-5 rounded-2xl text-xl font-bold shadow-lg shadow-[#b71511]/20 block text-center">
                         Quero dominar
                     </a>
-                    <p class="text-xs text-[#5c6274] mt-4 text-center">7 dias gratis. Cancele quando quiser. Sem fidelidade.</p>
+                    <p class="text-xs text-[#5c6274] mt-4 text-center">7 dias grátis. Cancele quando quiser. Sem fidelidade.</p>
                 </div>
             </div>
         </section>
@@ -522,7 +439,7 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
         <section class="py-24 bg-[#f8f9ff] reveal-section">
             <div class="max-w-3xl mx-auto px-6">
                 <div class="text-center mb-14">
-                    <span class="text-[#b71511] font-bold tracking-widest uppercase text-xs">Duvidas Frequentes</span>
+                    <span class="text-[#b71511] font-bold tracking-widest uppercase text-xs">Dúvidas Frequentes</span>
                     <h2 class="font-headline text-3xl font-extrabold mt-3">Perguntas diretas. Respostas diretas.</h2>
                 </div>
                 <div class="space-y-4">
@@ -550,39 +467,74 @@ const toggleFaq = (i) => { openFaq.value = openFaq.value === i ? null : i; };
                     <span class="text-[#db3327]">Comece a dominar agora.</span>
                 </h2>
                 <p class="text-white/60 mb-10 text-lg max-w-xl mx-auto">
-                    Junte-se a mais de 5.000 restaurantes que ja transformaram seus cardapios em maquinas de venda.
+                    Junte-se a mais de 5.000 restaurantes que já transformaram seus cardápios em máquinas de venda.
                 </p>
                 <a href="/register" class="landing-btn-primary text-lg py-5 px-12 font-bold shadow-lg shadow-[#b71511]/25 inline-block">
-                    Comecar a dominar agora
+                    Começar a dominar agora
                 </a>
                 <div class="flex justify-center gap-10 mt-12 text-sm text-white/40">
                     <div>
                         <strong class="text-white text-2xl font-headline font-black block">5k+</strong>
-                        <span>usuarios ativos</span>
+                        <span>usuários ativos</span>
                     </div>
                     <div>
                         <strong class="text-white text-2xl font-headline font-black block">4.8/5</strong>
-                        <span>avaliacao media</span>
+                        <span>avaliação média</span>
                     </div>
                     <div>
                         <strong class="text-white text-2xl font-headline font-black block">98%</strong>
-                        <span>satisfacao</span>
+                        <span>satisfação</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- FOOTER -->
-        <footer class="bg-[#0d1420] w-full">
-            <div class="flex flex-col md:flex-row justify-between items-center px-8 py-12 max-w-7xl mx-auto gap-6">
-                <div class="flex flex-col items-center md:items-start gap-2">
-                    <a href="/" class="text-xl font-bold text-white font-headline">Clicafood</a>
-                    <p class="text-xs text-white/30 max-w-xs text-center md:text-left">2024 Clicafood — Poder visual para restaurantes que desejam dominar.</p>
+        <footer class="bg-[#f5f5f4] border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-8 pt-12 pb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+                    <!-- Brand -->
+                    <div>
+                        <a href="/" class="text-lg font-black tracking-tighter font-headline text-[#121c2a] uppercase">Clicafood</a>
+                        <p class="text-xs text-[#5c6274] mt-3 leading-relaxed max-w-xs uppercase">
+                            A maior plataforma de cardápios cinéticos do Brasil. Transformando seu cardápio em espetáculo.
+                        </p>
+                        <div class="flex gap-3 mt-4">
+                            <!-- TikTok -->
+                            <a href="#" class="text-[#5c6274] hover:text-[#121c2a] transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.75a8.18 8.18 0 004.77 1.52V6.84a4.85 4.85 0 01-1-.15z"/></svg>
+                            </a>
+                            <!-- Instagram -->
+                            <a href="#" class="text-[#5c6274] hover:text-[#121c2a] transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Recursos -->
+                    <div>
+                        <h4 class="font-headline font-bold text-xs uppercase tracking-widest text-[#121c2a] mb-4">Recursos</h4>
+                        <ul class="space-y-2 text-sm text-[#5c6274]">
+                            <li><a href="#recursos" class="hover:text-[#121c2a] transition-colors">Features</a></li>
+                            <li><a href="#precos" class="hover:text-[#121c2a] transition-colors">Pricing</a></li>
+                            <li><a href="#explorar" class="hover:text-[#121c2a] transition-colors">Solutions</a></li>
+                        </ul>
+                    </div>
+                    <!-- Legal -->
+                    <div>
+                        <h4 class="font-headline font-bold text-xs uppercase tracking-widest text-[#121c2a] mb-4">Legal</h4>
+                        <ul class="space-y-2 text-sm text-[#5c6274]">
+                            <li><a href="#" class="hover:text-[#121c2a] transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" class="hover:text-[#121c2a] transition-colors">Terms of Service</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="flex gap-8">
-                    <a class="text-white/40 hover:text-white transition-colors text-xs" href="#">Privacidade</a>
-                    <a class="text-white/40 hover:text-white transition-colors text-xs" href="#">Termos de Uso</a>
-                    <a class="text-white/40 hover:text-white transition-colors text-xs" href="#">Contato</a>
+                <!-- Bottom bar -->
+                <div class="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-xs text-[#5c6274] uppercase">© 2024 Clicafood. Kinetic Editorial Design.</p>
+                    <div class="flex gap-6 text-xs text-[#5c6274] uppercase">
+                        <a href="#" class="hover:text-[#121c2a] transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-[#121c2a] transition-colors">LinkedIn</a>
+                    </div>
                 </div>
             </div>
         </footer>
