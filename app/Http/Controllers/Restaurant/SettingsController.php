@@ -35,6 +35,7 @@ class SettingsController extends Controller
             'font_family' => 'nullable|string|max:50',
             'background_image' => 'nullable|image|max:4096',
             'background_opacity' => 'nullable|integer|min:0|max:100',
+            'menu_layout' => 'nullable|string|in:reels,categories,categories_featured',
             'remove_background' => 'nullable|boolean',
             'address' => 'nullable|string|max:500',
             'phone' => 'nullable|string|max:20',

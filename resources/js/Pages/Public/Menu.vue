@@ -248,6 +248,13 @@ const textColor = computed(() => props.restaurant.text_color || '#ffffff');
 const textSecColor = computed(() => props.restaurant.text_secondary_color || '#9ca3af');
 const borderColor = computed(() => props.restaurant.border_color || '#333333');
 const priceColor = computed(() => props.restaurant.price_color || primaryColor.value);
+const menuLayout = computed(() => props.restaurant.menu_layout || 'reels');
+const selectedCategory = ref(null);
+const categoryItems = computed(() => {
+    if (!selectedCategory.value) return [];
+    return props.items.filter(item => item.category_id === selectedCategory.value);
+});
+const featuredItems = computed(() => props.items.filter(item => item.featured));
 const fontFamily = computed(() => `'${props.restaurant.font_family || 'Inter'}', sans-serif`);
 const bgImage = computed(() => props.restaurant.background_image || null);
 const bgOpacity = computed(() => (props.restaurant.background_opacity ?? 100) / 100);
@@ -330,50 +337,181 @@ onUnmounted(() => {
         </div>
 
         <div class="max-w-lg mx-auto px-4 pb-8">
-            <!-- Stories -->
-            <div v-if="stories.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
-                <div class="flex gap-3">
-                    <button v-for="(story, index) in stories" :key="story.id" @click="openStory(index)" class="flex-shrink-0 text-center group">
-                        <div class="w-16 h-16 rounded-full p-0.5 mb-1" :style="{ background: `linear-gradient(135deg, ${primaryColor}, #ff8c00)` }">
-                            <div class="w-full h-full rounded-full overflow-hidden border-2" :style="{ borderColor: secondaryColor }">
-                                <img :src="story.image" :alt="story.title || 'Story'" class="w-full h-full object-cover" />
+
+            <!-- ====== LAYOUT: REELS (padrão) ====== -->
+            <template v-if="menuLayout === 'reels'">
+                <!-- Stories -->
+                <div v-if="stories.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+                    <div class="flex gap-3">
+                        <button v-for="(story, index) in stories" :key="story.id" @click="openStory(index)" class="flex-shrink-0 text-center group">
+                            <div class="w-16 h-16 rounded-full p-0.5 mb-1" :style="{ background: `linear-gradient(135deg, ${primaryColor}, #ff8c00)` }">
+                                <div class="w-full h-full rounded-full overflow-hidden border-2" :style="{ borderColor: secondaryColor }">
+                                    <img :src="story.image" :alt="story.title || 'Story'" class="w-full h-full object-cover" />
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-gray-400 w-16 truncate">{{ story.title || '' }}</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="flex gap-2 py-3 overflow-x-auto -mx-4 px-4 scrollbar-hide">
+                    <button @click="activeCategory = null"
+                            :style="!activeCategory ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: borderColor, color: textSecColor }"
+                            class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">Todos</button>
+                    <button v-for="cat in categories" :key="cat.id" @click="activeCategory = cat.id"
+                            :style="activeCategory === cat.id ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: borderColor, color: textSecColor }"
+                            class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">{{ cat.name }}</button>
+                </div>
+
+                <!-- Menu Items -->
+                <div class="space-y-3 mt-4">
+                    <div v-for="item in filteredItems" :key="item.id" @click="openReels(item)"
+                         class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
+                         :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }">
+                        <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
+                            <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
+                            <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
+                            <div v-if="item.video_url" class="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center" :style="{ backgroundColor: primaryColor }">
+                                <Icon name="play" class="w-2.5 h-2.5 text-white ml-px" />
                             </div>
                         </div>
-                        <p class="text-[10px] text-gray-400 w-16 truncate">{{ story.title || '' }}</p>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Categories -->
-            <div class="flex gap-2 py-3 overflow-x-auto -mx-4 px-4 scrollbar-hide">
-                <button @click="activeCategory = null"
-                        :style="!activeCategory ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: borderColor, color: textSecColor }"
-                        class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">Todos</button>
-                <button v-for="cat in categories" :key="cat.id" @click="activeCategory = cat.id"
-                        :style="activeCategory === cat.id ? { backgroundColor: primaryColor, color: '#fff' } : { backgroundColor: borderColor, color: textSecColor }"
-                        class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors">{{ cat.name }}</button>
-            </div>
-
-            <!-- Menu Items -->
-            <div class="space-y-3 mt-4">
-                <div v-for="item in filteredItems" :key="item.id" @click="openReels(item)"
-                     class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
-                     :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }">
-                    <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
-                        <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
-                        <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
-                        <div v-if="item.video_url" class="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center" :style="{ backgroundColor: primaryColor }">
-                            <Icon name="play" class="w-2.5 h-2.5 text-white ml-px" />
+                        <div class="flex-1 min-w-0 py-1">
+                            <h3 class="font-semibold text-sm" :style="{ color: textColor }">{{ item.name }}</h3>
+                            <p v-if="item.description" class="text-xs mt-0.5 line-clamp-2" :style="{ color: textSecColor }">{{ item.description }}</p>
+                            <p class="font-bold mt-1.5 text-sm" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
                         </div>
                     </div>
-                    <div class="flex-1 min-w-0 py-1">
-                        <h3 class="font-semibold text-sm" :style="{ color: textColor }">{{ item.name }}</h3>
-                        <p v-if="item.description" class="text-xs mt-0.5 line-clamp-2" :style="{ color: textSecColor }">{{ item.description }}</p>
-                        <p class="font-bold mt-1.5 text-sm" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
-                    </div>
+                    <p v-if="filteredItems.length === 0" class="text-center text-gray-500 py-8 text-sm">Nenhum item nesta categoria</p>
                 </div>
-                <p v-if="filteredItems.length === 0" class="text-center text-gray-500 py-8 text-sm">Nenhum item nesta categoria</p>
-            </div>
+            </template>
+
+            <!-- ====== LAYOUT: CATEGORIES (apenas categorias com ícones grandes) ====== -->
+            <template v-else-if="menuLayout === 'categories'">
+                <!-- Se uma categoria está selecionada, mostra os itens dela -->
+                <template v-if="selectedCategory">
+                    <button @click="selectedCategory = null" class="flex items-center gap-2 py-4 text-sm font-medium" :style="{ color: primaryColor }">
+                        <Icon name="chevron-left" class="w-4 h-4" />
+                        <span>Voltar às categorias</span>
+                    </button>
+                    <h2 class="font-display font-bold text-lg mb-4" :style="{ color: textColor }">
+                        {{ categories.find(c => c.id === selectedCategory)?.name }}
+                    </h2>
+                    <div class="space-y-3">
+                        <div v-for="item in categoryItems" :key="item.id" @click="openReels(item)"
+                             class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
+                             :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }">
+                            <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
+                                <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
+                                <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
+                                <div v-if="item.video_url" class="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center" :style="{ backgroundColor: primaryColor }">
+                                    <Icon name="play" class="w-2.5 h-2.5 text-white ml-px" />
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0 py-1">
+                                <h3 class="font-semibold text-sm" :style="{ color: textColor }">{{ item.name }}</h3>
+                                <p v-if="item.description" class="text-xs mt-0.5 line-clamp-2" :style="{ color: textSecColor }">{{ item.description }}</p>
+                                <p class="font-bold mt-1.5 text-sm" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
+                            </div>
+                        </div>
+                        <p v-if="categoryItems.length === 0" class="text-center text-gray-500 py-8 text-sm">Nenhum item nesta categoria</p>
+                    </div>
+                </template>
+
+                <!-- Grid de categorias grandes -->
+                <template v-else>
+                    <div class="grid grid-cols-2 gap-3 mt-6">
+                        <button v-for="cat in categories" :key="cat.id" @click="selectedCategory = cat.id"
+                                class="relative rounded-2xl overflow-hidden aspect-square group active:scale-[0.97] transition-transform">
+                            <img v-if="cat.image" :src="getImageUrl(cat.image)" :alt="cat.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                            <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: borderColor + '60' }">
+                                <Icon name="restaurant" class="w-12 h-12" :style="{ color: textSecColor }" />
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4">
+                                <h3 class="font-display font-bold text-white text-base drop-shadow-lg">{{ cat.name }}</h3>
+                            </div>
+                        </button>
+                    </div>
+                </template>
+            </template>
+
+            <!-- ====== LAYOUT: CATEGORIES + FEATURED ====== -->
+            <template v-else-if="menuLayout === 'categories_featured'">
+                <!-- Se uma categoria está selecionada, mostra os itens dela -->
+                <template v-if="selectedCategory">
+                    <button @click="selectedCategory = null" class="flex items-center gap-2 py-4 text-sm font-medium" :style="{ color: primaryColor }">
+                        <Icon name="chevron-left" class="w-4 h-4" />
+                        <span>Voltar</span>
+                    </button>
+                    <h2 class="font-display font-bold text-lg mb-4" :style="{ color: textColor }">
+                        {{ categories.find(c => c.id === selectedCategory)?.name }}
+                    </h2>
+                    <div class="space-y-3">
+                        <div v-for="item in categoryItems" :key="item.id" @click="openReels(item)"
+                             class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
+                             :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }">
+                            <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
+                                <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
+                                <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
+                                <div v-if="item.video_url" class="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center" :style="{ backgroundColor: primaryColor }">
+                                    <Icon name="play" class="w-2.5 h-2.5 text-white ml-px" />
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0 py-1">
+                                <h3 class="font-semibold text-sm" :style="{ color: textColor }">{{ item.name }}</h3>
+                                <p v-if="item.description" class="text-xs mt-0.5 line-clamp-2" :style="{ color: textSecColor }">{{ item.description }}</p>
+                                <p class="font-bold mt-1.5 text-sm" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
+                            </div>
+                        </div>
+                        <p v-if="categoryItems.length === 0" class="text-center text-gray-500 py-8 text-sm">Nenhum item nesta categoria</p>
+                    </div>
+                </template>
+
+                <!-- Grid de categorias + destaques -->
+                <template v-else>
+                    <!-- Categorias grandes -->
+                    <div class="grid grid-cols-2 gap-3 mt-6">
+                        <button v-for="cat in categories" :key="cat.id" @click="selectedCategory = cat.id"
+                                class="relative rounded-2xl overflow-hidden aspect-square group active:scale-[0.97] transition-transform">
+                            <img v-if="cat.image" :src="getImageUrl(cat.image)" :alt="cat.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                            <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: borderColor + '60' }">
+                                <Icon name="restaurant" class="w-12 h-12" :style="{ color: textSecColor }" />
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-4">
+                                <h3 class="font-display font-bold text-white text-base drop-shadow-lg">{{ cat.name }}</h3>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Destaques -->
+                    <div v-if="featuredItems.length > 0" class="mt-8">
+                        <h2 class="font-display font-bold text-base mb-4 flex items-center gap-2" :style="{ color: textColor }">
+                            <Icon name="star" class="w-4 h-4" :style="{ color: primaryColor }" />
+                            Destaques
+                        </h2>
+                        <div class="space-y-3">
+                            <div v-for="item in featuredItems" :key="item.id" @click="openReels(item)"
+                                 class="flex gap-3 p-3 rounded-xl hover:bg-white/5 cursor-pointer"
+                                 :style="{ backgroundColor: borderColor + '30', border: `1px solid ${borderColor}40` }">
+                                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 relative">
+                                    <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy" />
+                                    <div v-else class="w-full h-full flex items-center justify-center" style="background-color:#222"><Icon name="image" class="w-8 h-8 text-gray-600" /></div>
+                                    <div v-if="item.video_url" class="absolute bottom-1 right-1 w-5 h-5 rounded-full flex items-center justify-center" :style="{ backgroundColor: primaryColor }">
+                                        <Icon name="play" class="w-2.5 h-2.5 text-white ml-px" />
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0 py-1">
+                                    <h3 class="font-semibold text-sm" :style="{ color: textColor }">{{ item.name }}</h3>
+                                    <p v-if="item.description" class="text-xs mt-0.5 line-clamp-2" :style="{ color: textSecColor }">{{ item.description }}</p>
+                                    <p class="font-bold mt-1.5 text-sm" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
 
             <div class="mt-8 pt-4 text-center" :style="{ borderTop: `1px solid ${borderColor}40` }">
                 <p class="text-xs" :style="{ color: textSecColor + '80' }">Powered by <span class="font-display font-bold"><span :style="{ color: primaryColor }">Clica</span><span :style="{ color: textColor }">Food</span></span></p>

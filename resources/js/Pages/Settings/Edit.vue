@@ -25,6 +25,7 @@ const form = useForm({
     font_family: props.restaurant?.font_family || 'Inter',
     background_image: null,
     background_opacity: props.restaurant?.background_opacity ?? 100,
+    menu_layout: props.restaurant?.menu_layout || 'reels',
     remove_background: false,
     address: props.restaurant?.address || '',
     phone: props.restaurant?.phone || '',
@@ -236,6 +237,47 @@ const activeTab = ref('identity');
                                 <div class="flex justify-between text-[10px] text-dark-500 mt-1">
                                     <span>Transparente</span><span>Opaco</span>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Layout do Cardápio -->
+                        <div class="card space-y-4">
+                            <h3 class="font-bold text-white flex items-center gap-2">
+                                <Icon name="settings" class="w-5 h-5 text-brand-400" />
+                                Layout do Cardápio
+                            </h3>
+                            <p class="text-xs text-dark-400">Escolha como seu cardápio será exibido para os clientes.</p>
+                            <div class="space-y-3">
+                                <!-- Reels -->
+                                <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
+                                       :class="form.menu_layout === 'reels' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
+                                    <input type="radio" v-model="form.menu_layout" value="reels" class="mt-1 accent-brand-500" />
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-semibold text-white text-sm">Stories + Reels</span>
+                                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-medium">Padrão</span>
+                                        </div>
+                                        <p class="text-xs text-dark-400 mt-1">Stories de destaques no topo + produtos em formato de vídeo vertical (estilo TikTok/Instagram Reels).</p>
+                                    </div>
+                                </label>
+                                <!-- Categories Only -->
+                                <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
+                                       :class="form.menu_layout === 'categories' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
+                                    <input type="radio" v-model="form.menu_layout" value="categories" class="mt-1 accent-brand-500" />
+                                    <div class="flex-1">
+                                        <span class="font-semibold text-white text-sm">Apenas Categorias</span>
+                                        <p class="text-xs text-dark-400 mt-1">Exibe categorias com ícones grandes. O cliente toca em uma categoria para ver os produtos daquela seção.</p>
+                                    </div>
+                                </label>
+                                <!-- Categories + Featured -->
+                                <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
+                                       :class="form.menu_layout === 'categories_featured' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
+                                    <input type="radio" v-model="form.menu_layout" value="categories_featured" class="mt-1 accent-brand-500" />
+                                    <div class="flex-1">
+                                        <span class="font-semibold text-white text-sm">Categorias + Destaques</span>
+                                        <p class="text-xs text-dark-400 mt-1">Categorias com ícones grandes no topo + seção de destaques com os pratos marcados como destaque abaixo.</p>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                     </div>

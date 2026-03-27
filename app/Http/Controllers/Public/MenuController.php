@@ -43,7 +43,7 @@ class MenuController extends Controller
         $restaurantData = array_intersect_key($restaurantData, array_flip([
             'id', 'name', 'slug', 'description', 'logo', 'primary_color', 'secondary_color',
             'text_color', 'text_secondary_color', 'border_color', 'price_color',
-            'font_family', 'background_image', 'background_opacity',
+            'font_family', 'background_image', 'background_opacity', 'menu_layout',
             'phone', 'instagram', 'whatsapp', 'address', 'working_hours',
         ]));
 

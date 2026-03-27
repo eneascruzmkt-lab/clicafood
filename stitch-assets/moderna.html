@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clicafood - Domine a Gastronomia Digital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-primary-container": "#fffbff",
+                "on-tertiary-fixed-variant": "#783200",
+                "surface-bright": "#f8f9ff",
+                "tertiary-container": "#c05400",
+                "surface-dim": "#d0dbed",
+                "on-secondary-container": "#5c6274",
+                "outline-variant": "#e5beb8",
+                "surface-tint": "#bb1913",
+                "on-tertiary-fixed": "#341100",
+                "outline": "#906f6b",
+                "on-primary-fixed": "#410001",
+                "primary-fixed": "#ffdad5",
+                "primary-fixed-dim": "#ffb4a9",
+                "surface-container-high": "#dee9fc",
+                "secondary": "#575e70",
+                "primary-container": "#db3327",
+                "on-background": "#121c2a",
+                "secondary-container": "#d9dff5",
+                "tertiary-fixed-dim": "#ffb690",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#e6eeff",
+                "on-primary": "#ffffff",
+                "surface": "#f8f9ff",
+                "inverse-surface": "#27313f",
+                "on-primary-fixed-variant": "#930004",
+                "on-surface-variant": "#5c403c",
+                "tertiary-fixed": "#ffdbca",
+                "on-secondary-fixed": "#141b2b",
+                "primary": "#b71511",
+                "error": "#ba1a1a",
+                "on-tertiary-container": "#fffbff",
+                "inverse-on-surface": "#eaf1ff",
+                "on-secondary": "#ffffff",
+                "on-error-container": "#93000a",
+                "surface-container-highest": "#d9e3f6",
+                "error-container": "#ffdad6",
+                "on-secondary-fixed-variant": "#404758",
+                "background": "#f8f9ff",
+                "tertiary": "#994100",
+                "surface-variant": "#d9e3f6",
+                "surface-container-low": "#eff4ff",
+                "secondary-fixed": "#dce2f7",
+                "on-tertiary": "#ffffff",
+                "on-surface": "#121c2a",
+                "secondary-fixed-dim": "#c0c6db",
+                "on-error": "#ffffff",
+                "inverse-primary": "#ffb4a9"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #b71511 0%, #db3327 100%);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .video-overlay {
+            background: linear-gradient(to top, rgba(18, 28, 42, 0.8) 0%, transparent 100%);
+        }
+        .iphone-mockup {
+            box-shadow: 0px 20px 40px rgba(18, 28, 42, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav shadow-sm">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-red-600 tracking-tighter font-headline">Clicafood</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-red-600 font-bold border-b-2 border-red-600 pb-1 font-headline text-sm tracking-tight" href="#explorar">Explorar</a>
+<a class="text-slate-600 hover:text-red-500 transition-colors font-headline text-sm tracking-tight" href="#recursos">Recursos</a>
+<a class="text-slate-600 hover:text-red-500 transition-colors font-headline text-sm tracking-tight" href="#preços">Preços</a>
+</div>
+<button class="signature-gradient text-on-primary px-6 py-2.5 rounded-full font-headline text-sm font-bold tracking-tight hover:opacity-90 hover:scale-105 transition-all duration-300 active:scale-95">
+                Começar Agora
+            </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 overflow-hidden min-h-screen flex items-center">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-on-background/40 z-10"></div>
+<img alt="Professional chef preparing a vibrant gourmet dish" class="w-full h-full object-cover" data-alt="cinematic close-up of a professional chef plating a colorful gourmet dish with steam and dramatic warm kitchen lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtxc_nKsRJhDhtw_RmM3t-RToqEr8KY7SfQGhuQtnfQKiCwt6j5f2jjlAj1J2jaDsefqnG9eU0m-w8nWenRGVXVPng1btsue8awpHmJNLDJ-tdMMyu_uMxRztBhzj02QpEWTizIhg0VohBgw3xvTBBc5j8TAV8BL07bOkRtE6GVFsE9ZOtokyJan-bqPxAqj3UgqPB8ZAxhG4y-oG4R5AWnwmaEshEm6ipva99B3UlWCKqfTfRbeOkfJ8u4TaSqFnnV3cQIZduQkkl"/>
+</div>
+<div class="max-w-7xl mx-auto px-6 relative z-20 grid md:grid-cols-2 gap-12 items-center">
+<div class="text-left">
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold text-white leading-tight tracking-tighter mb-6">
+                    Domine a Fome,<br/>
+<span class="text-primary-container">Controle o Pedido.</span>
+</h1>
+<p class="text-lg text-white/90 mb-10 max-w-lg font-body leading-relaxed">
+                    Transforme seu cardápio em uma experiência cinematográfica. O primeiro menu video-first projetado para converter scrolls em vendas instantâneas.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="signature-gradient text-white px-8 py-4 rounded-full font-headline font-bold text-lg hover:scale-105 transition-all active:scale-95">
+                        Começar Grátis
+                    </button>
+<button class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full font-headline font-bold text-lg hover:bg-white/20 transition-all">
+                        Ver Benefícios
+                    </button>
+</div>
+</div>
+<div class="flex justify-center md:justify-end">
+<div class="relative w-72 h-[600px] bg-slate-900 rounded-[3rem] border-8 border-slate-800 iphone-mockup overflow-hidden">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-2xl z-30"></div>
+<div class="h-full w-full relative">
+<img alt="Mobile app showing video-first food menu" class="h-full w-full object-cover" data-alt="vertical smartphone screen showing a full-bleed high-definition video of a sizzling burger with interactive order buttons at the bottom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZgJEEZeeMp8p18PnpjSerN8oJBhn4siDiSsRi16ZmZRqWwpZwxjIXcy5fvLMCj3PwlMW-e6X6TY13anLDx8Jr4BUrO--9BL1kiTwxAq71UtFXfoNrRALtqLQH1MfRHAT3zlJW5I8MsJDLAXty_4dm8WCkCwvvFfgRpUoBbK_ArB3mtN8PvoT-MFnbltG0se2w-RDEKIiDbMzNmAgDr5QMzvRQ0yjcbKhwBFStETvKiJi7WbhvIpkVCTHFzqC04fxCqpPU8LEJ0cMu"/>
+<div class="absolute inset-0 video-overlay flex flex-col justify-end p-6 text-white">
+<h3 class="font-headline font-bold text-2xl mb-1">Burger Artesanal X</h3>
+<p class="text-sm opacity-90 mb-4">Pão brioche, 180g de carne angus, queijo cheddar derretido.</p>
+<button class="signature-gradient w-full py-3 rounded-xl font-bold">Adicionar R$ 39,90</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="py-24 bg-surface-container-low" id="recursos">
+<div class="max-w-7xl mx-auto px-6">
+<div class="mb-20">
+<span class="text-primary font-bold tracking-widest uppercase text-xs">Tecnologia Cinética</span>
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold mt-2 text-on-background">Destrua a Concorrência.</h2>
+</div>
+<div class="grid md:grid-cols-4 gap-8">
+<div class="bg-surface-container-lowest p-8 rounded-3xl transition-transform hover:-translate-y-2 duration-300">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined" data-icon="videocam" style="font-variation-settings: 'FILL' 1;">videocam</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">Vídeos que Vendem</h3>
+<p class="text-on-secondary-container text-sm leading-relaxed">Substitua fotos estáticas por vídeos imersivos que despertam o desejo imediato do cliente.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl transition-transform hover:-translate-y-2 duration-300">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined" data-icon="auto_stories" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">Stories dos Pratos</h3>
+<p class="text-on-secondary-container text-sm leading-relaxed">Experiência de navegação familiar. Seus clientes já sabem usar antes mesmo de abrir.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl transition-transform hover:-translate-y-2 duration-300">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">Métricas Real Time</h3>
+<p class="text-on-secondary-container text-sm leading-relaxed">Saiba exatamente qual vídeo está gerando mais pedidos em tempo real no seu dashboard.</p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-3xl transition-transform hover:-translate-y-2 duration-300">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined" data-icon="qr_code_2" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">QR Code Ilimitado</h3>
+<p class="text-on-secondary-container text-sm leading-relaxed">Gerencie múltiplas mesas e pontos de venda com códigos dinâmicos e inteligentes.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-24 bg-on-background text-white overflow-hidden relative">
+<div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full"></div>
+<div class="max-w-7xl mx-auto px-6 relative z-10">
+<div class="grid md:grid-cols-3 gap-12 text-center">
+<div>
+<div class="font-headline text-6xl md:text-7xl font-black text-primary-container mb-2">+73%</div>
+<p class="text-white/60 font-headline uppercase tracking-widest text-sm">Mais Pedidos com Vídeo</p>
+</div>
+<div>
+<div class="font-headline text-6xl md:text-7xl font-black text-primary-container mb-2">2.4x</div>
+<p class="text-white/60 font-headline uppercase tracking-widest text-sm">Aumento no Ticket Médio</p>
+</div>
+<div>
+<div class="font-headline text-6xl md:text-7xl font-black text-primary-container mb-2">89%</div>
+<p class="text-white/60 font-headline uppercase tracking-widest text-sm">Taxa de Engajamento</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="font-headline text-4xl font-extrabold text-on-background">Quem usa, domina.</h2>
+<p class="text-on-secondary-container mt-4">Líderes do mercado gastronômico que já viraram a chave.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-white p-10 rounded-3xl shadow-sm border border-outline-variant/10">
+<div class="flex gap-1 text-primary mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface text-lg italic mb-8 font-body leading-relaxed">"O Clicafood mudou a forma como nossos clientes interagem com o menu. O aumento nas vendas de sobremesas foi instantâneo."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Carlos Mendes" data-alt="portrait of a confident middle-aged man with short hair in a professional kitchen setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnyl_ej5aU1dWChtiH83guDZdC9XE8md0qeM-w6wemmsy61D7i1F9mX4B5dh6OtrCaHWfNskLPkXQp8uNc6gTACUPv0zykQnVHECsXL9b1Kqncf67Qmv5SmYLNSJVUfEYrrhjRpUvMO-izuuU6Bi8wN7sc1MUxkcg6zIYVwwS176I6CSpmwNPVOg18ce-l4oiuik3bQPZifVMMPv6tgB1u0LqfqNE01rDI8Epq0Bs6gm10mbpOpjXfiifpfKgdP77Up6CrOJMikaAM"/>
+</div>
+<div>
+<p class="font-bold text-on-background">Carlos Mendes</p>
+<p class="text-xs text-on-secondary-container">CEO, Meat &amp; Co.</p>
+</div>
+</div>
+</div>
+<div class="bg-white p-10 rounded-3xl shadow-sm border border-outline-variant/10">
+<div class="flex gap-1 text-primary mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface text-lg italic mb-8 font-body leading-relaxed">"A facilidade de atualizar os pratos e as métricas em tempo real nos deram um controle que nunca tivemos antes."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Ana Luiza" data-alt="professional portrait of a smiling young woman entrepreneur in a modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhPnhLZ-GraQvX8ZNnHpI3Ro9uYj7x2Xc-wK_NeS-_szCKPxcROiNZCp5xjAMZlrjKojcFOzEnWlilOK6R5g4Tqgrpva97oQf0lK68zIkBEDcLMo2adj2Ukdd4d0NsSoTRJZDYqHgzQz0i6wqnHkIPBysxfncEjAKFL4C6izg_XA0qDEkC-28dwInHx2XvmyqpuITkeOExSg0LvzQFRldJ10kDxbxBN6QSYOr3gtI2QWIyabaqInzPJ9UbUB44KybnK4YV5u3wFzAW"/>
+</div>
+<div>
+<p class="font-bold text-on-background">Ana Luiza</p>
+<p class="text-xs text-on-secondary-container">Fundadora, Sushi Flow</p>
+</div>
+</div>
+</div>
+<div class="bg-white p-10 rounded-3xl shadow-sm border border-outline-variant/10">
+<div class="flex gap-1 text-primary mb-6">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface text-lg italic mb-8 font-body leading-relaxed">"O layout video-first é viciante. Os clientes passam muito mais tempo explorando o cardápio e pedindo mais."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Roberto Silva" data-alt="friendly looking chef in white uniform with blurred restaurant background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyKQNO2pa98DFxYdijHY1X33ZduhN_xup0xcYiCBCP3VG1PBvaeTfuz-zHN25Z6fwc-cDf18ojDF7XKNh-iaqaDbl2VBCsqXnd2TmoCjrvy_SRI9dpJphbysBGQGMGe8H2TVYjok5aptVYxL-dUnlTh3DMzuZsz1iYNHlOcujkPdtlSbe16AetsAC9ZPK0kaKhk0je2B7kFIz_mQ98FUAPyRVIwO10cMyVVL1S-Jqsyce4b3Mt90VcGAHdkH6vxEZ2_KJi2FQwMAKK"/>
+</div>
+<div>
+<p class="font-bold text-on-background">Roberto Silva</p>
+<p class="text-xs text-on-secondary-container">Chef Executivo, Bistro 22</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-24 bg-surface-container" id="preços">
+<div class="max-w-7xl mx-auto px-6">
+<div class="max-w-3xl mx-auto text-center mb-16">
+<h2 class="font-headline text-4xl font-extrabold text-on-background">Investimento Simples.</h2>
+<p class="text-on-secondary-container mt-4">Preço transparente para escalar seu negócio sem surpresas.</p>
+</div>
+<div class="max-w-lg mx-auto bg-white rounded-[2.5rem] p-12 shadow-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 signature-gradient text-white px-8 py-2 rounded-bl-3xl font-bold text-sm">MAIS VENDIDO</div>
+<h3 class="font-headline font-bold text-3xl mb-2">Plano Pro</h3>
+<p class="text-on-secondary-container mb-8">Tudo o que você precisa para dominar.</p>
+<div class="flex items-baseline gap-2 mb-10">
+<span class="text-2xl font-bold text-on-background">R$</span>
+<span class="text-6xl font-black text-on-background tracking-tighter">97</span>
+<span class="text-on-secondary-container font-medium">/mês</span>
+</div>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">Cardápio Video-First Ilimitado</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">QR Codes Dinâmicos Ilimitados</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">Dashboard de Métricas Avançadas</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">Suporte Prioritário 24/7</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium">Integração com WhatsApp</span>
+</li>
+</ul>
+<button class="signature-gradient w-full py-5 rounded-2xl text-white font-headline font-bold text-xl hover:scale-105 transition-all active:scale-95 shadow-lg shadow-primary/20">
+                    Começar Agora
+                </button>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-3xl mx-auto px-6">
+<h2 class="font-headline text-3xl font-extrabold text-center mb-12">Dúvidas Frequentes</h2>
+<div class="space-y-4">
+<details class="group bg-surface-container-low rounded-2xl" open="">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<span class="font-headline font-bold text-on-background">Preciso de equipamentos profissionais para os vídeos?</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-secondary-container leading-relaxed">
+                        Não! Um smartphone moderno é tudo o que você precisa. Nossa plataforma otimiza automaticamente seus vídeos para garantir o carregamento instantâneo em qualquer conexão.
+                    </div>
+</details>
+<details class="group bg-surface-container-low rounded-2xl">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<span class="font-headline font-bold text-on-background">Como funciona a integração com o WhatsApp?</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-secondary-container leading-relaxed">
+                        O pedido chega formatado e detalhado direto no seu número, pronto para produção, sem taxas de intermediação por pedido.
+                    </div>
+</details>
+<details class="group bg-surface-container-low rounded-2xl">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<span class="font-headline font-bold text-on-background">Posso cancelar a qualquer momento?</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-secondary-container leading-relaxed">
+                        Sim. Não temos contratos de fidelidade. Você paga mensalmente e pode cancelar quando quiser sem multas.
+                    </div>
+</details>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-slate-50 w-full rounded-t-3xl mt-20">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 py-12 max-w-7xl mx-auto gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-xl font-bold text-slate-900">Clicafood</div>
+<p class="font-inter text-xs text-slate-500 max-w-xs text-center md:text-left">© 2024 Clicafood - Gastronomia Cinética. Todos os direitos reservados.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-red-500 transition-colors font-inter text-xs" href="#">Termos de Uso</a>
+<a class="text-slate-500 hover:text-red-500 transition-colors font-inter text-xs" href="#">Privacidade</a>
+<a class="text-slate-500 hover:text-red-500 transition-colors font-inter text-xs" href="#">Contato</a>
+<a class="text-slate-500 hover:text-red-500 transition-colors font-inter text-xs" href="#">Trabalhe Conosco</a>
+</div>
+</div>
+</footer>
+</body></html>

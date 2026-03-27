@@ -25,6 +25,7 @@ class Restaurant extends Model
         'font_family',
         'background_image',
         'background_opacity',
+        'menu_layout',
         'address',
         'phone',
         'instagram',
