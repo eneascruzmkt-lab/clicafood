@@ -16,6 +16,7 @@ use App\Http\Controllers\Public\MenuController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminRestaurantController;
 use App\Http\Controllers\Admin\AdminPlanController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
@@ -45,8 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/account/password', [AccountController::class, 'updatePassword'])->name('account.password');
 });
 
-// Restaurant Owner Routes (requires restaurant)
-Route::middleware(['auth', 'restaurant'])->group(function () {
+// Restaurant Owner Routes (requires restaurant + active subscription)
+Route::middleware(['auth', 'restaurant', 'subscribed'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -80,6 +81,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('restaurants', AdminRestaurantController::class)->only(['index', 'show', 'destroy']);
     Route::resource('plans', AdminPlanController::class);
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
 });
 
 // Subscription & Plans

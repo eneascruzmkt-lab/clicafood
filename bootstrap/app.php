@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\EnsureActiveSubscription;
 use App\Http\Middleware\EnsureHasRestaurant;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'restaurant' => EnsureHasRestaurant::class,
+            'subscribed' => EnsureActiveSubscription::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

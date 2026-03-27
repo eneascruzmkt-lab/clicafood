@@ -5,7 +5,21 @@ import Icon from '@/Components/Icon.vue';
 
 const props = defineProps({
     user: Object,
+    subscription: Object,
 });
+
+const statusLabel = {
+    active: 'Ativo',
+    pending: 'Pendente',
+    trial: 'Período de teste',
+    canceled: 'Cancelado',
+};
+const statusColor = {
+    active: 'text-emerald-400 bg-emerald-400/10',
+    pending: 'text-amber-400 bg-amber-400/10',
+    trial: 'text-blue-400 bg-blue-400/10',
+    canceled: 'text-red-400 bg-red-400/10',
+};
 
 const profileForm = useForm({
     name: props.user.name,
@@ -37,6 +51,34 @@ const updatePassword = () => {
             <div class="mb-8">
                 <h1 class="text-2xl font-display font-bold text-white">Minha Conta</h1>
                 <p class="text-dark-400 mt-1">Gerencie seus dados pessoais</p>
+            </div>
+
+            <!-- Subscription Info -->
+            <div class="card space-y-4 mb-6">
+                <h3 class="font-bold text-white flex items-center gap-2">
+                    <Icon name="star" class="w-5 h-5 text-brand-400" />
+                    Plano e Assinatura
+                </h3>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-dark-300">Plano atual</p>
+                        <p class="text-lg font-bold text-white capitalize">{{ subscription.plan || 'Free' }}</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold"
+                          :class="statusColor[subscription.status] || statusColor.pending">
+                        {{ statusLabel[subscription.status] || 'Pendente' }}
+                    </span>
+                </div>
+                <div v-if="subscription.expires_at" class="flex items-center gap-2 text-sm">
+                    <Icon name="calendar" class="w-4 h-4 text-dark-400" />
+                    <span class="text-dark-300">Próxima renovação: <strong class="text-white">{{ subscription.expires_at }}</strong></span>
+                </div>
+                <div v-if="subscription.status !== 'active' && subscription.status !== 'trial'" class="pt-2">
+                    <a href="/plans" class="btn-primary text-sm inline-flex items-center gap-2">
+                        <Icon name="star" class="w-4 h-4" />
+                        Assinar plano
+                    </a>
+                </div>
             </div>
 
             <!-- Profile -->

@@ -18,6 +18,7 @@ const navigation = computed(() => {
     if (isAdmin.value) {
         return [
             { name: 'Dashboard', href: '/admin', icon: 'dashboard' },
+            { name: 'Usuários', href: '/admin/users', icon: 'user' },
             { name: 'Restaurantes', href: '/admin/restaurants', icon: 'restaurant' },
             { name: 'Planos', href: '/admin/plans', icon: 'dollar' },
             { name: 'Minha Conta', href: '/account', icon: 'user' },

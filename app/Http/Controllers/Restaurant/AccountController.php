@@ -12,8 +12,16 @@ class AccountController extends Controller
 {
     public function edit(Request $request)
     {
+        $user = $request->user();
+
         return Inertia::render('Settings/Account', [
-            'user' => $request->user()->only('id', 'name', 'email', 'cpf_cnpj', 'phone'),
+            'user' => $user->only('id', 'name', 'email', 'cpf_cnpj', 'phone'),
+            'subscription' => [
+                'status' => $user->subscription_status ?? 'pending',
+                'plan' => $user->subscription_plan ?? 'free',
+                'expires_at' => $user->subscription_expires_at?->format('d/m/Y'),
+                'subscription_id' => $user->subscription_id,
+            ],
         ]);
     }
 

@@ -9,85 +9,72 @@ const props = defineProps({
 });
 
 const subscribe = (planSlug) => {
-    if (planSlug === 'free') return;
     router.post(`/subscribe/${planSlug}`);
 };
 
 const isCurrentPlan = (planSlug) => {
     return props.currentPlan === planSlug;
 };
+
+const features = [
+    'Cardápio Video-First Ilimitado',
+    'QR Codes Dinâmicos Ilimitados',
+    'Dashboard de Métricas Avançadas',
+    'Suporte Prioritário 24/7',
+    'Integração com WhatsApp',
+    'Vídeos dos pratos',
+];
 </script>
 
 <template>
-    <AppLayout title="Planos">
-        <div class="mb-8">
-            <h1 class="text-2xl lg:text-3xl font-display font-bold text-white">Planos</h1>
-            <p class="text-dark-400 mt-1">Escolha o plano ideal para o seu restaurante</p>
-        </div>
+    <AppLayout title="Assinar Plano">
+        <div class="max-w-lg mx-auto py-8">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-display font-bold text-white">Domine seu cardápio</h1>
+                <p class="text-dark-400 mt-2">Assine o plano Pro e tenha acesso completo a todas as funcionalidades.</p>
+            </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
-            <div
-                v-for="plan in plans"
-                :key="plan.slug"
-                class="relative rounded-2xl border p-6 flex flex-col"
-                :class="plan.slug === 'pro'
-                    ? 'border-brand-500 bg-dark-800/80 ring-1 ring-brand-500/30'
-                    : 'border-dark-700/60 bg-dark-900'"
-            >
-                <!-- Popular badge -->
-                <div
-                    v-if="plan.slug === 'pro'"
-                    class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-500 text-white text-xs font-bold rounded-full uppercase tracking-wider"
-                >
-                    Popular
+            <div class="card border-brand-500/30 text-center relative overflow-hidden">
+                <!-- Badge -->
+                <div class="absolute top-0 left-0 right-0 bg-gradient-to-r from-brand-600 via-brand-500 to-brand-600 text-white text-xs font-bold py-1.5 uppercase tracking-widest">
+                    -20% OFF
                 </div>
 
-                <!-- Plan header -->
-                <div class="mb-6">
-                    <h3 class="text-lg font-bold text-white mb-1">{{ plan.name }}</h3>
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-3xl font-display font-black text-white">{{ plan.price_display }}</span>
-                        <span v-if="plan.price > 0" class="text-dark-400 text-sm">/mes</span>
+                <div class="pt-10">
+                    <h2 class="font-display font-bold text-2xl text-white">Plano Pro</h2>
+                    <p class="text-dark-400 text-sm mt-1">Tudo o que você precisa para dominar.</p>
+
+                    <div class="mt-6 mb-8">
+                        <span class="text-dark-500 text-sm line-through">R$ 197/mês</span>
+                        <p class="text-5xl font-display font-black text-white mt-1">
+                            R$ <span class="text-brand-500">97</span><span class="text-lg text-dark-400 font-semibold">/mês</span>
+                        </p>
                     </div>
-                </div>
 
-                <!-- Features -->
-                <ul class="space-y-3 mb-8 flex-1">
-                    <li
-                        v-for="feature in plan.features"
-                        :key="feature"
-                        class="flex items-start gap-2 text-sm text-dark-300"
+                    <ul class="text-sm text-dark-300 space-y-3 text-left mb-8">
+                        <li v-for="feature in features" :key="feature" class="flex items-center gap-3">
+                            <Icon name="check" class="w-4 h-4 text-emerald-400 shrink-0" />
+                            <span>{{ feature }}</span>
+                        </li>
+                    </ul>
+
+                    <button
+                        v-if="isCurrentPlan('pro')"
+                        disabled
+                        class="w-full py-4 rounded-xl text-lg font-bold bg-dark-700/60 text-dark-400 cursor-not-allowed"
                     >
-                        <Icon name="check" class="w-4 h-4 text-brand-500 flex-shrink-0 mt-0.5" />
-                        <span>{{ feature }}</span>
-                    </li>
-                </ul>
+                        Plano atual
+                    </button>
+                    <button
+                        v-else
+                        @click="subscribe('pro')"
+                        class="btn-primary w-full py-4 text-lg font-bold shadow-lg shadow-brand-500/25"
+                    >
+                        Quero dominar
+                    </button>
 
-                <!-- Action button -->
-                <button
-                    v-if="isCurrentPlan(plan.slug)"
-                    disabled
-                    class="w-full py-2.5 px-4 rounded-xl text-sm font-semibold bg-dark-700/60 text-dark-400 cursor-not-allowed"
-                >
-                    Plano atual
-                </button>
-                <button
-                    v-else-if="plan.slug === 'free'"
-                    disabled
-                    class="w-full py-2.5 px-4 rounded-xl text-sm font-semibold bg-dark-700/60 text-dark-400 cursor-not-allowed"
-                >
-                    Gratuito
-                </button>
-                <button
-                    v-else
-                    @click="subscribe(plan.slug)"
-                    class="w-full py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-200"
-                    :class="plan.slug === 'pro'
-                        ? 'bg-brand-500 hover:bg-brand-600 text-white shadow-lg shadow-brand-500/25'
-                        : 'bg-dark-700 hover:bg-dark-600 text-white'"
-                >
-                    Assinar {{ plan.name }}
-                </button>
+                    <p class="text-xs text-dark-500 mt-4">7 dias grátis. Cancele quando quiser. Sem fidelidade.</p>
+                </div>
             </div>
         </div>
     </AppLayout>
