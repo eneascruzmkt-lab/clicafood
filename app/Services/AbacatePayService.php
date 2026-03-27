@@ -44,6 +44,23 @@ class AbacatePayService
     }
 
     /**
+     * Get a product by externalId.
+     */
+    public function getProduct(string $externalId): array
+    {
+        $response = Http::withToken($this->apiKey)
+            ->get("{$this->baseUrl}/products/get", [
+                'externalId' => $externalId,
+            ]);
+
+        if ($response->failed()) {
+            throw new \Exception('Product not found: ' . $externalId);
+        }
+
+        return $response->json();
+    }
+
+    /**
      * Create a subscription checkout in AbacatePay.
      */
     public function createSubscriptionCheckout(array $data): array

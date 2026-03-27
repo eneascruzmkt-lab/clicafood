@@ -67,17 +67,25 @@ class SubscriptionController extends Controller
                 $user->save();
             }
 
-            // Create the product in AbacatePay (or use a cached product ID)
-            $productResponse = $service->createProduct([
-                'externalId' => "clicafood_{$plan}_monthly",
-                'name' => "ClicaFood {$planData['name']} - Mensal",
-                'price' => $planData['price'],
-                'currency' => 'BRL',
-                'description' => "Plano {$planData['name']} do ClicaFood - Assinatura mensal",
-                'cycle' => 'MONTHLY',
-            ]);
+            // Try to get existing product, create if not found
+            $externalId = "clicafood_{$plan}_monthly";
+            $productId = null;
 
-            $productId = $productResponse['data']['id'];
+            try {
+                $existingProduct = $service->getProduct($externalId);
+                $productId = $existingProduct['data']['id'];
+            } catch (\Exception $e) {
+                // Product doesn't exist, create it
+                $productResponse = $service->createProduct([
+                    'externalId' => $externalId,
+                    'name' => "ClicaFood {$planData['name']} - Mensal",
+                    'price' => $planData['price'],
+                    'currency' => 'BRL',
+                    'description' => "Plano {$planData['name']} do ClicaFood - Assinatura mensal",
+                    'cycle' => 'MONTHLY',
+                ]);
+                $productId = $productResponse['data']['id'];
+            }
 
             // Create subscription checkout
             $checkoutResponse = $service->createSubscriptionCheckout([
@@ -88,7 +96,7 @@ class SubscriptionController extends Controller
                 'returnUrl' => route('subscription.success'),
                 'completionUrl' => route('subscription.success'),
                 'customerId' => $user->abacatepay_customer_id,
-                'externalId' => "user_{$user->id}_{$plan}",
+                'externalId' => "user_{$user->id}_{$plan}_" . time(),
                 'metadata' => [
                     'user_id' => $user->id,
                     'plan' => $plan,
@@ -100,7 +108,7 @@ class SubscriptionController extends Controller
             // Store pending subscription info
             $user->update([
                 'subscription_plan' => $plan,
-                'subscription_status' => 'trial',
+                'subscription_status' => 'pending',
             ]);
 
             return Inertia::location($checkoutUrl);
@@ -112,7 +120,7 @@ class SubscriptionController extends Controller
                 'error' => $e->getMessage(),
             ]);
 
-            return back()->with('error', 'Erro ao processar assinatura. Tente novamente.');
+            return back()->with('error', 'Erro ao processar assinatura: ' . $e->getMessage());
         }
     }
 
