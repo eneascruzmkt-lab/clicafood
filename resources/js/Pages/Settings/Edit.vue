@@ -382,46 +382,89 @@ const activeTab = ref('identity');
                                     <p class="text-[10px] mt-0.5 line-clamp-2" :style="{ color: previewTextSec }">{{ form.description || 'Sua descricao aqui...' }}</p>
                                 </div>
 
-                                <!-- Stories preview -->
-                                <div class="flex gap-2 mb-3 overflow-hidden">
-                                    <div v-for="i in 4" :key="i" class="flex-shrink-0 text-center">
-                                        <div class="w-10 h-10 rounded-full p-0.5"
-                                             :style="{ background: `linear-gradient(135deg, ${previewPrimary}, #ff8c00)` }">
-                                            <div class="w-full h-full rounded-full" :style="{ backgroundColor: previewBg, border: `1.5px solid ${previewBg}` }">
-                                                <div class="w-full h-full rounded-full" :style="{ backgroundColor: previewBorder }"></div>
+                                <!-- ===== PREVIEW: REELS ===== -->
+                                <template v-if="form.menu_layout === 'reels'">
+                                    <!-- Stories -->
+                                    <div class="flex gap-2 mb-3 overflow-hidden">
+                                        <div v-for="i in 4" :key="i" class="flex-shrink-0 text-center">
+                                            <div class="w-10 h-10 rounded-full p-0.5"
+                                                 :style="{ background: `linear-gradient(135deg, ${previewPrimary}, #ff8c00)` }">
+                                                <div class="w-full h-full rounded-full" :style="{ backgroundColor: previewBg, border: `1.5px solid ${previewBg}` }">
+                                                    <div class="w-full h-full rounded-full" :style="{ backgroundColor: previewBorder }"></div>
+                                                </div>
                                             </div>
+                                            <p class="text-[7px] mt-0.5 w-10 truncate" :style="{ color: previewTextSec }">Story {{ i }}</p>
                                         </div>
-                                        <p class="text-[7px] mt-0.5 w-10 truncate" :style="{ color: previewTextSec }">Story {{ i }}</p>
                                     </div>
-                                </div>
-
-                                <!-- Category pills -->
-                                <div class="flex gap-1.5 mb-3">
-                                    <span class="px-2.5 py-1 rounded-full text-[9px] font-medium"
-                                          :style="{ backgroundColor: previewPrimary, color: '#fff' }">Todos</span>
-                                    <span class="px-2.5 py-1 rounded-full text-[9px] font-medium"
-                                          :style="{ backgroundColor: previewBorder, color: previewTextSec }">Massas</span>
-                                    <span class="px-2.5 py-1 rounded-full text-[9px] font-medium"
-                                          :style="{ backgroundColor: previewBorder, color: previewTextSec }">Bebidas</span>
-                                </div>
-
-                                <!-- Menu items preview -->
-                                <div class="space-y-2">
-                                    <div v-for="i in 3" :key="i"
-                                         class="flex gap-2 p-2 rounded-lg"
-                                         :style="{ backgroundColor: previewBorder + '40', border: `1px solid ${previewBorder}50` }">
-                                        <div class="w-12 h-12 rounded-md flex-shrink-0" :style="{ backgroundColor: previewBorder }">
-                                            <div class="w-full h-full rounded-md flex items-center justify-center">
+                                    <!-- Category pills -->
+                                    <div class="flex gap-1.5 mb-3">
+                                        <span class="px-2.5 py-1 rounded-full text-[9px] font-medium"
+                                              :style="{ backgroundColor: previewPrimary, color: '#fff' }">Todos</span>
+                                        <span class="px-2.5 py-1 rounded-full text-[9px] font-medium"
+                                              :style="{ backgroundColor: previewBorder, color: previewTextSec }">Massas</span>
+                                        <span class="px-2.5 py-1 rounded-full text-[9px] font-medium"
+                                              :style="{ backgroundColor: previewBorder, color: previewTextSec }">Bebidas</span>
+                                    </div>
+                                    <!-- Item list -->
+                                    <div class="space-y-2">
+                                        <div v-for="i in 3" :key="i" class="flex gap-2 p-2 rounded-lg"
+                                             :style="{ backgroundColor: previewBorder + '40', border: `1px solid ${previewBorder}50` }">
+                                            <div class="w-12 h-12 rounded-md flex-shrink-0 flex items-center justify-center" :style="{ backgroundColor: previewBorder }">
                                                 <Icon name="image" class="w-4 h-4" :style="{ color: previewTextSec + '60' }" />
                                             </div>
-                                        </div>
-                                        <div class="flex-1 min-w-0 py-0.5">
-                                            <div class="h-2.5 rounded w-20 mb-1" :style="{ backgroundColor: previewText + '30' }"></div>
-                                            <div class="h-2 rounded w-full mb-1.5" :style="{ backgroundColor: previewTextSec + '20' }"></div>
-                                            <span class="text-[10px] font-bold" :style="{ color: previewPrice }">R$ 29,90</span>
+                                            <div class="flex-1 min-w-0 py-0.5">
+                                                <div class="h-2.5 rounded w-20 mb-1" :style="{ backgroundColor: previewText + '30' }"></div>
+                                                <div class="h-2 rounded w-full mb-1.5" :style="{ backgroundColor: previewTextSec + '20' }"></div>
+                                                <span class="text-[10px] font-bold" :style="{ color: previewPrice }">R$ 29,90</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </template>
+
+                                <!-- ===== PREVIEW: CATEGORIES ===== -->
+                                <template v-else-if="form.menu_layout === 'categories'">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div v-for="cat in ['Massas', 'Carnes', 'Bebidas', 'Sobremesas']" :key="cat"
+                                             class="relative rounded-xl overflow-hidden aspect-square">
+                                            <div class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: previewBorder + '80' }">
+                                                <Icon name="restaurant" class="w-6 h-6" :style="{ color: previewTextSec + '60' }" />
+                                            </div>
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-0 left-0 right-0 p-2">
+                                                <p class="font-bold text-white text-[9px] drop-shadow">{{ cat }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- ===== PREVIEW: CATEGORIES + STORIES ===== -->
+                                <template v-else-if="form.menu_layout === 'categories_featured'">
+                                    <!-- Stories -->
+                                    <div class="flex gap-2 mb-3 overflow-hidden">
+                                        <div v-for="i in 4" :key="i" class="flex-shrink-0 text-center">
+                                            <div class="w-10 h-10 rounded-full p-0.5"
+                                                 :style="{ background: `linear-gradient(135deg, ${previewPrimary}, #ff8c00)` }">
+                                                <div class="w-full h-full rounded-full" :style="{ backgroundColor: previewBg, border: `1.5px solid ${previewBg}` }">
+                                                    <div class="w-full h-full rounded-full" :style="{ backgroundColor: previewBorder }"></div>
+                                                </div>
+                                            </div>
+                                            <p class="text-[7px] mt-0.5 w-10 truncate" :style="{ color: previewTextSec }">Story {{ i }}</p>
+                                        </div>
+                                    </div>
+                                    <!-- Category grid -->
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div v-for="cat in ['Massas', 'Carnes', 'Bebidas', 'Sobremesas']" :key="cat"
+                                             class="relative rounded-xl overflow-hidden aspect-square">
+                                            <div class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: previewBorder + '80' }">
+                                                <Icon name="restaurant" class="w-6 h-6" :style="{ color: previewTextSec + '60' }" />
+                                            </div>
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-0 left-0 right-0 p-2">
+                                                <p class="font-bold text-white text-[9px] drop-shadow">{{ cat }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
 
                                 <!-- Footer -->
                                 <div class="mt-4 pt-2 text-center" :style="{ borderTop: `1px solid ${previewBorder}40` }">
