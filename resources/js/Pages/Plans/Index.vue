@@ -1,5 +1,6 @@
 <script setup>
-import { router } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Icon from '@/Components/Icon.vue';
 
@@ -8,8 +9,21 @@ const props = defineProps({
     currentPlan: String,
 });
 
+const loading = ref(false);
+const errorMsg = ref('');
+
 const subscribe = (planSlug) => {
-    router.post(`/subscribe/${planSlug}`);
+    loading.value = true;
+    errorMsg.value = '';
+    router.post(`/subscribe/${planSlug}`, {}, {
+        onError: (errors) => {
+            loading.value = false;
+            errorMsg.value = Object.values(errors).flat().join(', ') || 'Erro ao processar.';
+        },
+        onFinish: () => {
+            loading.value = false;
+        },
+    });
 };
 
 const isCurrentPlan = (planSlug) => {
@@ -68,11 +82,15 @@ const features = [
                     <button
                         v-else
                         @click="subscribe('pro')"
+                        :disabled="loading"
                         class="btn-primary w-full py-4 text-lg font-bold shadow-lg shadow-brand-500/25"
+                        :class="{ 'opacity-60 cursor-wait': loading }"
                     >
-                        Quero dominar
+                        {{ loading ? 'Redirecionando...' : 'Quero dominar' }}
                     </button>
 
+                    <p v-if="errorMsg" class="text-sm text-red-400 mt-3 text-center">{{ errorMsg }}</p>
+                    <p v-if="$page.props.flash?.error" class="text-sm text-red-400 mt-3 text-center">{{ $page.props.flash.error }}</p>
                     <p class="text-xs text-dark-500 mt-4">7 dias grátis. Cancele quando quiser. Sem fidelidade.</p>
                 </div>
             </div>

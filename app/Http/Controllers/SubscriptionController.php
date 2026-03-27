@@ -56,12 +56,12 @@ class SubscriptionController extends Controller
         try {
             // Create or reuse AbacatePay customer
             if (!$user->abacatepay_customer_id) {
-                $customerResponse = $service->createCustomer([
-                    'email' => $user->email,
-                    'name' => $user->name,
-                    'cellphone' => $user->phone,
-                    'taxId' => $user->cpf_cnpj,
-                ]);
+                $customerData = ['email' => $user->email];
+                if ($user->name) $customerData['name'] = $user->name;
+                if ($user->phone) $customerData['cellphone'] = $user->phone;
+                if ($user->cpf_cnpj) $customerData['taxId'] = $user->cpf_cnpj;
+
+                $customerResponse = $service->createCustomer($customerData);
 
                 $user->abacatepay_customer_id = $customerResponse['data']['id'];
                 $user->save();
