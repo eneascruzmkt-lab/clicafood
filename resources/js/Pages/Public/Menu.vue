@@ -306,7 +306,12 @@ onUnmounted(() => {
             <img :src="bgImage" class="w-full h-full object-cover" :style="{ opacity: bgOpacity }" />
         </div>
         <div class="relative z-10">
-        <Head :title="restaurant.name + ' - Cardapio Digital'">
+        <Head :title="restaurant.name + (restaurant.description ? ' - ' + restaurant.description : ' - Cardápio Digital')">
+            <link v-if="restaurant.logo" rel="icon" type="image/png" :href="getImageUrl(restaurant.logo)" />
+            <meta v-if="restaurant.description" name="description" :content="restaurant.description" />
+            <meta property="og:title" :content="restaurant.name" />
+            <meta v-if="restaurant.description" property="og:description" :content="restaurant.description" />
+            <meta v-if="restaurant.logo" property="og:image" :content="getImageUrl(restaurant.logo)" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
             <link :href="`https://fonts.googleapis.com/css2?family=${encodeURIComponent(restaurant.font_family || 'Inter')}:wght@400;500;600;700&display=swap`" rel="stylesheet" />
