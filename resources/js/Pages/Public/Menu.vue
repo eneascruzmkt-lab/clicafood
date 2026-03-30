@@ -645,39 +645,45 @@ onUnmounted(() => {
 
                             <!-- ====== REELS CARD LAYOUT ====== -->
                             <template v-if="menuLayout === 'reels_card'">
-                                <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom p-3"
-                                     :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
-                                    <div class="rounded-2xl p-3 backdrop-blur-md" :style="{ backgroundColor: secondaryColor + 'ee' }">
-                                        <div class="flex gap-3">
-                                            <!-- Product thumbnail -->
-                                            <div class="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                                <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom p-3">
+                                    <div class="rounded-2xl overflow-hidden backdrop-blur-md transition-all duration-300"
+                                         :style="{ backgroundColor: secondaryColor + 'ee' }"
+                                         @click.stop="toggleDescription(expandedDescriptionId === item.id ? null : item.id)">
+                                        <!-- Product image (large) -->
+                                        <div class="relative">
+                                            <div class="w-full aspect-[16/9] overflow-hidden">
                                                 <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" />
                                                 <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: borderColor }">
-                                                    <Icon name="restaurant" class="w-6 h-6" :style="{ color: textSecColor }" />
+                                                    <Icon name="restaurant" class="w-12 h-12" :style="{ color: textSecColor }" />
                                                 </div>
                                             </div>
-                                            <!-- Info -->
-                                            <div class="flex-1 min-w-0">
-                                                <h3 class="font-bold text-sm leading-tight truncate" :style="{ color: textColor }">{{ item.name }}</h3>
-                                                <p v-if="item.description" class="text-xs mt-1 line-clamp-2 leading-relaxed" :style="{ color: textSecColor }">{{ item.description }}</p>
-                                                <p class="font-bold text-sm mt-1" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
-                                            </div>
-                                            <!-- Close button -->
-                                            <button @click.stop="closeReels" class="w-6 h-6 flex items-center justify-center flex-shrink-0" :style="{ color: textSecColor }">
+                                            <!-- Close button over image -->
+                                            <button @click.stop="closeReels" class="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                                             </button>
                                         </div>
-                                        <!-- Bottom row: share + like -->
-                                        <div class="flex items-center justify-end gap-4 mt-2 pt-2" :style="{ borderTop: `1px solid ${borderColor}40` }">
-                                            <button @click.stop="likeItem(item.id)"
-                                                    class="flex items-center gap-1.5 transition-all active:scale-110"
-                                                    :class="isLiked(item.id) ? 'text-red-500' : ''"
-                                                    :style="!isLiked(item.id) ? { color: textSecColor } : {}">
-                                                <svg class="w-5 h-5" :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                                </svg>
-                                                <span class="text-xs font-semibold">{{ formatLikes(likeCounts[item.id]) }}</span>
-                                            </button>
+                                        <!-- Info -->
+                                        <div class="p-4">
+                                            <h3 class="font-bold text-base leading-tight" :style="{ color: textColor }">{{ item.name }}</h3>
+                                            <p v-if="item.description"
+                                               class="text-xs mt-1.5 leading-relaxed transition-all duration-300"
+                                               :class="expandedDescriptionId === item.id ? '' : 'line-clamp-2'"
+                                               :style="{ color: textSecColor }">
+                                                {{ item.description }}
+                                            </p>
+                                            <p v-if="item.description && expandedDescriptionId !== item.id" class="text-[10px] mt-0.5" :style="{ color: primaryColor }">toque para ver mais</p>
+                                            <div class="flex items-center justify-between mt-3">
+                                                <span class="font-bold text-lg" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</span>
+                                                <button @click.stop="likeItem(item.id)"
+                                                        class="flex items-center gap-1.5 transition-all active:scale-110"
+                                                        :class="isLiked(item.id) ? 'text-red-500' : ''"
+                                                        :style="!isLiked(item.id) ? { color: textSecColor } : {}">
+                                                    <svg class="w-6 h-6" :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                    <span class="text-sm font-semibold">{{ formatLikes(likeCounts[item.id]) }}</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
