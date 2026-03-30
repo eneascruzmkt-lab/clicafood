@@ -643,44 +643,87 @@ onUnmounted(() => {
                                 </div>
                             </Transition>
 
-                            <!-- Like button (right side, TikTok style) -->
-                            <div class="absolute right-4 bottom-56 z-10 flex flex-col items-center gap-1"
-                                 :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
-                                <button @click.stop="likeItem(item.id)"
-                                        class="w-11 h-11 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all duration-300 active:scale-125"
-                                        :class="isLiked(item.id) ? 'text-red-500' : 'text-white/70'">
-                                    <svg class="w-6 h-6 transition-transform duration-300" :class="{ 'scale-110': isLiked(item.id) }"
-                                         :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                    </svg>
-                                </button>
-                                <span class="text-[11px] font-semibold text-white/70 drop-shadow">{{ formatLikes(likeCounts[item.id]) }}</span>
-                            </div>
-
-                            <!-- Bottom info -->
-                            <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom"
-                                 :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
-                                <div class="bg-gradient-to-t from-black via-black/70 to-transparent pt-16 px-5 pb-6">
-                                    <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">{{ item.name }}</h2>
-                                    <p v-if="item.description"
-                                       @click.stop="toggleDescription(item.id)"
-                                       class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3 cursor-pointer active:text-white">
-                                        {{ item.description }}
-                                        <span class="text-white/40 text-xs ml-1">...mais</span>
-                                    </p>
-                                    <div class="flex items-center gap-3 mt-3">
-                                        <span class="font-bold text-xl" :style="{ color: primaryColor }">{{ formatPrice(item.price) }}</span>
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">{{ item.category?.name }}</span>
-                                        <span v-if="item.video_url" class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1"
-                                              :style="{ backgroundColor: primaryColor + '30', color: primaryColor }">
-                                            <Icon name="play" class="w-2.5 h-2.5" /> Video
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
-                                        <span>↕ deslize para mais</span><span>•</span><span>↔ deslize para categorias</span>
+                            <!-- ====== REELS CARD LAYOUT ====== -->
+                            <template v-if="menuLayout === 'reels_card'">
+                                <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom p-3"
+                                     :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
+                                    <div class="rounded-2xl p-3 backdrop-blur-md" :style="{ backgroundColor: secondaryColor + 'ee' }">
+                                        <div class="flex gap-3">
+                                            <!-- Product thumbnail -->
+                                            <div class="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                                                <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" />
+                                                <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: borderColor }">
+                                                    <Icon name="restaurant" class="w-6 h-6" :style="{ color: textSecColor }" />
+                                                </div>
+                                            </div>
+                                            <!-- Info -->
+                                            <div class="flex-1 min-w-0">
+                                                <h3 class="font-bold text-sm leading-tight truncate" :style="{ color: textColor }">{{ item.name }}</h3>
+                                                <p v-if="item.description" class="text-xs mt-1 line-clamp-2 leading-relaxed" :style="{ color: textSecColor }">{{ item.description }}</p>
+                                                <p class="font-bold text-sm mt-1" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
+                                            </div>
+                                            <!-- Close button -->
+                                            <button @click.stop="closeReels" class="w-6 h-6 flex items-center justify-center flex-shrink-0" :style="{ color: textSecColor }">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                            </button>
+                                        </div>
+                                        <!-- Bottom row: share + like -->
+                                        <div class="flex items-center justify-end gap-4 mt-2 pt-2" :style="{ borderTop: `1px solid ${borderColor}40` }">
+                                            <button @click.stop="likeItem(item.id)"
+                                                    class="flex items-center gap-1.5 transition-all active:scale-110"
+                                                    :class="isLiked(item.id) ? 'text-red-500' : ''"
+                                                    :style="!isLiked(item.id) ? { color: textSecColor } : {}">
+                                                <svg class="w-5 h-5" :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                </svg>
+                                                <span class="text-xs font-semibold">{{ formatLikes(likeCounts[item.id]) }}</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </template>
+
+                            <!-- ====== REELS DEFAULT LAYOUT ====== -->
+                            <template v-else>
+                                <!-- Like button (right side, TikTok style) -->
+                                <div class="absolute right-4 bottom-56 z-10 flex flex-col items-center gap-1"
+                                     :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
+                                    <button @click.stop="likeItem(item.id)"
+                                            class="w-11 h-11 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center transition-all duration-300 active:scale-125"
+                                            :class="isLiked(item.id) ? 'text-red-500' : 'text-white/70'">
+                                        <svg class="w-6 h-6 transition-transform duration-300" :class="{ 'scale-110': isLiked(item.id) }"
+                                             :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                        </svg>
+                                    </button>
+                                    <span class="text-[11px] font-semibold text-white/70 drop-shadow">{{ formatLikes(likeCounts[item.id]) }}</span>
+                                </div>
+
+                                <!-- Bottom info -->
+                                <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom"
+                                     :class="{ 'pointer-events-none opacity-0': expandedDescriptionId === item.id }">
+                                    <div class="bg-gradient-to-t from-black via-black/70 to-transparent pt-16 px-5 pb-6">
+                                        <h2 class="font-bold text-white text-2xl leading-tight drop-shadow-lg">{{ item.name }}</h2>
+                                        <p v-if="item.description"
+                                           @click.stop="toggleDescription(item.id)"
+                                           class="text-sm text-gray-200/80 mt-2 leading-relaxed line-clamp-3 cursor-pointer active:text-white">
+                                            {{ item.description }}
+                                            <span class="text-white/40 text-xs ml-1">...mais</span>
+                                        </p>
+                                        <div class="flex items-center gap-3 mt-3">
+                                            <span class="font-bold text-xl" :style="{ color: primaryColor }">{{ formatPrice(item.price) }}</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/10 text-white/60">{{ item.category?.name }}</span>
+                                            <span v-if="item.video_url" class="px-2 py-0.5 rounded-full text-[10px] font-medium flex items-center gap-1"
+                                                  :style="{ backgroundColor: primaryColor + '30', color: primaryColor }">
+                                                <Icon name="play" class="w-2.5 h-2.5" /> Video
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center justify-center gap-4 mt-3 text-[10px] text-white/25">
+                                            <span>↕ deslize para mais</span><span>•</span><span>↔ deslize para categorias</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
 
