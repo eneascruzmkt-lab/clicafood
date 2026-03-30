@@ -660,6 +660,7 @@ onUnmounted(() => {
                                             </div>
                                             <div class="flex-1 min-w-0">
                                                 <h3 class="font-bold text-sm leading-tight truncate" :style="{ color: textColor }">{{ item.name }}</h3>
+                                                <p class="text-[10px] mt-0.5" :style="{ color: primaryColor }">ver ingredientes</p>
                                                 <p class="font-bold text-sm mt-0.5" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
                                             </div>
                                             <button @click.stop="likeItem(item.id)"
