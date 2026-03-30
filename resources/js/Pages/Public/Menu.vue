@@ -370,7 +370,7 @@ onUnmounted(() => {
         <div class="max-w-lg mx-auto px-4 pb-8">
 
             <!-- ====== LAYOUT: REELS (padrão) ====== -->
-            <template v-if="menuLayout === 'reels'">
+            <template v-if="menuLayout === 'reels' || menuLayout === 'reels_card'">
                 <!-- Stories -->
                 <div v-if="stories.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
                     <div class="flex gap-3">
