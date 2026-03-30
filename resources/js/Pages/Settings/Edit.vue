@@ -26,6 +26,7 @@ const form = useForm({
     background_image: null,
     background_opacity: props.restaurant?.background_opacity ?? 100,
     menu_layout: props.restaurant?.menu_layout || 'reels',
+    video_style: props.restaurant?.video_style || 'default',
     remove_background: false,
     address: props.restaurant?.address || '',
     show_address: props.restaurant?.show_address ?? true,
@@ -263,15 +264,6 @@ const activeTab = ref('identity');
                                         <p class="text-xs text-dark-400 mt-1">Stories de destaques no topo + produtos em formato de vídeo vertical (estilo TikTok/Instagram Reels).</p>
                                     </div>
                                 </label>
-                                <!-- Reels Card -->
-                                <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
-                                       :class="form.menu_layout === 'reels_card' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
-                                    <input type="radio" v-model="form.menu_layout" value="reels_card" class="mt-1 accent-brand-500" />
-                                    <div class="flex-1">
-                                        <span class="font-semibold text-white text-sm">Reels com Card</span>
-                                        <p class="text-xs text-dark-400 mt-1">Vídeo em tela cheia com card flutuante mostrando foto do produto, detalhes, preço e botão de like.</p>
-                                    </div>
-                                </label>
                                 <!-- Categories Only -->
                                 <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
                                        :class="form.menu_layout === 'categories' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
@@ -288,6 +280,36 @@ const activeTab = ref('identity');
                                     <div class="flex-1">
                                         <span class="font-semibold text-white text-sm">Categorias + Stories</span>
                                         <p class="text-xs text-dark-400 mt-1">Stories de destaques no topo + categorias com ícones grandes abaixo. O cliente navega pelos stories e pelas categorias.</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Video Style -->
+                        <div class="card space-y-4">
+                            <h3 class="font-bold text-white flex items-center gap-2">
+                                <Icon name="play" class="w-5 h-5 text-brand-400" />
+                                Estilo dos Vídeos
+                            </h3>
+                            <p class="text-xs text-dark-400">Como os vídeos dos produtos são exibidos quando abertos em tela cheia.</p>
+                            <div class="space-y-3">
+                                <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
+                                       :class="form.video_style === 'default' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
+                                    <input type="radio" v-model="form.video_style" value="default" class="mt-1 accent-brand-500" />
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-semibold text-white text-sm">TikTok / Reels</span>
+                                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-medium">Padrão</span>
+                                        </div>
+                                        <p class="text-xs text-dark-400 mt-1">Nome, descrição e preço sobre o vídeo com gradiente escuro. Toque para expandir a descrição completa.</p>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all duration-200"
+                                       :class="form.video_style === 'card' ? 'border-brand-500 bg-brand-500/5' : 'border-dark-700 hover:border-dark-500'">
+                                    <input type="radio" v-model="form.video_style" value="card" class="mt-1 accent-brand-500" />
+                                    <div class="flex-1">
+                                        <span class="font-semibold text-white text-sm">Card Flutuante</span>
+                                        <p class="text-xs text-dark-400 mt-1">Card compacto com foto do produto, nome e preço na parte inferior. Toque no card para expandir os detalhes.</p>
                                     </div>
                                 </label>
                             </div>
@@ -425,34 +447,6 @@ const activeTab = ref('identity');
                                                 <div class="h-2.5 rounded w-20 mb-1" :style="{ backgroundColor: previewText + '30' }"></div>
                                                 <div class="h-2 rounded w-full mb-1.5" :style="{ backgroundColor: previewTextSec + '20' }"></div>
                                                 <span class="text-[10px] font-bold" :style="{ color: previewPrice }">R$ 29,90</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <!-- ===== PREVIEW: REELS CARD ===== -->
-                                <template v-else-if="form.menu_layout === 'reels_card'">
-                                    <!-- Simulated video bg -->
-                                    <div class="relative rounded-xl overflow-hidden mb-3" style="aspect-ratio: 9/14;">
-                                        <div class="absolute inset-0" :style="{ backgroundColor: previewBorder }"></div>
-                                        <div class="absolute inset-0 flex items-center justify-center">
-                                            <Icon name="play" class="w-8 h-8" :style="{ color: previewTextSec + '40' }" />
-                                        </div>
-                                        <!-- Card overlay -->
-                                        <div class="absolute bottom-2 left-2 right-2 rounded-xl p-3" :style="{ backgroundColor: previewBg + 'ee' }">
-                                            <div class="flex gap-2">
-                                                <div class="w-10 h-10 rounded-lg flex-shrink-0" :style="{ backgroundColor: previewBorder }"></div>
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="h-2 rounded w-16 mb-1" :style="{ backgroundColor: previewText + '40' }"></div>
-                                                    <div class="h-1.5 rounded w-full mb-1" :style="{ backgroundColor: previewTextSec + '30' }"></div>
-                                                    <span class="text-[8px] font-bold" :style="{ color: previewPrice }">R$ 29,90</span>
-                                                </div>
-                                                <div class="flex flex-col items-center gap-0.5">
-                                                    <div class="w-5 h-5 rounded-full flex items-center justify-center" style="color: #ef4444;">
-                                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                                                    </div>
-                                                    <span class="text-[7px]" :style="{ color: previewTextSec }">12</span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

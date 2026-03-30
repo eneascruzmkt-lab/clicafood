@@ -272,6 +272,7 @@ const textSecColor = computed(() => props.restaurant.text_secondary_color || '#9
 const borderColor = computed(() => props.restaurant.border_color || '#333333');
 const priceColor = computed(() => props.restaurant.price_color || primaryColor.value);
 const menuLayout = computed(() => props.restaurant.menu_layout || 'reels');
+const videoStyle = computed(() => props.restaurant.video_style || 'default');
 const selectedCategory = ref(null);
 const categoryItems = computed(() => {
     if (!selectedCategory.value) return [];
@@ -370,7 +371,7 @@ onUnmounted(() => {
         <div class="max-w-lg mx-auto px-4 pb-8">
 
             <!-- ====== LAYOUT: REELS (padrão) ====== -->
-            <template v-if="menuLayout === 'reels' || menuLayout === 'reels_card'">
+            <template v-if="menuLayout === 'reels' || videoStyle === 'card'">
                 <!-- Stories -->
                 <div v-if="stories.length > 0" class="py-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
                     <div class="flex gap-3">
@@ -624,7 +625,7 @@ onUnmounted(() => {
                                 leave-active-class="transition-opacity duration-150"
                                 leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="expandedDescriptionId === item.id && menuLayout !== 'reels_card'"
+                                <div v-if="expandedDescriptionId === item.id && videoStyle !== 'card'"
                                      class="absolute inset-0 z-20 bg-black/85 backdrop-blur-sm flex flex-col justify-end"
                                      @click.self="toggleDescription(null)">
                                     <div class="px-5 pb-6 pt-4 max-h-[70vh] overflow-y-auto">
@@ -644,7 +645,7 @@ onUnmounted(() => {
                             </Transition>
 
                             <!-- ====== REELS CARD LAYOUT ====== -->
-                            <template v-if="menuLayout === 'reels_card'">
+                            <template v-if="videoStyle === 'card'">
                                 <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom p-3">
                                     <div class="rounded-2xl backdrop-blur-md overflow-hidden transition-all duration-300 ease-out"
                                          :style="{ backgroundColor: secondaryColor + 'ee' }"

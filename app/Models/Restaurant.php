@@ -26,6 +26,7 @@ class Restaurant extends Model
         'background_image',
         'background_opacity',
         'menu_layout',
+        'video_style',
         'show_instagram',
         'show_whatsapp',
         'address',
