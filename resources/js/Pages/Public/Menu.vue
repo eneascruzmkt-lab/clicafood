@@ -616,7 +616,7 @@ onUnmounted(() => {
                             <!-- Gradient overlay -->
                             <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 pointer-events-none"></div>
 
-                            <!-- Expanded description overlay (covers full screen when open) -->
+                            <!-- Expanded description overlay (covers full screen when open) - only for default reels -->
                             <Transition
                                 enter-active-class="transition-opacity duration-200"
                                 enter-from-class="opacity-0"
@@ -624,7 +624,7 @@ onUnmounted(() => {
                                 leave-active-class="transition-opacity duration-150"
                                 leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="expandedDescriptionId === item.id"
+                                <div v-if="expandedDescriptionId === item.id && menuLayout !== 'reels_card'"
                                      class="absolute inset-0 z-20 bg-black/85 backdrop-blur-sm flex flex-col justify-end"
                                      @click.self="toggleDescription(null)">
                                     <div class="px-5 pb-6 pt-4 max-h-[70vh] overflow-y-auto">
@@ -646,37 +646,24 @@ onUnmounted(() => {
                             <!-- ====== REELS CARD LAYOUT ====== -->
                             <template v-if="menuLayout === 'reels_card'">
                                 <div class="absolute bottom-0 left-0 right-0 z-10 safe-bottom p-3">
-                                    <div class="rounded-2xl backdrop-blur-md overflow-hidden reels-card-animate"
+                                    <div class="rounded-2xl backdrop-blur-md overflow-hidden transition-all duration-300 ease-out"
                                          :style="{ backgroundColor: secondaryColor + 'ee' }"
                                          @click.stop="toggleDescription(expandedDescriptionId === item.id ? null : item.id)">
-                                        <div class="flex gap-3 p-3">
-                                            <!-- Product thumbnail -->
-                                            <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+
+                                        <!-- Compact: thumbnail + name + price -->
+                                        <div v-if="expandedDescriptionId !== item.id" class="flex items-center gap-3 p-3">
+                                            <div class="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0">
                                                 <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" />
                                                 <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: borderColor }">
-                                                    <Icon name="restaurant" class="w-8 h-8" :style="{ color: textSecColor }" />
+                                                    <Icon name="restaurant" class="w-6 h-6" :style="{ color: textSecColor }" />
                                                 </div>
                                             </div>
-                                            <!-- Info -->
                                             <div class="flex-1 min-w-0">
-                                                <h3 class="font-bold text-sm leading-tight" :style="{ color: textColor }">{{ item.name }}</h3>
-                                                <p v-if="item.description"
-                                                   class="text-xs mt-1 leading-relaxed transition-all duration-300"
-                                                   :class="expandedDescriptionId === item.id ? 'max-h-[200px]' : 'line-clamp-2 max-h-[2.5rem]'"
-                                                   :style="{ color: textSecColor }">
-                                                    {{ item.description }}
-                                                </p>
-                                                <p class="font-bold text-sm mt-1.5" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
+                                                <h3 class="font-bold text-sm leading-tight truncate" :style="{ color: textColor }">{{ item.name }}</h3>
+                                                <p class="font-bold text-sm mt-0.5" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
                                             </div>
-                                            <!-- Close button -->
-                                            <button @click.stop="closeReels" class="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5" :style="{ color: textSecColor }">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                                            </button>
-                                        </div>
-                                        <!-- Like row -->
-                                        <div class="flex items-center justify-end gap-3 px-3 pb-3">
                                             <button @click.stop="likeItem(item.id)"
-                                                    class="flex items-center gap-1.5 transition-all active:scale-110"
+                                                    class="flex items-center gap-1 transition-all active:scale-110 flex-shrink-0"
                                                     :class="isLiked(item.id) ? 'text-red-500' : ''"
                                                     :style="!isLiked(item.id) ? { color: textSecColor } : {}">
                                                 <svg class="w-5 h-5" :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -684,6 +671,38 @@ onUnmounted(() => {
                                                 </svg>
                                                 <span class="text-xs font-semibold">{{ formatLikes(likeCounts[item.id]) }}</span>
                                             </button>
+                                        </div>
+
+                                        <!-- Expanded: full details -->
+                                        <div v-else class="p-4">
+                                            <div class="flex gap-3 mb-3">
+                                                <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                                                    <img v-if="item.image" :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" />
+                                                    <div v-else class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: borderColor }">
+                                                        <Icon name="restaurant" class="w-8 h-8" :style="{ color: textSecColor }" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <h3 class="font-bold text-base leading-tight" :style="{ color: textColor }">{{ item.name }}</h3>
+                                                    <p class="font-bold text-base mt-1" :style="{ color: priceColor }">{{ formatPrice(item.price) }}</p>
+                                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-medium mt-1 inline-block" :style="{ backgroundColor: borderColor + '60', color: textSecColor }">{{ item.category?.name }}</span>
+                                                </div>
+                                                <button @click.stop="toggleDescription(null)" class="w-5 h-5 flex items-center justify-center flex-shrink-0" :style="{ color: textSecColor }">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                </button>
+                                            </div>
+                                            <p v-if="item.description" class="text-sm leading-relaxed" :style="{ color: textSecColor }">{{ item.description }}</p>
+                                            <div class="flex items-center justify-end mt-3 pt-2" :style="{ borderTop: `1px solid ${borderColor}40` }">
+                                                <button @click.stop="likeItem(item.id)"
+                                                        class="flex items-center gap-1.5 transition-all active:scale-110"
+                                                        :class="isLiked(item.id) ? 'text-red-500' : ''"
+                                                        :style="!isLiked(item.id) ? { color: textSecColor } : {}">
+                                                    <svg class="w-5 h-5" :fill="isLiked(item.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                                    </svg>
+                                                    <span class="text-xs font-semibold">{{ formatLikes(likeCounts[item.id]) }}</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
