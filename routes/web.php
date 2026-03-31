@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 // Landing Page
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/vendas', [LandingController::class, 'sales'])->name('sales');
 
 // Auth Routes (guests only)
 Route::middleware('guest')->group(function () {

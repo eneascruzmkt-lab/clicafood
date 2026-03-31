@@ -15,4 +15,9 @@ class LandingController extends Controller
             ],
         ]);
     }
+
+    public function sales()
+    {
+        return Inertia::render('Landing/SalesPage');
+    }
 }
