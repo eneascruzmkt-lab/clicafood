@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class MeshyService
 {
-    protected string $baseUrl = 'https://api.meshy.ai/openapi/v2';
+    protected string $baseUrl = 'https://api.meshy.ai/openapi/v1';
     protected string $apiKey;
 
     public function __construct()
@@ -22,27 +22,31 @@ class MeshyService
     public function imageToModel(string $imageUrl): string
     {
         $response = Http::withToken($this->apiKey)
-            ->timeout(30)
+            ->timeout(60)
             ->post("{$this->baseUrl}/image-to-3d", [
                 'image_url' => $imageUrl,
-                'ai_model' => 'meshy-4',
-                'topology' => 'quad',
-                'target_polycount' => 30000,
+                'ai_model' => 'meshy-5',
                 'should_remesh' => true,
+                'should_texture' => true,
+                'enable_pbr' => true,
+                'target_polycount' => 30000,
             ]);
 
         if ($response->failed()) {
-            Log::error('Meshy imageToModel failed', ['status' => $response->status(), 'body' => $response->json()]);
-            throw new \Exception('Failed to create 3D model: ' . $response->body());
+            Log::error('Meshy imageToModel failed', [
+                'status' => $response->status(),
+                'body' => $response->json(),
+                'image_url' => $imageUrl,
+            ]);
+            throw new \Exception('Meshy API error: ' . ($response->json()['message'] ?? $response->body()));
         }
 
         $data = $response->json();
-        return $data['result'] ?? $data['id'] ?? '';
+        return $data['result'] ?? '';
     }
 
     /**
      * Check the status of a 3D generation task.
-     * Returns: { status: 'PENDING|IN_PROGRESS|SUCCEEDED|FAILED', model_urls: { glb, usdz } }
      */
     public function getTaskStatus(string $taskId): array
     {
