@@ -10,9 +10,9 @@ import { Head } from '@inertiajs/vue3';
         <!-- Background Glow -->
         <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
             <div class="absolute -top-[200px] -left-[200px] w-[800px] h-[800px] rounded-full opacity-30"
-                 style="background: radial-gradient(circle, #60B1FF 0%, transparent 70%); filter: blur(120px);"></div>
+                 style="background: radial-gradient(circle, #FF6B6B 0%, transparent 70%); filter: blur(120px);"></div>
             <div class="absolute top-[100px] left-[100px] w-[600px] h-[600px] rounded-full opacity-20"
-                 style="background: radial-gradient(circle, #319AFF 0%, transparent 70%); filter: blur(100px);"></div>
+                 style="background: radial-gradient(circle, #E63B2E 0%, transparent 70%); filter: blur(100px);"></div>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
@@ -59,7 +59,7 @@ import { Head } from '@inertiajs/vue3';
                     <!-- Headline -->
                     <h1 class="hero-headline text-[42px] sm:text-[56px] md:text-[68px] lg:text-[75px] font-bold leading-[1.05] tracking-[-2px] text-gray-900 mb-6">
                         Seu cardápio em<br/>
-                        <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #0084FF, #319AFF, #60B1FF);">
+                        <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #E63B2E, #E63B2E, #FF6B6B);">
                             outro nível.
                         </span>
                     </h1>
@@ -73,7 +73,7 @@ import { Head } from '@inertiajs/vue3';
                     <div class="flex flex-col sm:flex-row gap-4 items-start">
                         <a href="/register"
                            class="cta-primary group inline-flex items-center gap-3 px-8 py-4 rounded-[16px] text-white text-[16px] font-semibold transition-all duration-300 hover:scale-[1.02]"
-                           style="background: rgba(0,132,255,0.8); backdrop-filter: blur(2px); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.35), 0 8px 32px rgba(0,132,255,0.25);">
+                           style="background: rgba(230,59,46,0.8); backdrop-filter: blur(2px); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.35), 0 8px 32px rgba(230,59,46,0.25);">
                             Começar Agora — Grátis
                             <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
@@ -88,30 +88,39 @@ import { Head } from '@inertiajs/vue3';
                     </div>
                 </div>
 
-                <!-- Hero Right (Glassy Orb) -->
+                <!-- Hero Right (3D Model Viewer) -->
                 <div class="relative flex justify-center items-center min-h-[400px] md:min-h-[500px]">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <video
-                            autoplay
-                            loop
-                            muted
-                            playsinline
-                            class="w-full max-w-[600px] scale-125 mix-blend-screen"
-                            style="filter: hue-rotate(-55deg) saturate(250%) brightness(1.2) contrast(1.1);"
-                            src="https://future.co/images/homepage/glassy-orb/orb-purple.webm"
-                        ></video>
+                    <!-- Glow behind model -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div class="w-[400px] h-[400px] rounded-full opacity-20" style="background: radial-gradient(circle, #E63B2E 0%, transparent 70%); filter: blur(80px);"></div>
                     </div>
-                    <!-- Floating elements over orb -->
-                    <div class="relative z-10 flex flex-col items-center gap-4">
-                        <!-- 3D cube icon -->
-                        <div class="glass-float w-16 h-16 rounded-2xl flex items-center justify-center"
-                             style="background: rgba(255,255,255,0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 8px 32px rgba(0,0,0,0.08);">
-                            <svg class="w-8 h-8 text-[#0084FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <!-- 3D Model -->
+                    <model-viewer
+                        src="/models/demo-pasta.glb"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look"
+                        camera-controls
+                        auto-rotate
+                        rotation-per-second="30deg"
+                        shadow-intensity="0.8"
+                        environment-image="neutral"
+                        exposure="1.1"
+                        poster="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/menu-items/vbq5nq6JOLqaHnICvT9XTfmOXpE2PPC54RspCgBx.jpg"
+                        alt="Prato de massa em 3D"
+                        style="width: 100%; height: 500px;"
+                        loading="eager"
+                        camera-orbit="45deg 65deg 2.5m"
+                        field-of-view="22deg"
+                    >
+                        <button slot="ar-button"
+                                class="absolute bottom-4 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full text-white text-[13px] font-semibold flex items-center gap-2 shadow-lg"
+                                style="background: rgba(230,59,46,0.85); backdrop-filter: blur(4px); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.2), 0 4px 16px rgba(230,59,46,0.3);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
                             </svg>
-                        </div>
-                        <p class="text-[13px] font-medium text-gray-400 tracking-wide uppercase">Realidade Aumentada</p>
-                    </div>
+                            Ver em AR
+                        </button>
+                    </model-viewer>
                 </div>
             </div>
         </section>
@@ -181,7 +190,7 @@ import { Head } from '@inertiajs/vue3';
     position: absolute;
     inset: -2px;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(0,132,255,0.2), rgba(49,154,255,0.1));
+    background: linear-gradient(135deg, rgba(230,59,46,0.2), rgba(49,154,255,0.1));
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s;
