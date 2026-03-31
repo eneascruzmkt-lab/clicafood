@@ -27,6 +27,14 @@ class ArModelController extends Controller
             return back()->with('error', 'O item precisa ter uma imagem para gerar o modelo 3D.');
         }
 
+        // Delete old models from S3 if regenerating
+        if ($menuItem->model_glb_url && !str_starts_with($menuItem->model_glb_url, 'http')) {
+            Storage::disk('s3')->delete($menuItem->model_glb_url);
+        }
+        if ($menuItem->model_usdz_url && !str_starts_with($menuItem->model_usdz_url, 'http')) {
+            Storage::disk('s3')->delete($menuItem->model_usdz_url);
+        }
+
         // Get full image URL
         $imageUrl = $menuItem->image;
         if (!str_starts_with($imageUrl, 'http')) {
@@ -38,6 +46,8 @@ class ArModelController extends Controller
             $taskId = $service->imageToModel($imageUrl);
 
             $menuItem->update([
+                'model_glb_url' => null,
+                'model_usdz_url' => null,
                 'model_status' => 'processing:' . $taskId,
             ]);
 
@@ -142,6 +152,14 @@ class ArModelController extends Controller
 
         if ($menuItem->restaurant_id !== $restaurant->id) {
             abort(403);
+        }
+
+        // Delete files from S3
+        if ($menuItem->model_glb_url && !str_starts_with($menuItem->model_glb_url, 'http')) {
+            Storage::disk('s3')->delete($menuItem->model_glb_url);
+        }
+        if ($menuItem->model_usdz_url && !str_starts_with($menuItem->model_usdz_url, 'http')) {
+            Storage::disk('s3')->delete($menuItem->model_usdz_url);
         }
 
         $menuItem->update([
