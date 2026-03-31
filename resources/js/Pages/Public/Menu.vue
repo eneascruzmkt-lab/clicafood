@@ -707,7 +707,17 @@ onUnmounted(() => {
                                                 </button>
                                             </div>
                                             <p v-if="item.description" class="text-sm leading-relaxed" :style="{ color: textSecColor }">{{ item.description }}</p>
-                                            <div class="flex items-center justify-end mt-3 pt-2" :style="{ borderTop: `1px solid ${borderColor}40` }">
+                                            <div class="flex items-center justify-between mt-3 pt-2" :style="{ borderTop: `1px solid ${borderColor}40` }">
+                                                <button v-if="item.model_glb_url && item.model_status === 'ready'"
+                                                        @click.stop="openAr(item)"
+                                                        class="flex items-center gap-1.5 text-xs font-semibold transition-all active:scale-105 px-3 py-1.5 rounded-full"
+                                                        :style="{ backgroundColor: primaryColor, color: '#fff' }">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                                    </svg>
+                                                    Ver em AR
+                                                </button>
+                                                <div v-else></div>
                                                 <button @click.stop="likeItem(item.id)"
                                                         class="flex items-center gap-1.5 transition-all active:scale-110"
                                                         :class="isLiked(item.id) ? 'text-red-500' : ''"
