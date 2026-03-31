@@ -25,7 +25,7 @@ class MeshyService
             ->timeout(60)
             ->post("{$this->baseUrl}/image-to-3d", [
                 'image_url' => $imageUrl,
-                'ai_model' => 'meshy-6',
+                'ai_model' => 'meshy-5',
                 'should_remesh' => true,
                 'should_texture' => true,
                 'enable_pbr' => true,
