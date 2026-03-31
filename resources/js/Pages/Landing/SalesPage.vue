@@ -98,27 +98,21 @@ const mockupVideos = [
                 <!-- Hero Right (AR + Mockup Reels + Mockup Card) -->
                 <div class="relative flex items-center justify-center md:justify-end min-h-[380px] md:min-h-[500px] mt-8 md:mt-0">
 
-                    <!-- Label: Gire o prato -->
-                    <div class="absolute left-0 md:left-4 bottom-4 md:bottom-12 z-40 hidden sm:flex flex-col items-center gap-1">
-                        <p class="text-[12px] font-semibold text-gray-400 italic">Gire o prato</p>
-                        <svg class="w-6 h-6 text-[#E63B2E] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
+                    <!-- Label: Gire o prato (bottom-left, curved arrow pointing up-right) -->
+                    <div class="absolute left-2 md:left-6 bottom-0 md:bottom-6 z-40 hidden sm:block">
+                        <p class="text-[22px] md:text-[28px] font-bold text-[#E63B2E]" style="font-family: 'Dancing Script', cursive;">Gire o prato</p>
+                        <svg class="w-10 h-10 text-[#E63B2E] -mt-1 ml-auto mr-4" viewBox="0 0 50 50" fill="none">
+                            <path d="M10 40 C15 20, 30 10, 45 15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                            <path d="M38 10 L45 15 L38 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                         </svg>
                     </div>
 
-                    <!-- Label: Estilo TikTok -->
-                    <div class="absolute top-0 md:-top-4 right-[30%] md:right-[220px] z-40 hidden sm:flex flex-col items-center gap-1">
-                        <p class="text-[12px] font-semibold text-gray-400 italic">Estilo TikTok</p>
-                        <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3"/>
-                        </svg>
-                    </div>
-
-                    <!-- Label: Card flutuante -->
-                    <div class="absolute top-0 md:-top-4 right-0 md:right-2 z-40 hidden sm:flex flex-col items-center gap-1">
-                        <p class="text-[12px] font-semibold text-gray-400 italic">Card flutuante</p>
-                        <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3"/>
+                    <!-- Label: Movimentação estilo TikTok (top, curved arrow pointing down) -->
+                    <div class="absolute -top-6 md:-top-10 right-[25%] md:right-[180px] z-40 hidden sm:block text-right">
+                        <p class="text-[22px] md:text-[28px] font-bold text-[#E63B2E]" style="font-family: 'Dancing Script', cursive;">Estilo TikTok</p>
+                        <svg class="w-10 h-10 text-[#E63B2E] ml-4" viewBox="0 0 50 50" fill="none">
+                            <path d="M25 5 C20 15, 15 30, 20 42" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                            <path d="M14 36 L20 42 L26 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                         </svg>
                     </div>
 
