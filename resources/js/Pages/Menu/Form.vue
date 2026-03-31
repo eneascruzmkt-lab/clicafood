@@ -112,7 +112,10 @@ const startArPolling = () => {
 };
 
 onMounted(() => {
-    if (arStatus.value && arStatus.value.startsWith('processing')) startArPolling();
+    if (arStatus.value && arStatus.value.startsWith('processing')) {
+        arStatus.value = 'processing';
+        startArPolling();
+    }
 });
 onUnmounted(() => { if (arPollTimer) clearInterval(arPollTimer); });
 

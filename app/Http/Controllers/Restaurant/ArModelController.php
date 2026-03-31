@@ -8,6 +8,7 @@ use App\Services\MeshyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ArModelController extends Controller
 {
@@ -80,8 +81,26 @@ class ArModelController extends Controller
             $result = $service->getTaskStatus($taskId);
 
             if ($result['status'] === 'SUCCEEDED') {
-                $glbUrl = $result['model_urls']['glb'] ?? null;
-                $usdzUrl = $result['model_urls']['usdz'] ?? null;
+                $glbSource = $result['model_urls']['glb'] ?? null;
+                $usdzSource = $result['model_urls']['usdz'] ?? null;
+
+                // Download and store models to S3 (Meshy URLs are temporary)
+                $glbUrl = null;
+                $usdzUrl = null;
+
+                if ($glbSource) {
+                    $glbContent = file_get_contents($glbSource);
+                    $glbPath = 'models/' . Str::uuid() . '.glb';
+                    Storage::disk('s3')->put($glbPath, $glbContent);
+                    $glbUrl = $glbPath;
+                }
+
+                if ($usdzSource) {
+                    $usdzContent = file_get_contents($usdzSource);
+                    $usdzPath = 'models/' . Str::uuid() . '.usdz';
+                    Storage::disk('s3')->put($usdzPath, $usdzContent);
+                    $usdzUrl = $usdzPath;
+                }
 
                 $menuItem->update([
                     'model_glb_url' => $glbUrl,
@@ -91,8 +110,8 @@ class ArModelController extends Controller
 
                 return response()->json([
                     'status' => 'ready',
-                    'model_glb_url' => $glbUrl,
-                    'model_usdz_url' => $usdzUrl,
+                    'model_glb_url' => $glbUrl ? Storage::disk('s3')->url($glbUrl) : null,
+                    'model_usdz_url' => $usdzUrl ? Storage::disk('s3')->url($usdzUrl) : null,
                 ]);
             }
 
