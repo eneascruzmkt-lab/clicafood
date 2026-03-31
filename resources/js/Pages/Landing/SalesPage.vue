@@ -109,11 +109,14 @@ const mockupVideos = [
                     </div>
 
                     <!-- 3D Model + label -->
-                    <div class="relative z-30 flex-shrink-0 flex flex-col items-center" style="margin-right: -60px;">
-                        <p class="text-[14px] md:text-[18px] font-bold text-[#E63B2E] mb-1 hidden sm:block">Gire o prato</p>
-                        <svg class="w-5 h-5 text-[#E63B2E] animate-bounce mb-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
-                        </svg>
+                    <div class="relative z-30 flex-shrink-0" style="margin-right: -60px;">
+                        <!-- Gire o prato label (positioned above-left of the model) -->
+                        <div class="absolute -top-2 -left-2 z-40 hidden sm:flex flex-col items-center gap-0.5">
+                            <p class="text-[14px] md:text-[18px] font-bold text-[#E63B2E]">Gire o prato</p>
+                            <svg class="w-5 h-5 text-[#E63B2E] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
+                            </svg>
+                        </div>
                         <model-viewer
                             src="/models/demo-pasta.glb"
                             ar
