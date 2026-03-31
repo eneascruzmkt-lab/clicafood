@@ -98,7 +98,7 @@ const mockupVideos = [
                 <!-- Hero Right (AR + Mockup Reels + Mockup Card) -->
                 <div class="hidden md:flex relative items-center justify-end min-h-[500px]">
                     <!-- 3D Model (leftmost, overlaps first mockup) -->
-                    <div class="absolute left-0 z-30" style="top: 50%; transform: translateY(-50%);">
+                    <div class="relative z-30 flex-shrink-0" style="margin-right: -60px;">
                         <model-viewer
                             src="/models/demo-pasta.glb"
                             ar
@@ -110,7 +110,7 @@ const mockupVideos = [
                             environment-image="neutral"
                             exposure="1.2"
                             alt="Prato de massa em 3D"
-                            style="width: 280px; height: 280px; --poster-color: transparent;"
+                            style="width: 260px; height: 260px; --poster-color: transparent;"
                             loading="eager"
                             camera-orbit="45deg 70deg 5.5m"
                             field-of-view="30deg"
@@ -119,7 +119,7 @@ const mockupVideos = [
                     </div>
 
                     <!-- Phone Mockup 1: Reels layout (center, overlapped by AR on left) -->
-                    <div class="relative z-20 flex-shrink-0" style="margin-left: 140px;">
+                    <div class="relative z-20 flex-shrink-0" style="margin-left: -40px;">
                         <div class="relative w-[200px] h-[420px] bg-[#0a0a0a] rounded-[32px] border-[5px] border-[#1c1c1e] overflow-hidden"
                              style="box-shadow: 0 30px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
                             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
