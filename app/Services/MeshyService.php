@@ -29,7 +29,9 @@ class MeshyService
                 'should_remesh' => true,
                 'should_texture' => true,
                 'enable_pbr' => true,
-                'target_polycount' => 30000,
+                'image_enhancement' => true,
+                'remove_lighting' => true,
+                'target_polycount' => 300000,
             ]);
 
         if ($response->failed()) {
