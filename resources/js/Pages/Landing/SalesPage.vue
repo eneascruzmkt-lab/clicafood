@@ -1,6 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
+
+const mockupVideos = [
+    { name: 'Grano Duro - Piccolo', desc: 'Massa tradicional italiana de trigo duro.', price: '24,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg' },
+    { name: 'Artesanal - Piccolo', desc: 'Massa artesanal feita à mão diariamente.', price: '29,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/556dccb1-8e40-4dc9-84a0-31f5912cce32.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/gZbj5t2bLouzuZPtoHSPCfydRTtcnfduUqGNz9cT.jpg' },
+    { name: 'Carbonara', desc: 'Molho cremoso de ovos, queijo parmesão e bacon.', price: '19,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg' },
+    { name: 'Fettuccine Alfredo', desc: 'Molho clássico de manteiga e parmesão.', price: '17,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/d528ec63-ef5f-470a-b50b-b08a48814248.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Q5UzFKj3EwU9D95p0eBfjLcJN2vKWriwLimeBfhe.jpg' },
+];
 </script>
 
 <template>
@@ -88,39 +95,62 @@ import { Head } from '@inertiajs/vue3';
                     </div>
                 </div>
 
-                <!-- Hero Right (3D Model Viewer) -->
-                <div class="relative flex justify-center items-center min-h-[400px] md:min-h-[500px]">
-                    <!-- Glow behind model -->
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="w-[400px] h-[400px] rounded-full opacity-20" style="background: radial-gradient(circle, #E63B2E 0%, transparent 70%); filter: blur(80px);"></div>
-                    </div>
+                <!-- Hero Right (3D Model + Phone Mockup) -->
+                <div class="relative flex items-center justify-center gap-6 min-h-[400px] md:min-h-[500px]">
                     <!-- 3D Model -->
-                    <model-viewer
-                        src="/models/demo-pasta.glb"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look"
-                        camera-controls
-                        auto-rotate
-                        rotation-per-second="30deg"
-                        shadow-intensity="0.8"
-                        environment-image="neutral"
-                        exposure="1.1"
-                        poster="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/menu-items/vbq5nq6JOLqaHnICvT9XTfmOXpE2PPC54RspCgBx.jpg"
-                        alt="Prato de massa em 3D"
-                        style="width: 100%; height: 500px;"
-                        loading="eager"
-                        camera-orbit="45deg 65deg 2.5m"
-                        field-of-view="22deg"
-                    >
-                        <button slot="ar-button"
-                                class="absolute bottom-4 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full text-white text-[13px] font-semibold flex items-center gap-2 shadow-lg"
-                                style="background: rgba(230,59,46,0.85); backdrop-filter: blur(4px); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.2), 0 4px 16px rgba(230,59,46,0.3);">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
-                            </svg>
-                            Ver em AR
-                        </button>
-                    </model-viewer>
+                    <div class="relative flex-1 max-w-[400px]">
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="w-[300px] h-[300px] rounded-full opacity-15" style="background: radial-gradient(circle, #E63B2E 0%, transparent 70%); filter: blur(60px);"></div>
+                        </div>
+                        <model-viewer
+                            src="/models/demo-pasta.glb"
+                            ar
+                            ar-modes="webxr scene-viewer quick-look"
+                            camera-controls
+                            auto-rotate
+                            rotation-per-second="25deg"
+                            shadow-intensity="0.6"
+                            environment-image="neutral"
+                            exposure="1.1"
+                            alt="Prato de massa em 3D"
+                            style="width: 100%; height: 380px;"
+                            loading="eager"
+                            camera-orbit="45deg 70deg 6m"
+                            field-of-view="30deg"
+                        >
+                            <button slot="ar-button"
+                                    class="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-white text-[12px] font-semibold flex items-center gap-1.5 shadow-lg"
+                                    style="background: rgba(230,59,46,0.85); backdrop-filter: blur(4px);">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                </svg>
+                                Ver em AR
+                            </button>
+                        </model-viewer>
+                    </div>
+
+                    <!-- Phone Mockup with video scroll -->
+                    <div class="hidden lg:block relative flex-shrink-0">
+                        <div class="relative w-[220px] h-[450px] bg-[#0a0a0a] rounded-[36px] border-[6px] border-[#1c1c1e] overflow-hidden"
+                             style="box-shadow: 0 40px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
+                            <!-- Notch -->
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#0a0a0a] rounded-b-2xl z-20"></div>
+                            <!-- Video content (auto-scrolling) -->
+                            <div class="mockup-scroll h-full w-full overflow-hidden">
+                                <div class="mockup-scroll-inner">
+                                    <div v-for="(vid, idx) in mockupVideos" :key="idx" class="relative w-full h-[450px] flex-shrink-0">
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover" :src="vid.video" :poster="vid.thumb"></video>
+                                        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 pointer-events-none"></div>
+                                        <div class="absolute bottom-0 left-0 right-0 p-4">
+                                            <h3 class="text-white font-bold text-sm drop-shadow-lg">{{ vid.name }}</h3>
+                                            <p class="text-white/60 text-[10px] mt-1 line-clamp-2">{{ vid.desc }}</p>
+                                            <span class="text-[#E63B2E] font-bold text-xs mt-1 block">R$ {{ vid.price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -197,5 +227,20 @@ import { Head } from '@inertiajs/vue3';
 }
 .cta-primary:hover::after {
     opacity: 1;
+}
+
+/* Phone mockup auto-scroll */
+.mockup-scroll-inner {
+    display: flex;
+    flex-direction: column;
+    animation: mockupScroll 20s ease-in-out infinite;
+}
+
+@keyframes mockupScroll {
+    0%, 10% { transform: translateY(0); }
+    20%, 30% { transform: translateY(-450px); }
+    40%, 50% { transform: translateY(-900px); }
+    60%, 70% { transform: translateY(-1350px); }
+    80%, 100% { transform: translateY(0); }
 }
 </style>
