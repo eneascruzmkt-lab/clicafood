@@ -95,13 +95,10 @@ const mockupVideos = [
                     </div>
                 </div>
 
-                <!-- Hero Right (3D Model + Phone Mockup) -->
-                <div class="relative flex items-center justify-center gap-6 min-h-[400px] md:min-h-[500px]">
-                    <!-- 3D Model -->
-                    <div class="relative flex-1 max-w-[400px]">
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div class="w-[300px] h-[300px] rounded-full opacity-15" style="background: radial-gradient(circle, #E63B2E 0%, transparent 70%); filter: blur(60px);"></div>
-                        </div>
+                <!-- Hero Right (AR + Mockup Reels + Mockup Card) -->
+                <div class="hidden md:flex relative items-center justify-end min-h-[500px]">
+                    <!-- 3D Model (leftmost, overlaps first mockup) -->
+                    <div class="absolute left-0 z-30" style="top: 50%; transform: translateY(-50%);">
                         <model-viewer
                             src="/models/demo-pasta.glb"
                             ar
@@ -109,42 +106,67 @@ const mockupVideos = [
                             camera-controls
                             auto-rotate
                             rotation-per-second="25deg"
-                            shadow-intensity="0.6"
+                            shadow-intensity="0"
                             environment-image="neutral"
-                            exposure="1.1"
+                            exposure="1.2"
                             alt="Prato de massa em 3D"
-                            style="width: 100%; height: 380px;"
+                            style="width: 280px; height: 280px; --poster-color: transparent;"
                             loading="eager"
-                            camera-orbit="45deg 70deg 6m"
+                            camera-orbit="45deg 70deg 5.5m"
                             field-of-view="30deg"
                         >
-                            <button slot="ar-button"
-                                    class="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-white text-[12px] font-semibold flex items-center gap-1.5 shadow-lg"
-                                    style="background: rgba(230,59,46,0.85); backdrop-filter: blur(4px);">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
-                                </svg>
-                                Ver em AR
-                            </button>
                         </model-viewer>
                     </div>
 
-                    <!-- Phone Mockup with video scroll -->
-                    <div class="hidden lg:block relative flex-shrink-0">
-                        <div class="relative w-[220px] h-[450px] bg-[#0a0a0a] rounded-[36px] border-[6px] border-[#1c1c1e] overflow-hidden"
-                             style="box-shadow: 0 40px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
-                            <!-- Notch -->
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-[#0a0a0a] rounded-b-2xl z-20"></div>
-                            <!-- Video content (auto-scrolling) -->
+                    <!-- Phone Mockup 1: Reels layout (center, overlapped by AR on left) -->
+                    <div class="relative z-20 flex-shrink-0" style="margin-left: 140px;">
+                        <div class="relative w-[200px] h-[420px] bg-[#0a0a0a] rounded-[32px] border-[5px] border-[#1c1c1e] overflow-hidden"
+                             style="box-shadow: 0 30px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
                             <div class="mockup-scroll h-full w-full overflow-hidden">
                                 <div class="mockup-scroll-inner">
-                                    <div v-for="(vid, idx) in mockupVideos" :key="idx" class="relative w-full h-[450px] flex-shrink-0">
+                                    <div v-for="(vid, idx) in mockupVideos" :key="'reels-'+idx" class="relative w-full h-[420px] flex-shrink-0">
                                         <video autoplay muted loop playsinline class="w-full h-full object-cover" :src="vid.video" :poster="vid.thumb"></video>
                                         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 pointer-events-none"></div>
-                                        <div class="absolute bottom-0 left-0 right-0 p-4">
-                                            <h3 class="text-white font-bold text-sm drop-shadow-lg">{{ vid.name }}</h3>
-                                            <p class="text-white/60 text-[10px] mt-1 line-clamp-2">{{ vid.desc }}</p>
-                                            <span class="text-[#E63B2E] font-bold text-xs mt-1 block">R$ {{ vid.price }}</span>
+                                        <div class="absolute bottom-0 left-0 right-0 p-3">
+                                            <h3 class="text-white font-bold text-[12px] drop-shadow-lg">{{ vid.name }}</h3>
+                                            <p class="text-white/60 text-[9px] mt-0.5 line-clamp-2">{{ vid.desc }}</p>
+                                            <span class="text-[#E63B2E] font-bold text-[11px] mt-0.5 block">R$ {{ vid.price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone Mockup 2: Card layout (right, overlapped by first mockup) -->
+                    <div class="relative z-10 flex-shrink-0" style="margin-left: -30px;">
+                        <div class="relative w-[200px] h-[420px] bg-[#0a0a0a] rounded-[32px] border-[5px] border-[#1c1c1e] overflow-hidden"
+                             style="box-shadow: 0 30px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
+                            <div class="mockup-scroll-card h-full w-full overflow-hidden">
+                                <div class="mockup-scroll-card-inner">
+                                    <div v-for="(vid, idx) in mockupVideos" :key="'card-'+idx" class="relative w-full h-[420px] flex-shrink-0">
+                                        <video autoplay muted loop playsinline class="w-full h-full object-cover" :src="vid.video" :poster="vid.thumb"></video>
+                                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 pointer-events-none"></div>
+                                        <!-- Card overlay -->
+                                        <div class="absolute bottom-3 left-3 right-3">
+                                            <div class="rounded-xl p-2.5 backdrop-blur-md" style="background: rgba(255,255,255,0.9);">
+                                                <div class="flex gap-2 items-center">
+                                                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                                        <img :src="vid.thumb" :alt="vid.name" class="w-full h-full object-cover" />
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <h3 class="text-[#121212] font-bold text-[10px] leading-tight truncate">{{ vid.name }}</h3>
+                                                        <p class="text-[8px] text-gray-500 mt-0.5">ver ingredientes</p>
+                                                        <span class="text-[#E63B2E] font-bold text-[10px]">R$ {{ vid.price }}</span>
+                                                    </div>
+                                                    <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+                                                        <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                                        <span class="text-[7px] text-gray-400 font-semibold">24</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +251,7 @@ const mockupVideos = [
     opacity: 1;
 }
 
-/* Phone mockup auto-scroll */
+/* Phone mockup auto-scroll (Reels) */
 .mockup-scroll-inner {
     display: flex;
     flex-direction: column;
@@ -238,9 +260,30 @@ const mockupVideos = [
 
 @keyframes mockupScroll {
     0%, 10% { transform: translateY(0); }
-    20%, 30% { transform: translateY(-450px); }
-    40%, 50% { transform: translateY(-900px); }
-    60%, 70% { transform: translateY(-1350px); }
+    20%, 30% { transform: translateY(-420px); }
+    40%, 50% { transform: translateY(-840px); }
+    60%, 70% { transform: translateY(-1260px); }
     80%, 100% { transform: translateY(0); }
+}
+
+/* Phone mockup auto-scroll (Card) - offset timing */
+.mockup-scroll-card-inner {
+    display: flex;
+    flex-direction: column;
+    animation: mockupScrollCard 20s ease-in-out infinite;
+    animation-delay: 2.5s;
+}
+
+@keyframes mockupScrollCard {
+    0%, 10% { transform: translateY(0); }
+    20%, 30% { transform: translateY(-420px); }
+    40%, 50% { transform: translateY(-840px); }
+    60%, 70% { transform: translateY(-1260px); }
+    80%, 100% { transform: translateY(0); }
+}
+
+/* Remove model-viewer background */
+model-viewer {
+    --poster-color: transparent;
 }
 </style>
