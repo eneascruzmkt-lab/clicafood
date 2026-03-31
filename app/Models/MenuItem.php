@@ -23,6 +23,10 @@ class MenuItem extends Model
         'order',
         'views_count',
         'video_plays_count',
+        'likes_count',
+        'model_glb_url',
+        'model_usdz_url',
+        'model_status',
     ];
 
     protected function casts(): array
@@ -87,6 +91,8 @@ class MenuItem extends Model
         if (isset($array['image'])) $array['image'] = $resolve($array['image']);
         if (isset($array['video_url'])) $array['video_url'] = $resolve($array['video_url']);
         if (isset($array['video_thumbnail'])) $array['video_thumbnail'] = $resolve($array['video_thumbnail']);
+        if (isset($array['model_glb_url'])) $array['model_glb_url'] = $resolve($array['model_glb_url']);
+        if (isset($array['model_usdz_url'])) $array['model_usdz_url'] = $resolve($array['model_usdz_url']);
         return $array;
     }
 }

@@ -28,6 +28,7 @@ class MenuController extends Controller
             ->get([
                 'id', 'category_id', 'name', 'description', 'price',
                 'image', 'video_url', 'video_thumbnail', 'featured', 'order', 'likes_count',
+                'model_glb_url', 'model_usdz_url', 'model_status',
             ]);
 
         // Track page view

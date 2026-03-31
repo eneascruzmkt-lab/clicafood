@@ -265,6 +265,19 @@ const formatLikes = (count) => {
     return String(count);
 };
 
+// AR viewer
+const arItem = ref(null);
+const showArViewer = ref(false);
+
+const openAr = (item) => {
+    arItem.value = item;
+    showArViewer.value = true;
+};
+const closeAr = () => {
+    showArViewer.value = false;
+    arItem.value = null;
+};
+
 const primaryColor = computed(() => props.restaurant.primary_color || '#E63B2E');
 const secondaryColor = computed(() => props.restaurant.secondary_color || '#0d0d0d');
 const textColor = computed(() => props.restaurant.text_color || '#ffffff');
@@ -724,6 +737,15 @@ onUnmounted(() => {
                                         </svg>
                                     </button>
                                     <span class="text-[11px] font-semibold text-white/70 drop-shadow">{{ formatLikes(likeCounts[item.id]) }}</span>
+                                    <!-- AR button -->
+                                    <button v-if="item.model_glb_url && item.model_status === 'ready'"
+                                            @click.stop="openAr(item)"
+                                            class="w-11 h-11 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white/70 mt-3 active:scale-110 transition-all">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                        </svg>
+                                    </button>
+                                    <span v-if="item.model_glb_url && item.model_status === 'ready'" class="text-[11px] font-semibold text-white/70 drop-shadow">AR</span>
                                 </div>
 
                                 <!-- Bottom info -->
@@ -812,6 +834,56 @@ onUnmounted(() => {
                             <div class="w-1/3 h-full"></div>
                             <div class="w-1/3 h-full cursor-pointer" @click="nextStory"></div>
                         </div>
+                    </div>
+                </div>
+            </Transition>
+        </teleport>
+
+        <!-- AR 3D Viewer Modal -->
+        <teleport to="body">
+            <Transition
+                enter-active-class="transition-opacity duration-200"
+                enter-from-class="opacity-0"
+                enter-to-class="opacity-100"
+                leave-active-class="transition-opacity duration-150"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0">
+                <div v-if="showArViewer && arItem" class="fixed inset-0 z-[60] bg-black/90 flex flex-col">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between px-4 py-3 bg-black/50">
+                        <div>
+                            <h3 class="text-white font-bold text-sm">{{ arItem.name }}</h3>
+                            <p class="text-white/50 text-xs">Modelo 3D - Toque em AR para ver na sua mesa</p>
+                        </div>
+                        <button @click="closeAr" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <!-- 3D Viewer -->
+                    <div class="flex-1 relative">
+                        <model-viewer
+                            :src="arItem.model_glb_url"
+                            :ios-src="arItem.model_usdz_url"
+                            ar
+                            ar-modes="webxr scene-viewer quick-look"
+                            camera-controls
+                            auto-rotate
+                            shadow-intensity="1"
+                            environment-image="neutral"
+                            :poster="arItem.image"
+                            :alt="arItem.name"
+                            style="width: 100%; height: 100%;"
+                            loading="eager"
+                        >
+                            <button slot="ar-button"
+                                    class="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full text-white font-bold text-sm flex items-center gap-2 shadow-lg"
+                                    :style="{ backgroundColor: primaryColor }">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                </svg>
+                                Ver em Realidade Aumentada
+                            </button>
+                        </model-viewer>
                     </div>
                 </div>
             </Transition>

@@ -30,4 +30,8 @@ return [
     'abacatepay' => [
         'api_key' => env('ABACATEPAY_API_KEY'),
     ],
+
+    'meshy' => [
+        'api_key' => env('MESHY_API_KEY'),
+    ],
 ];

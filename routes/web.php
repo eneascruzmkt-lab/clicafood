@@ -12,6 +12,7 @@ use App\Http\Controllers\Restaurant\AnalyticsController;
 use App\Http\Controllers\Restaurant\SettingsController;
 use App\Http\Controllers\Restaurant\AccountController;
 use App\Http\Controllers\Restaurant\StoryController;
+use App\Http\Controllers\Restaurant\ArModelController;
 use App\Http\Controllers\Public\MenuController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminRestaurantController;
@@ -70,6 +71,11 @@ Route::middleware(['auth', 'restaurant', 'subscribed'])->group(function () {
     // Analytics
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
     Route::get('/analytics/data', [AnalyticsController::class, 'data'])->name('analytics.data');
+
+    // AR Models
+    Route::post('/menu-items/{menuItem}/ar/generate', [ArModelController::class, 'generate'])->name('ar.generate');
+    Route::get('/menu-items/{menuItem}/ar/status', [ArModelController::class, 'status'])->name('ar.status');
+    Route::delete('/menu-items/{menuItem}/ar', [ArModelController::class, 'destroy'])->name('ar.destroy');
 
     // Settings
     Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');

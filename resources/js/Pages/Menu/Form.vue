@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useForm, Link } from '@inertiajs/vue3';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useForm, Link, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Icon from '@/Components/Icon.vue';
+import axios from 'axios';
 
 const props = defineProps({
     item: { type: Object, default: null },
@@ -75,6 +76,45 @@ const removeThumbnail = () => {
     form.thumbnail = null;
     thumbnailPreview.value = null;
 };
+
+// AR Model
+const arStatus = ref(props.item?.model_status || null);
+const arProgress = ref(0);
+let arPollTimer = null;
+
+const generateAr = () => {
+    if (!props.item?.id) return;
+    router.post(`/menu-items/${props.item.id}/ar/generate`, {}, {
+        preserveScroll: true,
+        onSuccess: () => { arStatus.value = 'processing'; startArPolling(); },
+    });
+};
+
+const removeAr = () => {
+    if (!props.item?.id) return;
+    router.delete(`/menu-items/${props.item.id}/ar`, { preserveScroll: true,
+        onSuccess: () => { arStatus.value = null; },
+    });
+};
+
+const startArPolling = () => {
+    if (arPollTimer) clearInterval(arPollTimer);
+    arPollTimer = setInterval(async () => {
+        try {
+            const { data } = await axios.get(`/menu-items/${props.item.id}/ar/status`);
+            arProgress.value = data.progress || 0;
+            if (data.status === 'ready' || data.status === 'failed') {
+                arStatus.value = data.status;
+                clearInterval(arPollTimer);
+            }
+        } catch (e) {}
+    }, 5000);
+};
+
+onMounted(() => {
+    if (arStatus.value && arStatus.value.startsWith('processing')) startArPolling();
+});
+onUnmounted(() => { if (arPollTimer) clearInterval(arPollTimer); });
 
 const submit = () => {
     const url = isEditing.value ? `/menu-items/${props.item.id}` : '/menu-items';
@@ -277,6 +317,70 @@ const submit = () => {
                             <Icon name="check" class="w-4 h-4 text-emerald-400" />
                             Disponivel
                         </span>
+                    </div>
+                </div>
+
+                <!-- AR 3D Model -->
+                <div v-if="isEditing && props.item?.image" class="card space-y-4">
+                    <h3 class="font-bold text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                        </svg>
+                        Modelo 3D / Realidade Aumentada
+                    </h3>
+
+                    <!-- Ready -->
+                    <div v-if="arStatus === 'ready'" class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-emerald-400 font-semibold">Modelo 3D pronto!</p>
+                            <p class="text-xs text-dark-400 mt-0.5">Os clientes podem ver este prato em realidade aumentada.</p>
+                        </div>
+                        <button type="button" @click="removeAr" class="btn-secondary text-xs py-1.5 px-3">Remover</button>
+                    </div>
+
+                    <!-- Processing -->
+                    <div v-else-if="arStatus && arStatus.startsWith('processing')" class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-blue-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-blue-400 font-semibold">Gerando modelo 3D...</p>
+                            <p class="text-xs text-dark-400 mt-0.5">Isso pode levar de 1 a 5 minutos. Você pode sair desta página.</p>
+                            <div class="w-full bg-dark-700 rounded-full h-1.5 mt-2">
+                                <div class="bg-blue-400 h-1.5 rounded-full transition-all duration-500" :style="{ width: arProgress + '%' }"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Failed -->
+                    <div v-else-if="arStatus === 'failed'" class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-xl bg-red-500/10 flex items-center justify-center">
+                            <Icon name="close" class="w-8 h-8 text-red-400" />
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-red-400 font-semibold">Falha ao gerar modelo</p>
+                            <p class="text-xs text-dark-400 mt-0.5">Tente novamente com uma foto melhor do prato.</p>
+                        </div>
+                        <button type="button" @click="generateAr" class="btn-primary text-xs py-1.5 px-3">Tentar novamente</button>
+                    </div>
+
+                    <!-- Generate button -->
+                    <div v-else>
+                        <p class="text-xs text-dark-400 mb-3">Gere um modelo 3D a partir da foto do prato para que seus clientes possam ver em realidade aumentada.</p>
+                        <button type="button" @click="generateAr" class="btn-primary text-sm flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                            </svg>
+                            Gerar Modelo 3D
+                        </button>
                     </div>
                 </div>
 
