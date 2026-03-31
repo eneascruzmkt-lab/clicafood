@@ -96,8 +96,33 @@ const mockupVideos = [
                 </div>
 
                 <!-- Hero Right (AR + Mockup Reels + Mockup Card) -->
-                <div class="hidden md:flex relative items-center justify-end min-h-[500px]">
-                    <!-- 3D Model (leftmost, overlaps first mockup) -->
+                <div class="relative flex items-center justify-center md:justify-end min-h-[380px] md:min-h-[500px] mt-8 md:mt-0">
+
+                    <!-- Label: Gire o prato -->
+                    <div class="absolute left-0 md:left-4 bottom-4 md:bottom-12 z-40 hidden sm:flex flex-col items-center gap-1">
+                        <p class="text-[12px] font-semibold text-gray-400 italic">Gire o prato</p>
+                        <svg class="w-6 h-6 text-[#E63B2E] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
+                        </svg>
+                    </div>
+
+                    <!-- Label: Estilo TikTok -->
+                    <div class="absolute top-0 md:-top-4 right-[30%] md:right-[220px] z-40 hidden sm:flex flex-col items-center gap-1">
+                        <p class="text-[12px] font-semibold text-gray-400 italic">Estilo TikTok</p>
+                        <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3"/>
+                        </svg>
+                    </div>
+
+                    <!-- Label: Card flutuante -->
+                    <div class="absolute top-0 md:-top-4 right-0 md:right-2 z-40 hidden sm:flex flex-col items-center gap-1">
+                        <p class="text-[12px] font-semibold text-gray-400 italic">Card flutuante</p>
+                        <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25L12 21m0 0l-3.75-3.75M12 21V3"/>
+                        </svg>
+                    </div>
+
+                    <!-- 3D Model -->
                     <div class="relative z-30 flex-shrink-0" style="margin-right: -60px;">
                         <model-viewer
                             src="/models/demo-pasta.glb"
@@ -110,7 +135,8 @@ const mockupVideos = [
                             environment-image="neutral"
                             exposure="1.2"
                             alt="Prato de massa em 3D"
-                            style="width: 260px; height: 260px; --poster-color: transparent;"
+                            class="w-[180px] h-[180px] md:w-[260px] md:h-[260px]"
+                            style="--poster-color: transparent;"
                             loading="eager"
                             camera-orbit="45deg 70deg 5.5m"
                             field-of-view="30deg"
@@ -118,20 +144,20 @@ const mockupVideos = [
                         </model-viewer>
                     </div>
 
-                    <!-- Phone Mockup 1: Reels layout (center, overlapped by AR on left) -->
+                    <!-- Phone Mockup 1: Reels -->
                     <div class="relative z-20 flex-shrink-0" style="margin-left: -40px;">
-                        <div class="relative w-[200px] h-[420px] bg-[#0a0a0a] rounded-[32px] border-[5px] border-[#1c1c1e] overflow-hidden"
-                             style="box-shadow: 0 30px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
+                        <div class="relative w-[150px] h-[310px] md:w-[200px] md:h-[420px] bg-[#0a0a0a] rounded-[24px] md:rounded-[32px] border-[4px] md:border-[5px] border-[#1c1c1e] overflow-hidden"
+                             style="box-shadow: 0 30px 60px rgba(0,0,0,0.25);">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 md:w-20 h-3 md:h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
                             <div class="mockup-scroll h-full w-full overflow-hidden">
-                                <div class="mockup-scroll-inner">
-                                    <div v-for="(vid, idx) in mockupVideos" :key="'reels-'+idx" class="relative w-full h-[420px] flex-shrink-0">
+                                <div class="mockup-scroll-inner" style="--slide-h: 310px;" :style="{ '--slide-h-md': '420px' }">
+                                    <div v-for="(vid, idx) in mockupVideos" :key="'reels-'+idx" class="relative w-full h-[310px] md:h-[420px] flex-shrink-0">
                                         <video autoplay muted loop playsinline class="w-full h-full object-cover" :src="vid.video" :poster="vid.thumb"></video>
                                         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 pointer-events-none"></div>
-                                        <div class="absolute bottom-0 left-0 right-0 p-3">
-                                            <h3 class="text-white font-bold text-[12px] drop-shadow-lg">{{ vid.name }}</h3>
-                                            <p class="text-white/60 text-[9px] mt-0.5 line-clamp-2">{{ vid.desc }}</p>
-                                            <span class="text-[#E63B2E] font-bold text-[11px] mt-0.5 block">R$ {{ vid.price }}</span>
+                                        <div class="absolute bottom-0 left-0 right-0 p-2 md:p-3">
+                                            <h3 class="text-white font-bold text-[10px] md:text-[12px] drop-shadow-lg">{{ vid.name }}</h3>
+                                            <p class="text-white/60 text-[8px] md:text-[9px] mt-0.5 line-clamp-2">{{ vid.desc }}</p>
+                                            <span class="text-[#E63B2E] font-bold text-[9px] md:text-[11px] mt-0.5 block">R$ {{ vid.price }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -139,32 +165,28 @@ const mockupVideos = [
                         </div>
                     </div>
 
-                    <!-- Phone Mockup 2: Card layout (right, overlapped by first mockup) -->
+                    <!-- Phone Mockup 2: Card layout -->
                     <div class="relative z-10 flex-shrink-0" style="margin-left: -30px;">
-                        <div class="relative w-[200px] h-[420px] bg-[#0a0a0a] rounded-[32px] border-[5px] border-[#1c1c1e] overflow-hidden"
-                             style="box-shadow: 0 30px 60px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);">
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
+                        <div class="relative w-[150px] h-[310px] md:w-[200px] md:h-[420px] bg-[#0a0a0a] rounded-[24px] md:rounded-[32px] border-[4px] md:border-[5px] border-[#1c1c1e] overflow-hidden"
+                             style="box-shadow: 0 30px 60px rgba(0,0,0,0.25);">
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-16 md:w-20 h-3 md:h-4 bg-[#0a0a0a] rounded-b-xl z-20"></div>
                             <div class="mockup-scroll-card h-full w-full overflow-hidden">
                                 <div class="mockup-scroll-card-inner">
-                                    <div v-for="(vid, idx) in mockupVideos" :key="'card-'+idx" class="relative w-full h-[420px] flex-shrink-0">
+                                    <div v-for="(vid, idx) in mockupVideos" :key="'card-'+idx" class="relative w-full h-[310px] md:h-[420px] flex-shrink-0">
                                         <video autoplay muted loop playsinline class="w-full h-full object-cover" :src="vid.video" :poster="vid.thumb"></video>
                                         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 pointer-events-none"></div>
-                                        <!-- Card overlay -->
-                                        <div class="absolute bottom-3 left-3 right-3">
-                                            <div class="rounded-xl p-2.5 backdrop-blur-md" style="background: rgba(255,255,255,0.9);">
-                                                <div class="flex gap-2 items-center">
-                                                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                        <div class="absolute bottom-2 md:bottom-3 left-2 md:left-3 right-2 md:right-3">
+                                            <div class="rounded-lg md:rounded-xl p-2 md:p-2.5 backdrop-blur-md" style="background: rgba(255,255,255,0.9);">
+                                                <div class="flex gap-1.5 md:gap-2 items-center">
+                                                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-md md:rounded-lg overflow-hidden flex-shrink-0">
                                                         <img :src="vid.thumb" :alt="vid.name" class="w-full h-full object-cover" />
                                                     </div>
                                                     <div class="flex-1 min-w-0">
-                                                        <h3 class="text-[#121212] font-bold text-[10px] leading-tight truncate">{{ vid.name }}</h3>
-                                                        <p class="text-[8px] text-gray-500 mt-0.5">ver ingredientes</p>
-                                                        <span class="text-[#E63B2E] font-bold text-[10px]">R$ {{ vid.price }}</span>
+                                                        <h3 class="text-[#121212] font-bold text-[8px] md:text-[10px] leading-tight truncate">{{ vid.name }}</h3>
+                                                        <p class="text-[7px] md:text-[8px] text-gray-500 mt-0.5">ver ingredientes</p>
+                                                        <span class="text-[#E63B2E] font-bold text-[8px] md:text-[10px]">R$ {{ vid.price }}</span>
                                                     </div>
-                                                    <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
-                                                        <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                                                        <span class="text-[7px] text-gray-400 font-semibold">24</span>
-                                                    </div>
+                                                    <svg class="w-3.5 h-3.5 md:w-4 md:h-4 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                                                 </div>
                                             </div>
                                         </div>
@@ -177,32 +199,29 @@ const mockupVideos = [
             </div>
         </section>
 
-        <!-- Trusted By -->
-        <section class="relative z-10 max-w-[1600px] mx-auto px-6 pb-20">
-            <div class="text-center mb-10">
+        <!-- Trusted By (Marquee) -->
+        <section class="relative z-10 pb-20 overflow-hidden">
+            <div class="text-center mb-8">
                 <p class="text-[13px] font-medium text-gray-400 tracking-[0.15em] uppercase">Utilizado por restaurantes de todo o Brasil</p>
             </div>
-            <div class="flex flex-wrap justify-center items-center gap-[60px] md:gap-[100px] opacity-40 grayscale">
-                <!-- Placeholder logos -->
-                <div class="flex items-center gap-2 text-gray-400">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    <span class="text-[15px] font-bold tracking-tight">Nonna Titina</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-400">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
-                    <span class="text-[15px] font-bold tracking-tight">Burger Station</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-400">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="4"/></svg>
-                    <span class="text-[15px] font-bold tracking-tight">Sushi Flow</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-400">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><polygon points="12,2 22,22 2,22"/></svg>
-                    <span class="text-[15px] font-bold tracking-tight">La Trattoria</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-400">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    <span class="text-[15px] font-bold tracking-tight">Bistro 22</span>
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <div v-for="n in 2" :key="n" class="flex items-center gap-16 px-8">
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Nonna Titina</span>
+                        <span class="text-gray-200">•</span>
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Burger Station</span>
+                        <span class="text-gray-200">•</span>
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Sushi Flow</span>
+                        <span class="text-gray-200">•</span>
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">La Trattoria</span>
+                        <span class="text-gray-200">•</span>
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Bistro 22</span>
+                        <span class="text-gray-200">•</span>
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Meat & Co.</span>
+                        <span class="text-gray-200">•</span>
+                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Canto Nordestino</span>
+                        <span class="text-gray-200">•</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -285,5 +304,22 @@ const mockupVideos = [
 /* Remove model-viewer background */
 model-viewer {
     --poster-color: transparent;
+}
+
+/* Marquee animation */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+}
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 </style>
