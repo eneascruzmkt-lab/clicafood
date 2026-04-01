@@ -14,12 +14,10 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Image Background (scrolls with page, responsive scale) -->
+        <!-- Image Background (scrolls with page) -->
         <div class="absolute inset-0 z-0 overflow-hidden" style="min-height: 100vh;">
             <img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_3BjsSiNrO0Qi7gnNljguAwYXV5J%2Fhf_20260401_051605_7ec4a80e-9ac2-4099-a907-9744a9e2e900.png&w=1280&q=85"
-                 alt="" class="w-full h-full object-cover hero-bg-video" />
-            <!-- White vignette center to push food to edges -->
-            <div class="absolute inset-0" style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0.7) 55%, rgba(255,255,255,0) 80%);"></div>
+                 alt="" class="w-full h-full object-cover" />
         </div>
 
         <!-- Navbar (Liquid Glass) -->
