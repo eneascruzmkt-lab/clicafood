@@ -60,7 +60,7 @@ const mockupVideos = [
 
         <!-- Hero Section -->
         <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-6 md:pt-10 pb-20 min-h-[calc(100vh-160px)]">
-            <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
+            <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-end">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
                     <!-- Big Logo -->
