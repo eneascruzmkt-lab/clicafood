@@ -46,7 +46,7 @@ const mockupVideos = [
         </div>
 
         <!-- Social Proof (centered below navbar) -->
-        <div class="relative z-20 flex justify-center mt-10 md:mt-14 px-4">
+        <div class="relative z-20 flex justify-center mt-4 md:mt-6 px-4">
             <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
                  style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
                 <div class="flex gap-0.5">
@@ -59,7 +59,7 @@ const mockupVideos = [
         </div>
 
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-6 md:pt-10 pb-20 min-h-[calc(100vh-160px)]">
+        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-4 md:pt-6 pb-20 min-h-[calc(100vh-120px)]">
             <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-end">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
