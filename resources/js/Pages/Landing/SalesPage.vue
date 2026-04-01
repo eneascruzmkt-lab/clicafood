@@ -48,13 +48,13 @@ const mockupVideos = [
         <!-- Social Proof (centered below navbar) -->
         <div class="relative z-20 flex justify-center mt-10 md:mt-14 px-4">
             <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                 style="background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.06); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.3); backdrop-filter: blur(20px);">
+                 style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
                 <div class="flex gap-0.5">
-                    <svg v-for="n in 5" :key="n" class="w-4 h-4 text-[#FF801E]" fill="currentColor" viewBox="0 0 20 20">
+                    <svg v-for="n in 5" :key="n" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
                 </div>
-                <span class="text-[13px] font-medium text-gray-700">Avaliado 4.9/5 por <strong class="text-gray-900">2.700+</strong> restaurantes</span>
+                <span class="text-[13px] font-medium text-white">Avaliado 4.9/5 por <strong class="text-white">2.700+</strong> restaurantes</span>
             </div>
         </div>
 
@@ -67,9 +67,8 @@ const mockupVideos = [
                     <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[100px] sm:h-[130px] md:h-[160px] lg:h-[200px] mb-0" />
 
                     <!-- Headline -->
-                    <h1 class="hero-headline text-[32px] sm:text-[40px] md:text-[48px] font-bold leading-[1.1] tracking-[-1.5px] text-gray-900 mb-4">
-                        Seu cardápio em
-                        <span class="text-[#E63B2E]">outro nível.</span>
+                    <h1 class="hero-headline text-[28px] sm:text-[36px] md:text-[44px] font-bold leading-[1.15] tracking-[-1.5px] text-gray-900 mb-4">
+                        Venda Mais E Aumente Seu Ticket Médio Com Um Cardápio Com <span class="text-[#E63B2E]">Vídeos</span> E Seus Pratos Em <span class="text-[#E63B2E]">3D</span>
                     </h1>
 
                     <!-- Subheadline -->
