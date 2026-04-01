@@ -99,21 +99,21 @@ const mockupVideos = [
                 <div class="relative flex items-center justify-center md:justify-end min-h-[380px] md:min-h-[500px] mt-8 md:mt-0">
 
                     <!-- Label: Estilo TikTok -->
-                    <div class="absolute -top-2 md:-top-6 right-[30%] md:right-[220px] z-40 hidden sm:flex flex-col items-center">
-                        <p class="text-[16px] md:text-[20px] font-bold text-[#E63B2E]">Estilo TikTok</p>
+                    <div class="absolute -top-6 md:-top-8 right-[30%] md:right-[220px] z-40 flex flex-col items-center">
+                        <p class="text-[12px] md:text-[20px] font-bold text-[#E63B2E]">Estilo TikTok</p>
                     </div>
 
                     <!-- Label: Card flutuante -->
-                    <div class="absolute -top-2 md:-top-6 right-0 md:right-2 z-40 hidden sm:flex flex-col items-center">
-                        <p class="text-[16px] md:text-[20px] font-bold text-[#E63B2E]">Card flutuante</p>
+                    <div class="absolute -top-6 md:-top-8 right-0 md:right-2 z-40 flex flex-col items-center">
+                        <p class="text-[12px] md:text-[20px] font-bold text-[#E63B2E]">Card flutuante</p>
                     </div>
 
                     <!-- 3D Model + label -->
                     <div class="relative z-30 flex-shrink-0" style="margin-right: -60px;">
                         <!-- Gire o prato label (positioned above-left of the model) -->
-                        <div class="absolute -top-2 -left-2 z-40 hidden sm:flex flex-col items-center gap-0.5">
-                            <p class="text-[14px] md:text-[18px] font-bold text-[#E63B2E]">Gire o prato</p>
-                            <svg class="w-5 h-5 text-[#E63B2E] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <div class="absolute -top-2 -left-2 z-40 flex flex-col items-center gap-0.5">
+                            <p class="text-[11px] md:text-[18px] font-bold text-[#E63B2E]">Gire o prato</p>
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-[#E63B2E] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
                             </svg>
                         </div>
@@ -267,26 +267,35 @@ const mockupVideos = [
 .mockup-scroll-inner {
     display: flex;
     flex-direction: column;
-    animation: mockupScroll 20s ease-in-out infinite;
-}
-
-@keyframes mockupScroll {
-    0%, 10% { transform: translateY(0); }
-    20%, 30% { transform: translateY(-420px); }
-    40%, 50% { transform: translateY(-840px); }
-    60%, 70% { transform: translateY(-1260px); }
-    80%, 100% { transform: translateY(0); }
+    animation: mockupScrollMobile 20s ease-in-out infinite;
 }
 
 /* Phone mockup auto-scroll (Card) - offset timing */
 .mockup-scroll-card-inner {
     display: flex;
     flex-direction: column;
-    animation: mockupScrollCard 20s ease-in-out infinite;
+    animation: mockupScrollMobile 20s ease-in-out infinite;
     animation-delay: 2.5s;
 }
 
-@keyframes mockupScrollCard {
+@keyframes mockupScrollMobile {
+    0%, 10% { transform: translateY(0); }
+    20%, 30% { transform: translateY(-310px); }
+    40%, 50% { transform: translateY(-620px); }
+    60%, 70% { transform: translateY(-930px); }
+    80%, 100% { transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+    .mockup-scroll-inner {
+        animation-name: mockupScrollDesktop;
+    }
+    .mockup-scroll-card-inner {
+        animation-name: mockupScrollDesktop;
+    }
+}
+
+@keyframes mockupScrollDesktop {
     0%, 10% { transform: translateY(0); }
     20%, 30% { transform: translateY(-420px); }
     40%, 50% { transform: translateY(-840px); }
