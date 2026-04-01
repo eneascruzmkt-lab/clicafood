@@ -14,11 +14,10 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background -->
+        <!-- Video Background (full opacity, scaled up so food bleeds to edges) -->
         <div class="fixed inset-0 z-0 overflow-hidden">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover"
+            <video autoplay muted loop playsinline class="w-full h-full object-cover scale-[1.3]"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_041505_3867070a-d21b-4e78-867c-3f1ea6f0b8c7.mp4"></video>
-            <div class="absolute inset-0 bg-white/80"></div>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
@@ -46,29 +45,35 @@ const mockupVideos = [
             </nav>
         </div>
 
-        <!-- Social Proof (centered below navbar) -->
-        <div class="relative z-20 flex justify-center mt-4 px-4">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-                 style="background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.06); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+        <!-- Social Proof (centered below navbar, separate from nav) -->
+        <div class="relative z-20 flex justify-center mt-6 px-4">
+            <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
+                 style="background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.06); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.3); backdrop-filter: blur(20px);">
                 <div class="flex gap-0.5">
                     <svg v-for="n in 5" :key="n" class="w-4 h-4 text-[#FF801E]" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
                 </div>
-                <span class="text-[13px] font-medium text-gray-600">Avaliado 4.9/5 por <strong class="text-gray-800">2.700+</strong> restaurantes</span>
+                <span class="text-[13px] font-medium text-gray-700">Avaliado 4.9/5 por <strong class="text-gray-900">2.700+</strong> restaurantes</span>
             </div>
         </div>
 
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1600px] mx-auto px-6 pt-10 md:pt-16 pb-20">
-            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-8 md:pt-12 pb-16">
+            <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
                 <!-- Hero Left -->
-                <div class="max-w-[640px]">
+                <div class="max-w-[520px] mx-auto md:mx-0">
                     <!-- Big Logo -->
-                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[80px] sm:h-[100px] md:h-[130px] lg:h-[160px] mb-6" />
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[100px] sm:h-[130px] md:h-[160px] lg:h-[200px] mb-4" />
+
+                    <!-- Headline -->
+                    <h1 class="hero-headline text-[32px] sm:text-[40px] md:text-[48px] font-bold leading-[1.1] tracking-[-1.5px] text-gray-900 mb-4">
+                        Seu cardápio em
+                        <span class="text-[#E63B2E]">outro nível.</span>
+                    </h1>
 
                     <!-- Subheadline -->
-                    <p class="text-[17px] md:text-[18px] leading-[1.7] tracking-[-0.5px] text-gray-500 mb-10 max-w-[520px]">
+                    <p class="text-[16px] md:text-[17px] leading-[1.7] tracking-[-0.3px] text-gray-600 mb-8 max-w-[460px]">
                         Transforme fotos dos seus pratos em experiências 3D e vídeos imersivos. Cardápio digital com realidade aumentada, métricas em tempo real e QR Codes inteligentes.
                     </p>
 
