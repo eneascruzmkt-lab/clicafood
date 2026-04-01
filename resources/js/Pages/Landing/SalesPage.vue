@@ -17,7 +17,7 @@ const mockupVideos = [
         <!-- Video Background (full opacity, scaled up so food bleeds to edges) -->
         <div class="fixed inset-0 z-0 overflow-hidden">
             <video autoplay muted loop playsinline class="w-full h-full object-cover scale-[1.3]"
-                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_041505_3867070a-d21b-4e78-867c-3f1ea6f0b8c7.mp4"></video>
+                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_043438_a37bc8a5-196d-437c-9074-c3f3b6b31dc9.mp4"></video>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
