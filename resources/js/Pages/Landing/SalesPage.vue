@@ -14,12 +14,11 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Background Glow -->
-        <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-            <div class="absolute -top-[200px] -left-[200px] w-[800px] h-[800px] rounded-full opacity-30"
-                 style="background: radial-gradient(circle, #FF6B6B 0%, transparent 70%); filter: blur(120px);"></div>
-            <div class="absolute top-[100px] left-[100px] w-[600px] h-[600px] rounded-full opacity-20"
-                 style="background: radial-gradient(circle, #E63B2E 0%, transparent 70%); filter: blur(100px);"></div>
+        <!-- Video Background -->
+        <div class="fixed inset-0 z-0 overflow-hidden">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover"
+                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_041505_3867070a-d21b-4e78-867c-3f1ea6f0b8c7.mp4"></video>
+            <div class="absolute inset-0 bg-white/80"></div>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
@@ -47,29 +46,26 @@ const mockupVideos = [
             </nav>
         </div>
 
+        <!-- Social Proof (centered below navbar) -->
+        <div class="relative z-20 flex justify-center mt-4 px-4">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                 style="background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.06); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+                <div class="flex gap-0.5">
+                    <svg v-for="n in 5" :key="n" class="w-4 h-4 text-[#FF801E]" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                </div>
+                <span class="text-[13px] font-medium text-gray-600">Avaliado 4.9/5 por <strong class="text-gray-800">2.700+</strong> restaurantes</span>
+            </div>
+        </div>
+
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1600px] mx-auto px-6 pt-16 md:pt-24 pb-20">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+        <section class="relative z-10 max-w-[1600px] mx-auto px-6 pt-10 md:pt-16 pb-20">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                 <!-- Hero Left -->
                 <div class="max-w-[640px]">
-                    <!-- Social Proof Badge -->
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8"
-                         style="background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.06); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.3);">
-                        <div class="flex gap-0.5">
-                            <svg v-for="n in 5" :key="n" class="w-4 h-4 text-[#FF801E]" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                            </svg>
-                        </div>
-                        <span class="text-[13px] font-medium text-gray-600">Avaliado 4.9/5 por <strong class="text-gray-800">2.700+</strong> restaurantes</span>
-                    </div>
-
-                    <!-- Headline -->
-                    <h1 class="hero-headline text-[42px] sm:text-[56px] md:text-[68px] lg:text-[75px] font-bold leading-[1.05] tracking-[-2px] text-gray-900 mb-6">
-                        Seu cardápio em<br/>
-                        <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #E63B2E, #E63B2E, #FF6B6B);">
-                            outro nível.
-                        </span>
-                    </h1>
+                    <!-- Big Logo -->
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[80px] sm:h-[100px] md:h-[130px] lg:h-[160px] mb-6" />
 
                     <!-- Subheadline -->
                     <p class="text-[17px] md:text-[18px] leading-[1.7] tracking-[-0.5px] text-gray-500 mb-10 max-w-[520px]">
