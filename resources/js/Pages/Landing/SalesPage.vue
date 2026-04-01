@@ -282,7 +282,7 @@ const openSalesFaq = ref(null);
                     <!-- Before: Photo -->
                     <div class="text-center">
                         <div class="inline-block rounded-2xl overflow-hidden shadow-lg mb-4">
-                            <img src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/menu-items/GO3iKMzrtXiJmcpoUAR3RZQLFmnvDC6WvCax3NAP.jpg"
+                            <img src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/menu-items/TzLsRKUIiv11fGpyPFm4KDWevOY1j1WC7RlQLf1I.jpg"
                                  alt="Foto do prato" class="w-full max-w-[360px] h-auto" />
                         </div>
                         <p class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Foto original</p>
