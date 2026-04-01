@@ -8,6 +8,37 @@ const mockupVideos = [
     { name: 'Carbonara', desc: 'Molho cremoso de ovos, queijo parmesão e bacon.', price: '19,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/3ab920cc-73c5-4b1c-8671-dc0e2a3c058b.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/DwUBQ2Rk83Z31ofUsUDdpJyAS6W0gEcCSWkLTmJj.jpg' },
     { name: 'Fettuccine Alfredo', desc: 'Molho clássico de manteiga e parmesão.', price: '17,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/d528ec63-ef5f-470a-b50b-b08a48814248.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/Q5UzFKj3EwU9D95p0eBfjLcJN2vKWriwLimeBfhe.jpg' },
 ];
+
+const salesFeatures = [
+    { icon: 'videocam', title: 'Vídeos que Vendem', desc: 'Substitua fotos estáticas por vídeos imersivos que despertam o desejo imediato do cliente.' },
+    { icon: 'auto_stories', title: 'Stories dos Pratos', desc: 'Experiência de navegação familiar. Seus clientes já sabem usar antes mesmo de abrir.' },
+    { icon: 'analytics', title: 'Métricas Real Time', desc: 'Saiba exatamente qual vídeo está gerando mais pedidos em tempo real no seu dashboard.' },
+    { icon: 'qr_code_2', title: 'QR Code Ilimitado', desc: 'Gerencie múltiplas mesas e pontos de venda com códigos dinâmicos e inteligentes.' },
+];
+
+const salesTestimonials = [
+    { name: 'Carlos Mendes', role: 'CEO, Meat & Co.', text: 'O Clicafood mudou a forma como nossos clientes interagem com o menu. O aumento nas vendas de sobremesas foi instantâneo.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnyl_ej5aU1dWChtiH83guDZdC9XE8md0qeM-w6wemmsy61D7i1F9mX4B5dh6OtrCaHWfNskLPkXQp8uNc6gTACUPv0zykQnVHECsXL9b1Kqncf67Qmv5SmYLNSJVUfEYrrhjRpUvMO-izuuU6Bi8wN7sc1MUxkcg6zIYVwwS176I6CSpmwNPVOg18ce-l4oiuik3bQPZifVMMPv6tgB1u0LqfqNE01rDI8Epq0Bs6gm10mbpOpjXfiifpfKgdP77Up6CrOJMikaAM' },
+    { name: 'Ana Luiza', role: 'Fundadora, Sushi Flow', text: 'A facilidade de atualizar os pratos e as métricas em tempo real nos deram um controle que nunca tivemos antes.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAhPnhLZ-GraQvX8ZNnHpI3Ro9uYj7x2Xc-wK_NeS-_szCKPxcROiNZCp5xjAMZlrjKojcFOzEnWlilOK6R5g4Tqgrpva97oQf0lK68zIkBEDcLMo2adj2Ukdd4d0NsSoTRJZDYqHgzQz0i6wqnHkIPBysxfncEjAKFL4C6izg_XA0qDEkC-28dwInHx2XvmyqpuITkeOExSg0LvzQFRldJ10kDxbxBN6QSYOr3gtI2QWIyabaqInzPJ9UbUB44KybnK4YV5u3wFzAW' },
+    { name: 'Roberto Silva', role: 'Chef Executivo, Bistro 22', text: 'O layout video-first é viciante. Os clientes passam muito mais tempo explorando o cardápio e pedindo mais.', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyKQNO2pa98DFxYdijHY1X33ZduhN_xup0xcYiCBCP3VG1PBvaeTfuz-zHN25Z6fwc-cDf18ojDF7XKNh-iaqaDbl2VBCsqXnd2TmoCjrvy_SRI9dpJphbysBGQGMGe8H2TVYjok5aptVYxL-dUnlTh3DMzuZsz1iYNHlOcujkPdtlSbe16AetsAC9ZPK0kaKhk0je2B7kFIz_mQ98FUAPyRVIwO10cMyVVL1S-Jqsyce4b3Mt90VcGAHdkH6vxEZ2_KJi2FQwMAKK' },
+];
+
+const salesPricingFeatures = [
+    'Cardápio Video-First Ilimitado',
+    'QR Codes Dinâmicos Ilimitados',
+    'Dashboard de Métricas Avançadas',
+    'Suporte Prioritário 24/7',
+    'Integração com WhatsApp',
+    'Realidade Aumentada 3D',
+];
+
+const salesFaqs = [
+    { q: 'Preciso de equipamentos profissionais para os vídeos?', a: 'Não! Um smartphone moderno é tudo o que você precisa. Nossa plataforma otimiza automaticamente seus vídeos para garantir o carregamento instantâneo em qualquer conexão.' },
+    { q: 'Como funciona a Realidade Aumentada?', a: 'Você sobe a foto do prato e nossa IA gera automaticamente um modelo 3D. Seus clientes podem ver o prato em tamanho real na mesa deles, direto pelo celular.' },
+    { q: 'Posso cancelar a qualquer momento?', a: 'Sim. Não temos contratos de fidelidade. Você paga mensalmente e pode cancelar quando quiser sem multas.' },
+    { q: 'O QR Code já vem pronto?', a: 'Sim. QR Codes ilimitados gerados automaticamente, personalizáveis com suas cores. Baixe em PNG ou SVG para imprimir.' },
+    { q: 'Quantos pratos posso adicionar?', a: 'No plano Pro, itens ilimitados. Adicione quantos pratos quiser, com foto, vídeo e modelo 3D para cada um.' },
+];
+const openSalesFaq = ref(null);
 </script>
 
 <template>
@@ -218,6 +249,155 @@ const mockupVideos = [
                 </div>
             </div>
         </section>
+
+        <!-- Features Section -->
+        <section class="relative z-10 bg-gray-50 py-20 md:py-28" id="features">
+            <div class="max-w-[1100px] mx-auto px-6">
+                <div class="mb-16">
+                    <span class="text-[#E63B2E] font-bold tracking-widest uppercase text-xs">Tecnologia Cinética</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2 text-gray-900 tracking-tight">Destrua a Concorrência.</h2>
+                </div>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div v-for="f in salesFeatures" :key="f.title" class="bg-white p-8 rounded-2xl transition-all hover:-translate-y-1 hover:shadow-lg duration-300">
+                        <div class="w-12 h-12 rounded-xl bg-[#E63B2E]/10 flex items-center justify-center text-[#E63B2E] mb-5">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">{{ f.icon }}</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-900">{{ f.title }}</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">{{ f.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="relative z-10 bg-gray-900 py-20 md:py-24 overflow-hidden">
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-[#E63B2E]/5 blur-[120px] rounded-full"></div>
+            <div class="max-w-[1100px] mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="text-5xl md:text-7xl font-black text-[#E63B2E] mb-2">+73%</div>
+                        <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Mais Pedidos com Vídeo</p>
+                    </div>
+                    <div>
+                        <div class="text-5xl md:text-7xl font-black text-[#E63B2E] mb-2">2.4x</div>
+                        <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Aumento no Ticket Médio</p>
+                    </div>
+                    <div>
+                        <div class="text-5xl md:text-7xl font-black text-[#E63B2E] mb-2">89%</div>
+                        <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Taxa de Engajamento</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="relative z-10 bg-white py-20 md:py-28">
+            <div class="max-w-[1100px] mx-auto px-6">
+                <div class="text-center mb-14">
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">Quem usa, domina.</h2>
+                    <p class="text-gray-500 mt-4">Líderes do mercado gastronômico que já viraram a chave.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div v-for="t in salesTestimonials" :key="t.name" class="bg-gray-50 p-8 rounded-2xl">
+                        <div class="flex gap-1 text-[#E63B2E] mb-5">
+                            <svg v-for="n in 5" :key="n" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        </div>
+                        <p class="text-gray-700 text-[15px] italic mb-6 leading-relaxed">"{{ t.text }}"</p>
+                        <div class="flex items-center gap-3">
+                            <img :src="t.img" :alt="t.name" class="w-10 h-10 rounded-full object-cover" />
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">{{ t.name }}</p>
+                                <p class="text-xs text-gray-400">{{ t.role }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="relative z-10 bg-gray-50 py-20 md:py-28" id="pricing">
+            <div class="max-w-[1100px] mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-14">
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">Investimento Simples.</h2>
+                    <p class="text-gray-500 mt-4">Preço transparente para escalar seu negócio sem surpresas.</p>
+                </div>
+                <div class="max-w-lg mx-auto bg-white rounded-3xl p-10 md:p-12 shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 px-6 py-2 rounded-bl-2xl font-bold text-sm text-white" style="background: #E63B2E;">-20% OFF</div>
+                    <h3 class="font-bold text-2xl md:text-3xl mb-2 text-gray-900">Plano Pro</h3>
+                    <p class="text-gray-500 mb-6">Tudo o que você precisa para dominar.</p>
+                    <div class="mb-2"><span class="text-sm text-gray-400 line-through">R$ 197/mês</span></div>
+                    <div class="flex items-baseline gap-2 mb-8">
+                        <span class="text-2xl font-bold text-gray-900">R$</span>
+                        <span class="text-6xl font-black text-gray-900 tracking-tighter">97</span>
+                        <span class="text-gray-500 font-medium">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li v-for="pf in salesPricingFeatures" :key="pf" class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-[#E63B2E] text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            <span class="text-gray-700 font-medium text-sm">{{ pf }}</span>
+                        </li>
+                    </ul>
+                    <a href="/register" class="block w-full py-4 rounded-2xl text-white font-bold text-lg text-center transition-all hover:scale-[1.02] active:scale-95"
+                       style="background: #E63B2E; box-shadow: 0 8px 24px rgba(230,59,46,0.3);">
+                        Começar Agora
+                    </a>
+                    <p class="text-xs text-gray-400 mt-4 text-center">7 dias grátis. Cancele quando quiser. Sem fidelidade.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="relative z-10 bg-white py-20 md:py-28">
+            <div class="max-w-[700px] mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 tracking-tight">Dúvidas Frequentes</h2>
+                <div class="space-y-3">
+                    <div v-for="(faq, i) in salesFaqs" :key="i"
+                         class="bg-gray-50 rounded-2xl cursor-pointer transition-all hover:bg-gray-100"
+                         @click="openSalesFaq = openSalesFaq === i ? null : i">
+                        <div class="flex justify-between items-center p-5 md:p-6">
+                            <span class="font-bold text-gray-900 text-sm md:text-base pr-4">{{ faq.q }}</span>
+                            <span class="material-symbols-outlined text-gray-400 transition-transform duration-300 flex-shrink-0"
+                                  :class="{ 'rotate-180': openSalesFaq === i }">expand_more</span>
+                        </div>
+                        <transition enter-active-class="transition-all duration-300 ease-out" enter-from-class="max-h-0 opacity-0"
+                                    enter-to-class="max-h-40 opacity-100" leave-active-class="transition-all duration-200 ease-in"
+                                    leave-from-class="max-h-40 opacity-100" leave-to-class="max-h-0 opacity-0">
+                            <div v-if="openSalesFaq === i" class="px-5 md:px-6 pb-5 md:pb-6 text-gray-500 text-sm leading-relaxed overflow-hidden">{{ faq.a }}</div>
+                        </transition>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Final -->
+        <section class="relative z-10 py-20 md:py-28" style="background: #E63B2E;">
+            <div class="max-w-[700px] mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
+                    Pare de perder vendas.<br/>Comece a dominar agora.
+                </h2>
+                <p class="text-white/70 mb-10 text-lg">Junte-se a mais de 5.000 restaurantes que já transformaram seus cardápios.</p>
+                <a href="/register" class="inline-flex items-center gap-3 px-10 py-5 rounded-2xl text-[#E63B2E] text-lg font-bold bg-white hover:scale-[1.02] transition-all shadow-lg">
+                    Começar Agora — Grátis
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="relative z-10 bg-gray-900 py-12">
+            <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex flex-col items-center md:items-start gap-2">
+                    <img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-7" />
+                    <p class="text-xs text-gray-500">© 2024 ClicaFood. Todos os direitos reservados.</p>
+                </div>
+                <div class="flex gap-8 text-xs text-gray-500">
+                    <a href="#" class="hover:text-white transition-colors">Privacidade</a>
+                    <a href="#" class="hover:text-white transition-colors">Termos de Uso</a>
+                    <a href="#" class="hover:text-white transition-colors">Contato</a>
+                </div>
+            </div>
+        </footer>
     </div>
 </template>
 
