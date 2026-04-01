@@ -14,10 +14,10 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Image Background (scrolls with page) -->
-        <div class="absolute inset-0 z-0 overflow-hidden" style="min-height: 100vh;">
-            <img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_3BjsSiNrO0Qi7gnNljguAwYXV5J%2Fhf_20260401_051605_7ec4a80e-9ac2-4099-a907-9744a9e2e900.png&w=1280&q=85"
-                 alt="" class="w-full h-full object-cover" />
+        <!-- Video Background (low opacity, fills screen) -->
+        <div class="fixed inset-0 z-0">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-[0.15]"
+                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_053538_3e40a761-15e6-4df1-af65-100566363fe4.mp4"></video>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
