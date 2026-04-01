@@ -14,6 +14,7 @@ const salesFeatures = [
     { icon: 'auto_stories', title: 'Stories dos Pratos', desc: 'Experiência de navegação familiar. Seus clientes já sabem usar antes mesmo de abrir.' },
     { icon: 'analytics', title: 'Métricas Real Time', desc: 'Saiba exatamente qual vídeo está gerando mais pedidos em tempo real no seu dashboard.' },
     { icon: 'qr_code_2', title: 'QR Code Ilimitado', desc: 'Gerencie múltiplas mesas e pontos de venda com códigos dinâmicos e inteligentes.' },
+    { icon: 'view_in_ar', title: 'Pratos em 3D e AR', desc: 'Seus clientes veem o prato em tamanho real na mesa antes de pedir. Gerado automaticamente por IA.' },
 ];
 
 const salesTestimonials = [
@@ -57,7 +58,7 @@ const openSalesFaq = ref(null);
                  style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25);">
                 <!-- Logo -->
                 <a href="/" class="flex items-center gap-2 px-4 py-2">
-                    <img src="/images/logo-clicafood.png" alt="ClicaFood" class="h-7" />
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-8" />
                 </a>
 
                 <!-- Nav Links -->
@@ -68,8 +69,8 @@ const openSalesFaq = ref(null);
                 </div>
 
                 <!-- CTA -->
-                <a href="/register" class="glass-signup ml-2 flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-[14px] font-medium text-gray-700 transition-all duration-200 hover:bg-white/50"
-                   style="background: rgba(255,255,255,0.4); border: 1px solid rgba(0,0,0,0.08); box-shadow: inset 0px 2px 3px 0px rgba(255,255,255,0.3);">
+                <a href="/register" class="ml-2 flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-[14px] font-semibold text-white transition-all duration-200 hover:opacity-90"
+                   style="background: #E63B2E;">
                     Começar Agora
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
                 </a>
@@ -257,13 +258,65 @@ const openSalesFaq = ref(null);
                     <span class="text-[#E63B2E] font-bold tracking-widest uppercase text-xs">Tecnologia Cinética</span>
                     <h2 class="text-3xl md:text-5xl font-bold mt-2 text-gray-900 tracking-tight">Destrua a Concorrência.</h2>
                 </div>
-                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
                     <div v-for="f in salesFeatures" :key="f.title" class="bg-white p-8 rounded-2xl transition-all hover:-translate-y-1 hover:shadow-lg duration-300">
                         <div class="w-12 h-12 rounded-xl bg-[#E63B2E]/10 flex items-center justify-center text-[#E63B2E] mb-5">
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">{{ f.icon }}</span>
                         </div>
                         <h3 class="font-bold text-lg mb-2 text-gray-900">{{ f.title }}</h3>
                         <p class="text-gray-500 text-sm leading-relaxed">{{ f.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AR Before/After Section -->
+        <section class="relative z-10 bg-white py-20 md:py-28" id="ar">
+            <div class="max-w-[1100px] mx-auto px-6">
+                <div class="text-center mb-14">
+                    <span class="text-[#E63B2E] font-bold tracking-widest uppercase text-xs">Realidade Aumentada</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-2 text-gray-900 tracking-tight">Da foto ao 3D em segundos.</h2>
+                    <p class="text-gray-500 mt-4 max-w-xl mx-auto">Nossa IA transforma a foto do seu prato em um modelo 3D interativo. Seus clientes podem girar, dar zoom e ver em realidade aumentada.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <!-- Before: Photo -->
+                    <div class="text-center">
+                        <div class="inline-block rounded-2xl overflow-hidden shadow-lg mb-4">
+                            <img src="https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/menu-items/vbq5nq6JOLqaHnICvT9XTfmOXpE2PPC54RspCgBx.jpg"
+                                 alt="Foto do prato" class="w-full max-w-[360px] h-auto" />
+                        </div>
+                        <p class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Foto original</p>
+                    </div>
+                    <!-- After: 3D Model -->
+                    <div class="text-center">
+                        <div class="inline-block mb-4">
+                            <model-viewer
+                                src="/models/demo-pasta.glb"
+                                ar
+                                ar-modes="webxr scene-viewer quick-look"
+                                camera-controls
+                                auto-rotate
+                                rotation-per-second="20deg"
+                                shadow-intensity="0.5"
+                                environment-image="neutral"
+                                exposure="1.1"
+                                alt="Prato em 3D"
+                                style="width: 360px; height: 300px; --poster-color: transparent;"
+                                camera-orbit="45deg 70deg 5.5m"
+                                field-of-view="30deg"
+                            >
+                                <button slot="ar-button"
+                                        class="absolute bottom-3 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-full text-white text-[13px] font-semibold flex items-center gap-2"
+                                        style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                    </svg>
+                                    Ver em AR
+                                </button>
+                            </model-viewer>
+                        </div>
+                        <p class="text-sm font-semibold text-[#E63B2E] uppercase tracking-wider">Modelo 3D interativo</p>
+                        <p class="text-xs text-gray-400 mt-1">Gire, dê zoom e veja em realidade aumentada</p>
                     </div>
                 </div>
             </div>
