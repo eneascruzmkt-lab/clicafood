@@ -14,10 +14,12 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background (full opacity, scaled up so food bleeds to edges) -->
-        <div class="fixed inset-0 z-0 overflow-hidden">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover scale-[1.3]"
+        <!-- Video Background (scrolls with page, responsive scale) -->
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover hero-bg-video"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_043438_a37bc8a5-196d-437c-9074-c3f3b6b31dc9.mp4"></video>
+            <!-- White vignette center to push food to edges -->
+            <div class="absolute inset-0" style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0.7) 55%, rgba(255,255,255,0) 80%);"></div>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
@@ -45,8 +47,8 @@ const mockupVideos = [
             </nav>
         </div>
 
-        <!-- Social Proof (centered below navbar, separate from nav) -->
-        <div class="relative z-20 flex justify-center mt-6 px-4">
+        <!-- Social Proof (centered below navbar) -->
+        <div class="relative z-20 flex justify-center mt-10 md:mt-14 px-4">
             <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
                  style="background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.06); box-shadow: inset 0px 2px 3px rgba(255,255,255,0.3); backdrop-filter: blur(20px);">
                 <div class="flex gap-0.5">
@@ -81,7 +83,7 @@ const mockupVideos = [
                     <div class="flex flex-col sm:flex-row gap-4 items-start">
                         <a href="/register"
                            class="cta-primary group inline-flex items-center gap-3 px-8 py-4 rounded-[16px] text-white text-[16px] font-semibold transition-all duration-300 hover:scale-[1.02]"
-                           style="background: rgba(230,59,46,0.8); backdrop-filter: blur(2px); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.35), 0 8px 32px rgba(230,59,46,0.25);">
+                           style="background: #E63B2E; box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25), 0 8px 32px rgba(230,59,46,0.35);">
                             Começar Agora — Grátis
                             <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
@@ -193,8 +195,8 @@ const mockupVideos = [
             </div>
         </section>
 
-        <!-- Trusted By (Marquee) -->
-        <section class="relative z-10 pb-20 overflow-hidden">
+        <!-- Trusted By (Marquee) - separate section -->
+        <section class="relative z-10 bg-white py-16 overflow-hidden">
             <div class="text-center mb-8">
                 <p class="text-[13px] font-medium text-gray-400 tracking-[0.15em] uppercase">Utilizado por restaurantes de todo o Brasil</p>
             </div>
@@ -307,6 +309,23 @@ const mockupVideos = [
 /* Remove model-viewer background */
 model-viewer {
     --poster-color: transparent;
+}
+
+/* Responsive video background scale - smaller screens = bigger scale for white center */
+.hero-bg-video {
+    transform: scale(2.2);
+}
+@media (min-width: 640px) {
+    .hero-bg-video { transform: scale(1.8); }
+}
+@media (min-width: 768px) {
+    .hero-bg-video { transform: scale(1.5); }
+}
+@media (min-width: 1024px) {
+    .hero-bg-video { transform: scale(1.3); }
+}
+@media (min-width: 1280px) {
+    .hero-bg-video { transform: scale(1.2); }
 }
 
 /* Marquee animation */
