@@ -14,10 +14,10 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background (scrolls with page, responsive scale) -->
-        <div class="absolute inset-0 z-0 overflow-hidden">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover hero-bg-video"
-                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_043438_a37bc8a5-196d-437c-9074-c3f3b6b31dc9.mp4"></video>
+        <!-- Image Background (scrolls with page, responsive scale) -->
+        <div class="absolute inset-0 z-0 overflow-hidden" style="min-height: 100vh;">
+            <img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_3BjsSiNrO0Qi7gnNljguAwYXV5J%2Fhf_20260401_051605_7ec4a80e-9ac2-4099-a907-9744a9e2e900.png&w=1280&q=85"
+                 alt="" class="w-full h-full object-cover hero-bg-video" />
             <!-- White vignette center to push food to edges -->
             <div class="absolute inset-0" style="background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0.7) 55%, rgba(255,255,255,0) 80%);"></div>
         </div>
@@ -61,7 +61,7 @@ const mockupVideos = [
         </div>
 
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-8 md:pt-12 pb-16">
+        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-8 md:pt-12 pb-32 md:pb-40">
             <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
