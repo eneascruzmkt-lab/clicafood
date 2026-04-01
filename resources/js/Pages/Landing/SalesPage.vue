@@ -59,12 +59,12 @@ const mockupVideos = [
         </div>
 
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-8 md:pt-12 pb-32 md:pb-40">
+        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-6 md:pt-10 pb-20 min-h-[calc(100vh-160px)]">
             <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
                     <!-- Big Logo -->
-                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[80px] sm:h-[100px] md:h-[120px] lg:h-[140px] mb-2" />
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[100px] sm:h-[130px] md:h-[160px] lg:h-[200px] mb-0" />
 
                     <!-- Headline -->
                     <h1 class="hero-headline text-[32px] sm:text-[40px] md:text-[48px] font-bold leading-[1.1] tracking-[-1.5px] text-gray-900 mb-4">
@@ -100,12 +100,12 @@ const mockupVideos = [
                 <div class="relative flex items-center justify-center md:justify-end min-h-[380px] md:min-h-[500px] mt-8 md:mt-0">
 
                     <!-- Label: Estilo TikTok -->
-                    <div class="absolute -top-6 md:-top-8 right-[30%] md:right-[220px] z-40 flex flex-col items-center">
+                    <div class="absolute top-0 right-[30%] md:right-[220px] z-40 flex flex-col items-center">
                         <p class="text-[12px] md:text-[20px] font-bold text-[#E63B2E]">Estilo TikTok</p>
                     </div>
 
                     <!-- Label: Card flutuante -->
-                    <div class="absolute -top-6 md:-top-8 right-0 md:right-2 z-40 flex flex-col items-center">
+                    <div class="absolute top-0 right-0 md:right-2 z-40 flex flex-col items-center">
                         <p class="text-[12px] md:text-[20px] font-bold text-[#E63B2E]">Card flutuante</p>
                     </div>
 
