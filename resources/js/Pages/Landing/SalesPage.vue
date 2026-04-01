@@ -14,8 +14,8 @@ const mockupVideos = [
     <div class="sales-page min-h-screen bg-white antialiased">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background (low opacity, fills screen) -->
-        <div class="fixed inset-0 z-0">
+        <!-- Video Background (low opacity, scrolls with page) -->
+        <div class="absolute inset-0 z-0" style="min-height: 100vh;">
             <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-[0.15]"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_053538_3e40a761-15e6-4df1-af65-100566363fe4.mp4"></video>
         </div>
@@ -60,11 +60,11 @@ const mockupVideos = [
 
         <!-- Hero Section -->
         <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-8 md:pt-12 pb-32 md:pb-40">
-            <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+            <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
                     <!-- Big Logo -->
-                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[100px] sm:h-[130px] md:h-[160px] lg:h-[200px] mb-4" />
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[80px] sm:h-[100px] md:h-[120px] lg:h-[140px] mb-2" />
 
                     <!-- Headline -->
                     <h1 class="hero-headline text-[32px] sm:text-[40px] md:text-[48px] font-bold leading-[1.1] tracking-[-1.5px] text-gray-900 mb-4">
