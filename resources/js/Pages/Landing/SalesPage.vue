@@ -48,8 +48,6 @@ const openSalesFaq = ref(null);
     <div class="sales-page min-h-screen bg-white antialiased scroll-smooth">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background removed - was causing gray overlay -->
-
         <!-- Navbar (Liquid Glass) -->
         <div class="sticky top-[10px] z-50 flex justify-center px-4 mt-4">
             <nav class="glass-nav flex items-center gap-1 px-2 py-2 rounded-[16px]"
@@ -71,7 +69,13 @@ const openSalesFaq = ref(null);
         </div>
 
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-4 md:pt-6 pb-20">
+        <section class="relative z-10 overflow-hidden pb-20">
+            <!-- Video Background (contained in hero only) -->
+            <div class="absolute inset-0 z-0">
+                <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
+                       src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
+            </div>
+            <div class="relative z-10 max-w-[1100px] mx-auto px-6 pt-4 md:pt-6">
             <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-end">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
@@ -203,8 +207,10 @@ const openSalesFaq = ref(null);
                 </div>
             </div>
 
+            </div> <!-- close relative z-10 wrapper -->
+
             <!-- Social Proof -->
-            <div class="flex justify-center mt-12">
+            <div class="relative z-10 flex justify-center mt-12">
                 <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
                      style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
                     <div class="flex gap-0.5">
