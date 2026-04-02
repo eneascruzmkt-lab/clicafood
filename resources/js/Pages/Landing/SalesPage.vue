@@ -225,8 +225,13 @@ const openSalesFaq = ref(null);
         </section>
 
         <!-- Features Section -->
-        <section class="relative z-10 bg-gray-50 py-20 md:py-28" id="features">
-            <div class="max-w-[1100px] mx-auto px-6">
+        <section class="relative z-10 overflow-hidden py-20 md:py-28" id="features">
+            <!-- Video Background -->
+            <div class="absolute inset-0 z-0">
+                <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.20]"
+                       src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_040319_1faac6fe-c004-45bf-b479-942f1ef90216.mp4"></video>
+            </div>
+            <div class="relative z-10 max-w-[1100px] mx-auto px-6">
                 <div class="mb-16">
                     <span class="text-[#E63B2E] font-bold tracking-widest uppercase text-xs">Tecnologia Cinética</span>
                     <h2 class="text-3xl md:text-5xl font-bold mt-2 text-gray-900 tracking-tight">Destrua a Concorrência.</h2>
