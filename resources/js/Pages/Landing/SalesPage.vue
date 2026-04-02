@@ -127,7 +127,7 @@ const openSalesFaq = ref(null);
         </div>
 
         <!-- Hero Section -->
-        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-4 md:pt-6 pb-20 min-h-[calc(100vh-120px)]">
+        <section class="relative z-10 max-w-[1100px] mx-auto px-6 pt-4 md:pt-6 pb-20">
             <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-end">
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
