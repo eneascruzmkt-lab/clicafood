@@ -52,7 +52,7 @@ const openSalesFaq = ref(null);
         <section class="relative z-10 overflow-hidden pb-20">
             <!-- Video Background (contained in hero only) -->
             <div class="absolute inset-0 z-0">
-                <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
+                <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.20]"
                        src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
             </div>
 
