@@ -119,7 +119,7 @@ const openSalesFaq = ref(null);
                 <!-- Hero Left -->
                 <div class="max-w-[520px] mx-auto md:mx-0">
                     <!-- Big Logo -->
-                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[100px] sm:h-[130px] md:h-[160px] lg:h-[200px] mb-0" />
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-[70px] sm:h-[90px] md:h-[110px] lg:h-[130px] mb-0" />
 
                     <!-- Headline -->
                     <h1 class="hero-headline text-[28px] sm:text-[36px] md:text-[44px] font-bold leading-[1.15] tracking-[-1.5px] text-gray-900 mb-4">
