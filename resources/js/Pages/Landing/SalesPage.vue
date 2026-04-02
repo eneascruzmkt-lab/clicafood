@@ -225,10 +225,10 @@ const openSalesFaq = ref(null);
         </section>
 
         <!-- Features Section -->
-        <section class="relative z-10 overflow-hidden py-20 md:py-28" id="features">
+        <section class="relative z-10 py-20 md:py-28" id="features">
             <!-- Video Background -->
-            <div class="absolute inset-0 z-0">
-                <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.20]"
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover"
                        src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_040319_1faac6fe-c004-45bf-b479-942f1ef90216.mp4"></video>
             </div>
             <div class="relative z-10 max-w-[1100px] mx-auto px-6">
