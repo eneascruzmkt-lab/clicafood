@@ -2,29 +2,30 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
-// Scroll-driven video with smooth interpolation
+// Scroll-driven video — direct seek, no interpolation lag
 const bgVideoRef = ref(null);
-let targetTime = 0;
-let currentTime = 0;
 let rafId = null;
+let lastScrollTime = 0;
+let scrollPending = false;
 
-const handleVideoScroll = () => {
+const seekVideoToScroll = () => {
     const video = bgVideoRef.value;
     if (!video || !video.duration) return;
     const heroHeight = window.innerHeight;
-    const progress = Math.min(1, window.scrollY / (heroHeight * 0.5));
-    targetTime = progress * video.duration;
+    const progress = Math.min(1, Math.max(0, window.scrollY / (heroHeight * 0.5)));
+    const time = progress * video.duration;
+    // Only seek if difference is noticeable
+    if (Math.abs(video.currentTime - time) > 0.03) {
+        video.currentTime = time;
+    }
+    scrollPending = false;
 };
 
-const smoothUpdate = () => {
-    const video = bgVideoRef.value;
-    if (video && video.duration) {
-        currentTime += (targetTime - currentTime) * 0.1;
-        if (Math.abs(currentTime - video.currentTime) > 0.01) {
-            video.currentTime = currentTime;
-        }
+const handleVideoScroll = () => {
+    if (!scrollPending) {
+        scrollPending = true;
+        requestAnimationFrame(seekVideoToScroll);
     }
-    rafId = requestAnimationFrame(smoothUpdate);
 };
 
 onMounted(() => {
@@ -36,11 +37,9 @@ onMounted(() => {
             video.currentTime = 0;
         });
     }
-    rafId = requestAnimationFrame(smoothUpdate);
 });
 onUnmounted(() => {
     window.removeEventListener('scroll', handleVideoScroll);
-    if (rafId) cancelAnimationFrame(rafId);
 });
 
 const mockupVideos = [
