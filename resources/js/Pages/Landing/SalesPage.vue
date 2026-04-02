@@ -2,15 +2,29 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
-// Scroll-driven video
+// Scroll-driven video with smooth interpolation
 const bgVideoRef = ref(null);
+let targetTime = 0;
+let currentTime = 0;
+let rafId = null;
+
 const handleVideoScroll = () => {
     const video = bgVideoRef.value;
     if (!video || !video.duration) return;
-    // Video completes within first 50% of hero section height
     const heroHeight = window.innerHeight;
     const progress = Math.min(1, window.scrollY / (heroHeight * 0.5));
-    video.currentTime = progress * video.duration;
+    targetTime = progress * video.duration;
+};
+
+const smoothUpdate = () => {
+    const video = bgVideoRef.value;
+    if (video && video.duration) {
+        currentTime += (targetTime - currentTime) * 0.1;
+        if (Math.abs(currentTime - video.currentTime) > 0.01) {
+            video.currentTime = currentTime;
+        }
+    }
+    rafId = requestAnimationFrame(smoothUpdate);
 };
 
 onMounted(() => {
@@ -22,9 +36,11 @@ onMounted(() => {
             video.currentTime = 0;
         });
     }
+    rafId = requestAnimationFrame(smoothUpdate);
 });
 onUnmounted(() => {
     window.removeEventListener('scroll', handleVideoScroll);
+    if (rafId) cancelAnimationFrame(rafId);
 });
 
 const mockupVideos = [
