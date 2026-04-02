@@ -48,11 +48,7 @@ const openSalesFaq = ref(null);
     <div class="sales-page min-h-screen bg-white antialiased scroll-smooth">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background (autoplay loop) -->
-        <div class="fixed inset-0 z-0">
-            <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
-                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
-        </div>
+        <!-- Video Background removed - was causing gray overlay -->
 
         <!-- Navbar (Liquid Glass) -->
         <div class="sticky top-[10px] z-50 flex justify-center px-4 mt-4">
@@ -217,33 +213,6 @@ const openSalesFaq = ref(null);
                         </svg>
                     </div>
                     <span class="text-[13px] font-medium text-white">Avaliado 4.9/5 por <strong class="text-white">2.700+</strong> restaurantes</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trusted By (Marquee) - separate section -->
-        <section class="relative z-10 bg-white py-16 overflow-hidden">
-            <div class="text-center mb-8">
-                <p class="text-[13px] font-medium text-gray-400 tracking-[0.15em] uppercase">Utilizado por restaurantes de todo o Brasil</p>
-            </div>
-            <div class="marquee-container">
-                <div class="marquee-track">
-                    <div v-for="n in 2" :key="n" class="flex items-center gap-16 px-8">
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Nonna Titina</span>
-                        <span class="text-gray-200">•</span>
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Burger Station</span>
-                        <span class="text-gray-200">•</span>
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Sushi Flow</span>
-                        <span class="text-gray-200">•</span>
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">La Trattoria</span>
-                        <span class="text-gray-200">•</span>
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Bistro 22</span>
-                        <span class="text-gray-200">•</span>
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Meat & Co.</span>
-                        <span class="text-gray-200">•</span>
-                        <span class="text-[18px] font-bold tracking-tight text-gray-300 whitespace-nowrap">Canto Nordestino</span>
-                        <span class="text-gray-200">•</span>
-                    </div>
                 </div>
             </div>
         </section>
