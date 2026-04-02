@@ -2,21 +2,30 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
-// Scroll-driven video — direct seek, no interpolation lag
+// Scroll-driven video via canvas for smooth frame rendering
 const bgVideoRef = ref(null);
-let rafId = null;
-let lastScrollTime = 0;
+const bgCanvasRef = ref(null);
+let canvasCtx = null;
+let videoReady = false;
 let scrollPending = false;
 
-const seekVideoToScroll = () => {
+const drawFrame = () => {
     const video = bgVideoRef.value;
-    if (!video || !video.duration) return;
+    const canvas = bgCanvasRef.value;
+    if (!video || !canvas || !canvasCtx || !videoReady) return;
+    canvasCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
+};
+
+const seekAndDraw = () => {
+    const video = bgVideoRef.value;
+    if (!video || !video.duration || !videoReady) { scrollPending = false; return; }
     const heroHeight = window.innerHeight;
     const progress = Math.min(1, Math.max(0, window.scrollY / (heroHeight * 0.5)));
     const time = progress * video.duration;
-    // Only seek if difference is noticeable
-    if (Math.abs(video.currentTime - time) > 0.03) {
+    if (Math.abs(video.currentTime - time) > 0.02) {
         video.currentTime = time;
+    } else {
+        drawFrame();
     }
     scrollPending = false;
 };
@@ -24,8 +33,18 @@ const seekVideoToScroll = () => {
 const handleVideoScroll = () => {
     if (!scrollPending) {
         scrollPending = true;
-        requestAnimationFrame(seekVideoToScroll);
+        requestAnimationFrame(seekAndDraw);
     }
+};
+
+const initCanvas = () => {
+    const video = bgVideoRef.value;
+    const canvas = bgCanvasRef.value;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth || 1920;
+    canvas.height = video.videoHeight || 1080;
+    canvasCtx = canvas.getContext('2d');
+    drawFrame();
 };
 
 onMounted(() => {
@@ -35,7 +54,10 @@ onMounted(() => {
         video.pause();
         video.addEventListener('loadedmetadata', () => {
             video.currentTime = 0;
+            videoReady = true;
+            initCanvas();
         });
+        video.addEventListener('seeked', drawFrame);
     }
 });
 onUnmounted(() => {
@@ -83,12 +105,13 @@ const openSalesFaq = ref(null);
 </script>
 
 <template>
-    <div class="sales-page min-h-screen bg-white antialiased scroll-smooth">
+    <div class="sales-page min-h-screen antialiased scroll-smooth">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background (low opacity, scrolls with page) -->
+        <!-- Video Background (canvas-rendered for smooth scroll) -->
         <div class="fixed inset-0 z-0">
-            <video ref="bgVideoRef" muted playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
+            <canvas ref="bgCanvasRef" class="w-full h-full object-cover opacity-[0.70]"></canvas>
+            <video ref="bgVideoRef" muted playsinline preload="auto" class="hidden"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
 
