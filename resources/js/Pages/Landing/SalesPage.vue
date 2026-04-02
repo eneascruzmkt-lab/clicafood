@@ -7,8 +7,9 @@ const bgVideoRef = ref(null);
 const handleVideoScroll = () => {
     const video = bgVideoRef.value;
     if (!video || !video.duration) return;
-    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = window.scrollY / scrollMax;
+    // Video completes within first 50% of hero section height
+    const heroHeight = window.innerHeight;
+    const progress = Math.min(1, window.scrollY / (heroHeight * 0.5));
     video.currentTime = progress * video.duration;
 };
 
