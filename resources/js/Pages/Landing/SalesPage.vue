@@ -83,11 +83,11 @@ const openSalesFaq = ref(null);
 </script>
 
 <template>
-    <div class="sales-page min-h-screen bg-white antialiased">
+    <div class="sales-page min-h-screen bg-white antialiased scroll-smooth">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
         <!-- Video Background (low opacity, scrolls with page) -->
-        <div class="absolute inset-0 z-0" style="min-height: 100vh;">
+        <div class="fixed inset-0 z-0">
             <video ref="bgVideoRef" muted playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
