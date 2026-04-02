@@ -1,68 +1,8 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
 
-// Scroll-driven video via canvas for smooth frame rendering
-const bgVideoRef = ref(null);
-const bgCanvasRef = ref(null);
-let canvasCtx = null;
-let videoReady = false;
-let scrollPending = false;
-
-const drawFrame = () => {
-    const video = bgVideoRef.value;
-    const canvas = bgCanvasRef.value;
-    if (!video || !canvas || !canvasCtx || !videoReady) return;
-    canvasCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
-};
-
-const seekAndDraw = () => {
-    const video = bgVideoRef.value;
-    if (!video || !video.duration || !videoReady) { scrollPending = false; return; }
-    const heroHeight = window.innerHeight;
-    const progress = Math.min(1, Math.max(0, window.scrollY / (heroHeight * 0.5)));
-    const time = progress * video.duration;
-    if (Math.abs(video.currentTime - time) > 0.02) {
-        video.currentTime = time;
-    } else {
-        drawFrame();
-    }
-    scrollPending = false;
-};
-
-const handleVideoScroll = () => {
-    if (!scrollPending) {
-        scrollPending = true;
-        requestAnimationFrame(seekAndDraw);
-    }
-};
-
-const initCanvas = () => {
-    const video = bgVideoRef.value;
-    const canvas = bgCanvasRef.value;
-    if (!video || !canvas) return;
-    canvas.width = video.videoWidth || 1920;
-    canvas.height = video.videoHeight || 1080;
-    canvasCtx = canvas.getContext('2d');
-    drawFrame();
-};
-
-onMounted(() => {
-    window.addEventListener('scroll', handleVideoScroll, { passive: true });
-    const video = bgVideoRef.value;
-    if (video) {
-        video.pause();
-        video.addEventListener('loadedmetadata', () => {
-            video.currentTime = 0;
-            videoReady = true;
-            initCanvas();
-        });
-        video.addEventListener('seeked', drawFrame);
-    }
-});
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleVideoScroll);
-});
+// No scroll-driven video — simple autoplay loop background
 
 const mockupVideos = [
     { name: 'Grano Duro - Piccolo', desc: 'Massa tradicional italiana de trigo duro.', price: '24,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg' },
@@ -105,13 +45,12 @@ const openSalesFaq = ref(null);
 </script>
 
 <template>
-    <div class="sales-page min-h-screen antialiased scroll-smooth">
+    <div class="sales-page min-h-screen bg-white antialiased scroll-smooth">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Video Background (canvas-rendered for smooth scroll) -->
+        <!-- Video Background (autoplay loop) -->
         <div class="fixed inset-0 z-0">
-            <canvas ref="bgCanvasRef" class="w-full h-full object-cover opacity-[0.70]"></canvas>
-            <video ref="bgVideoRef" muted playsinline preload="auto" class="hidden"
+            <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
 
