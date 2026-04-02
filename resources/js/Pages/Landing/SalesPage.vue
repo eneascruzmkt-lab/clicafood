@@ -49,7 +49,7 @@ const openSalesFaq = ref(null);
         <!-- Video Background (low opacity, scrolls with page) -->
         <div class="absolute inset-0 z-0" style="min-height: 100vh;">
             <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-[0.15]"
-                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260401_053538_3e40a761-15e6-4df1-af65-100566363fe4.mp4"></video>
+                   src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
 
         <!-- Navbar (Liquid Glass) -->
