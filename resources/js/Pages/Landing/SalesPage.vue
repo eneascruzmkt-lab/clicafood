@@ -1,6 +1,30 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
+
+// Scroll-driven video
+const bgVideoRef = ref(null);
+const handleVideoScroll = () => {
+    const video = bgVideoRef.value;
+    if (!video || !video.duration) return;
+    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = window.scrollY / scrollMax;
+    video.currentTime = progress * video.duration;
+};
+
+onMounted(() => {
+    window.addEventListener('scroll', handleVideoScroll, { passive: true });
+    const video = bgVideoRef.value;
+    if (video) {
+        video.pause();
+        video.addEventListener('loadedmetadata', () => {
+            video.currentTime = 0;
+        });
+    }
+});
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleVideoScroll);
+});
 
 const mockupVideos = [
     { name: 'Grano Duro - Piccolo', desc: 'Massa tradicional italiana de trigo duro.', price: '24,90', video: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/videos/a60d0462-57f9-4a1e-b224-29a6685946f0.mp4', thumb: 'https://pub-18e3929bc28243d48bdae811aaf40664.r2.dev/thumbnails/mCIHrtUL5z9JvJ8PBSAHPx05dbJW1C3I1JQ6dxaA.jpg' },
@@ -48,7 +72,7 @@ const openSalesFaq = ref(null);
 
         <!-- Video Background (low opacity, scrolls with page) -->
         <div class="absolute inset-0 z-0" style="min-height: 100vh;">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-[0.15]"
+            <video ref="bgVideoRef" muted playsinline preload="auto" class="w-full h-full object-cover opacity-[0.15]"
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
 
