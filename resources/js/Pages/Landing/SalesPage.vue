@@ -48,26 +48,6 @@ const openSalesFaq = ref(null);
     <div class="sales-page min-h-screen bg-white antialiased scroll-smooth">
         <Head title="ClicaFood - Cardápio Digital com Vídeo e Realidade Aumentada" />
 
-        <!-- Navbar (Liquid Glass) -->
-        <div class="sticky top-[10px] z-50 flex justify-center px-4 mt-4">
-            <nav class="glass-nav flex items-center gap-1 px-2 py-2 rounded-[16px]"
-                 style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25);">
-                <a href="/" class="flex items-center gap-2 px-4 py-2">
-                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-8" />
-                </a>
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="#features" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Benefícios</a>
-                    <a href="#ar" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Realidade Aumentada</a>
-                    <a href="#pricing" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Planos</a>
-                </div>
-                <a href="/register" class="ml-2 flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-[14px] font-semibold text-white transition-all duration-200 hover:opacity-90"
-                   style="background: #E63B2E;">
-                    Começar Agora
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                </a>
-            </nav>
-        </div>
-
         <!-- Hero Section -->
         <section class="relative z-10 overflow-hidden pb-20">
             <!-- Video Background (contained in hero only) -->
@@ -75,6 +55,27 @@ const openSalesFaq = ref(null);
                 <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-[0.70]"
                        src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
             </div>
+
+            <!-- Navbar (Liquid Glass) -->
+            <div class="sticky top-[10px] z-50 flex justify-center px-4 pt-4">
+                <nav class="glass-nav flex items-center gap-1 px-2 py-2 rounded-[16px]"
+                     style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25);">
+                    <a href="/" class="flex items-center gap-2 px-4 py-2">
+                        <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-8" />
+                    </a>
+                    <div class="hidden md:flex items-center gap-1">
+                        <a href="#features" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Benefícios</a>
+                        <a href="#ar" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Realidade Aumentada</a>
+                        <a href="#pricing" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Planos</a>
+                    </div>
+                    <a href="/register" class="ml-2 flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-[14px] font-semibold text-white transition-all duration-200 hover:opacity-90"
+                       style="background: #E63B2E;">
+                        Começar Agora
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+                    </a>
+                </nav>
+            </div>
+
             <div class="relative z-10 max-w-[1100px] mx-auto px-6 pt-4 md:pt-6">
             <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-end">
                 <!-- Hero Left -->
