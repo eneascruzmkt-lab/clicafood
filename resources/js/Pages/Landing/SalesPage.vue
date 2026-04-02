@@ -93,33 +93,8 @@ const openSalesFaq = ref(null);
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
 
-        <!-- Navbar (Liquid Glass) -->
-        <div class="sticky top-[30px] z-50 flex justify-center px-4">
-            <nav class="glass-nav flex items-center gap-1 px-2 py-2 rounded-[16px]"
-                 style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25);">
-                <!-- Logo -->
-                <a href="/" class="flex items-center gap-2 px-4 py-2">
-                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-8" />
-                </a>
-
-                <!-- Nav Links -->
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="#features" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Benefícios</a>
-                    <a href="#ar" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Realidade Aumentada</a>
-                    <a href="#pricing" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Planos</a>
-                </div>
-
-                <!-- CTA -->
-                <a href="/register" class="ml-2 flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-[14px] font-semibold text-white transition-all duration-200 hover:opacity-90"
-                   style="background: #E63B2E;">
-                    Começar Agora
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                </a>
-            </nav>
-        </div>
-
-        <!-- Social Proof (centered below navbar) -->
-        <div class="relative z-20 flex justify-center mt-4 md:mt-6 px-4">
+        <!-- Social Proof (centered above navbar) -->
+        <div class="relative z-20 flex justify-center pt-3 pb-2 px-4">
             <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
                  style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
                 <div class="flex gap-0.5">
@@ -129,6 +104,26 @@ const openSalesFaq = ref(null);
                 </div>
                 <span class="text-[13px] font-medium text-white">Avaliado 4.9/5 por <strong class="text-white">2.700+</strong> restaurantes</span>
             </div>
+        </div>
+
+        <!-- Navbar (Liquid Glass) -->
+        <div class="sticky top-[10px] z-50 flex justify-center px-4 mt-2">
+            <nav class="glass-nav flex items-center gap-1 px-2 py-2 rounded-[16px]"
+                 style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25);">
+                <a href="/" class="flex items-center gap-2 px-4 py-2">
+                    <img src="/images/logo-clicafood-full.png" alt="ClicaFood" class="h-8" />
+                </a>
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="#features" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Benefícios</a>
+                    <a href="#ar" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Realidade Aumentada</a>
+                    <a href="#pricing" class="nav-link px-4 py-2 rounded-[12px] text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-white/40 transition-all duration-200">Planos</a>
+                </div>
+                <a href="/register" class="ml-2 flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-[14px] font-semibold text-white transition-all duration-200 hover:opacity-90"
+                   style="background: #E63B2E;">
+                    Começar Agora
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+                </a>
+            </nav>
         </div>
 
         <!-- Hero Section -->
