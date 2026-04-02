@@ -93,21 +93,8 @@ const openSalesFaq = ref(null);
                    src="https://d8j0ntlcm91z4.cloudfront.net/user_3BjsSiNrO0Qi7gnNljguAwYXV5J/hf_20260402_015757_3dca0a31-8103-4bf5-afc6-56bd58e76662.mp4"></video>
         </div>
 
-        <!-- Social Proof (centered above navbar) -->
-        <div class="relative z-20 flex justify-center pt-3 pb-2 px-4">
-            <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
-                 style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
-                <div class="flex gap-0.5">
-                    <svg v-for="n in 5" :key="n" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                </div>
-                <span class="text-[13px] font-medium text-white">Avaliado 4.9/5 por <strong class="text-white">2.700+</strong> restaurantes</span>
-            </div>
-        </div>
-
         <!-- Navbar (Liquid Glass) -->
-        <div class="sticky top-[10px] z-50 flex justify-center px-4 mt-2">
+        <div class="sticky top-[10px] z-50 flex justify-center px-4 mt-4">
             <nav class="glass-nav flex items-center gap-1 px-2 py-2 rounded-[16px]"
                  style="backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); background: rgba(255,255,255,0.3); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0px 4px 4px 0px rgba(255,255,255,0.25);">
                 <a href="/" class="flex items-center gap-2 px-4 py-2">
@@ -256,6 +243,19 @@ const openSalesFaq = ref(null);
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="flex justify-center mt-12">
+                <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
+                     style="background: #E63B2E; box-shadow: 0 4px 16px rgba(230,59,46,0.3);">
+                    <div class="flex gap-0.5">
+                        <svg v-for="n in 5" :key="n" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </div>
+                    <span class="text-[13px] font-medium text-white">Avaliado 4.9/5 por <strong class="text-white">2.700+</strong> restaurantes</span>
                 </div>
             </div>
         </section>
