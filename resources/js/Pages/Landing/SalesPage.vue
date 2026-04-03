@@ -304,17 +304,21 @@ const openSalesFaq = ref(null);
         <section class="relative z-10 bg-gray-900 py-20 md:py-24 overflow-hidden">
             <div class="absolute top-0 right-0 w-1/3 h-full bg-[#E63B2E]/5 blur-[120px] rounded-full"></div>
             <div class="max-w-[1100px] mx-auto px-6 relative z-10">
-                <div class="grid grid-cols-3 gap-8 text-center">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
                     <div>
-                        <div class="text-5xl md:text-7xl font-black text-[#E63B2E] mb-2">+73%</div>
+                        <div class="text-4xl md:text-6xl font-black text-[#E63B2E] mb-2">+73%</div>
                         <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Mais Pedidos com Vídeo</p>
                     </div>
                     <div>
-                        <div class="text-5xl md:text-7xl font-black text-[#E63B2E] mb-2">2.4x</div>
+                        <div class="text-4xl md:text-6xl font-black text-[#E63B2E] mb-2">2.4x</div>
                         <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Aumento no Ticket Médio</p>
                     </div>
                     <div>
-                        <div class="text-5xl md:text-7xl font-black text-[#E63B2E] mb-2">89%</div>
+                        <div class="text-4xl md:text-6xl font-black text-[#E63B2E] mb-2">90%</div>
+                        <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Pedidos Mais Rápidos</p>
+                    </div>
+                    <div>
+                        <div class="text-4xl md:text-6xl font-black text-[#E63B2E] mb-2">89%</div>
                         <p class="text-white/50 uppercase tracking-widest text-xs md:text-sm">Taxa de Engajamento</p>
                     </div>
                 </div>
